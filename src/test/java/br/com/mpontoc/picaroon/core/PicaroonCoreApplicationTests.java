@@ -1,4 +1,4 @@
-package br.com.mpontoc.picarooncore;
+package br.com.mpontoc.picaroon.core;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
