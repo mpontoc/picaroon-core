@@ -8,6 +8,9 @@ class PicaroonCoreApplicationTests {
 
 	@Test
 	void contextLoads() {
+		
+		System.out.print("Teste 1");
+		
 	}
 
 }
