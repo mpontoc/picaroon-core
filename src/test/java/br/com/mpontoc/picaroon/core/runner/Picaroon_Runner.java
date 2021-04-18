@@ -39,6 +39,7 @@ public class Picaroon_Runner extends BaseTest {
 //		Mobile.setDeviceName("emulator-5554");
 //		Mobile.setDeviceUDID("emulator-5554");
 		Functions.setPathReport("runner");
+		Functions.setDescricaoReport("Backend Test");
 		Functions.setUp();
 		
 	}

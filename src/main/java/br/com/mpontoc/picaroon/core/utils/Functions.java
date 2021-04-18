@@ -181,8 +181,6 @@ public class Functions {
 
 	public static void apagaReportAntesExecucao() {
 
-		if (!Prop.getProp("executionSilk").equals("true")) {
-
 			setPathReportCompleto(System.getProperty("user.dir") + File.separator + "target" + File.separator
 					+ "cucumber-reports" + File.separator + Functions.getPathReport());
 
@@ -209,11 +207,6 @@ public class Functions {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else {
-
-			Log.log("Running on Silk");
-
-		}
 	}
 
 	@Test
@@ -284,7 +277,7 @@ public class Functions {
 
 		System.setProperty("java.awt.headless", "false");
 		printOSandFrame();
-//		apagaReportAntesExecucao();
+		apagaReportAntesExecucao();
 		ActionsCommands.setUpDriver();
 
 	}
