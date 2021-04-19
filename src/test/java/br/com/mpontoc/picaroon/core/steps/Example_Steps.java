@@ -19,19 +19,6 @@ public class Example_Steps {
 		ActionsCommands.setScenario(scenario);
 	}
 
-	@AfterStep("@tag")
-	public void report(Scenario scenario) {
-	//	ActionsCommands.printScreenAfterStep(scenario);
-	}
-	
-	@After
-	public static void printTimeExecution() {
-		if (Prop.getProp("printAfterSteps").equals("false")) {
-			ActionsCommands.printScreen();
-		}
-		Functions.printTimeExecution();
-	}
-
 	@Given("I want to write a step with precondition")
 	public void i_want_to_write_a_step_with_precondition() {
 		// Write code here that turns the phrase above into concrete actions

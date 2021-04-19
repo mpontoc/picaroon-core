@@ -12,9 +12,9 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import br.com.mpontoc.picaroon.core.utils.Functions;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import br.com.mpontoc.picaroon.core.utils.Prop;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverInit {
 
@@ -35,8 +35,10 @@ public class DriverInit {
 
 		case "firefox":
 
+			WebDriverManager.firefoxdriver().setup();
+
 			try {
-				Functions.setPropDriver();
+//				Functions.setPropDriver();
 				FirefoxOptions optionsFirefox = new FirefoxOptions();
 				optionsFirefox.addArguments("--width=1024");
 				optionsFirefox.addArguments("--height=768");
@@ -53,14 +55,16 @@ public class DriverInit {
 
 		case "firefox-headless":
 
+			WebDriverManager.firefoxdriver().setup();
+
 			try {
-				Functions.setPropDriver();
+//				Functions.setPropDriver();
 				FirefoxOptions optHeadlessFirefox = new FirefoxOptions();
 				optHeadlessFirefox.setHeadless(true);
 				optHeadlessFirefox.addArguments("--width=1024");
 				optHeadlessFirefox.addArguments("--height=768");
 				driver = new FirefoxDriver(optHeadlessFirefox);
-				Thread.sleep(1000);				
+				Thread.sleep(1000);
 				Log.log("Window sizes " + driver.manage().window().getSize().toString());
 			} catch (Exception e1) {
 				Log.log("Problema para rodar com firefox headless");
@@ -91,8 +95,10 @@ public class DriverInit {
 
 		case "chrome":
 
+			WebDriverManager.chromedriver().setup();
+
 			try {
-				Functions.setPropDriver();
+//				Functions.setPropDriver();
 				ChromeOptions optionsChrome = new ChromeOptions();
 				optionsChrome.addArguments("--window-size=1024,768");
 				driver = new ChromeDriver(optionsChrome);
@@ -106,13 +112,15 @@ public class DriverInit {
 
 		case "chrome-headless":
 
+			WebDriverManager.chromedriver().setup();
+
 			try {
-				Functions.setPropDriver();
-				ChromeOptions optHeadlessChrome = new ChromeOptions();
-				optHeadlessChrome.setHeadless(true);
-				optHeadlessChrome.addArguments("--window-size=1024,768");
+//				Functions.setPropDriver();
+				ChromeOptions optHeadlessChrome1 = new ChromeOptions();
+				optHeadlessChrome1.setHeadless(true);
+				optHeadlessChrome1.addArguments("--window-size=1024,768");
 				// optHeadlessChrome.addArguments("--log-level=3");
-				driver = new ChromeDriver(optHeadlessChrome);
+				driver = new ChromeDriver(optHeadlessChrome1);
 				Thread.sleep(1000);
 				Log.log("Window sizes " + driver.manage().window().getSize().toString());
 			} catch (Exception e1) {
@@ -126,33 +134,33 @@ public class DriverInit {
 			try {
 				DesiredCapabilities cap = new DesiredCapabilities();
 				cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-                cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-				
+				cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+
 				cap.setBrowserName("chrome");
 				cap.setPlatform(Platform.LINUX);
 				ChromeOptions optRemoteChrome = new ChromeOptions();
 				optRemoteChrome.merge(cap);
 				optRemoteChrome.setHeadless(true);
-				optRemoteChrome.addArguments("--aggressive-cache-discard"); 
+				optRemoteChrome.addArguments("--aggressive-cache-discard");
 				optRemoteChrome.addArguments("--allow-insecure-localhost");
-				optRemoteChrome.addArguments("--disable-application-cache"); 
+				optRemoteChrome.addArguments("--disable-application-cache");
 				optRemoteChrome.addArguments("--disable-browser-side-navigation");
-				optRemoteChrome.addArguments("--disable-cache"); 
-				optRemoteChrome.addArguments("--disable-dev-shm-usage"); 
+				optRemoteChrome.addArguments("--disable-cache");
+				optRemoteChrome.addArguments("--disable-dev-shm-usage");
 				optRemoteChrome.addArguments("--disable-extensions");
 				optRemoteChrome.addArguments("--disable-gpu");
-				optRemoteChrome.addArguments("--disable-offline-load-stale-cache"); 
-				optRemoteChrome.addArguments("--dns-prefetch-disable"); 
+				optRemoteChrome.addArguments("--disable-offline-load-stale-cache");
+				optRemoteChrome.addArguments("--dns-prefetch-disable");
 				optRemoteChrome.addArguments("--log-level=3");
 				optRemoteChrome.addArguments("--no-proxy-server");
-				optRemoteChrome.addArguments("--no-sandbox"); 
-				optRemoteChrome.addArguments("--silent"); 
+				optRemoteChrome.addArguments("--no-sandbox");
+				optRemoteChrome.addArguments("--silent");
 				optRemoteChrome.addArguments("enable-automation");
 				optRemoteChrome.setProxy(null);
 				optRemoteChrome.addArguments("--window-size=1024,768");
-				
+
 				driver = new RemoteWebDriver(new URL(baseURL), optRemoteChrome);
-				
+
 				Thread.sleep(2000);
 				Log.log("Window sizes " + driver.manage().window().getSize().toString());
 			} catch (Exception e) {
