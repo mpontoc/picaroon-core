@@ -120,7 +120,6 @@
 			<version>4.4.0</version>
 		</dependency>
 
-
 		<!-- Appium Java Client -->
 		<dependency>
 			<groupId>io.appium</groupId>
@@ -142,6 +141,14 @@
 		</dependency>
 
 	</dependencies>
+
+	<distributionManagement>
+		<repository>
+			<id>br.com.mpontoc</id>
+			<name>Picaroon Framework</name>
+			<url>https://maven.pkg.github.com/mpontoc/picaroon-core</url>
+		</repository>
+	</distributionManagement>
 
 
 	<build>
