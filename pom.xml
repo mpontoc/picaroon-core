@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>br.com.mpontoc</groupId>
 	<artifactId>picaroon-core</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>picaroon-core</name>
 	<packaging>jar</packaging>
 	<description>Picaroon is a test framework</description>
