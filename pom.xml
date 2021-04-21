@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>br.com.mpontoc</groupId>
 	<artifactId>picaroon-core</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>RELEASE</version>
 	<name>picaroon-core</name>
 	<packaging>jar</packaging>
 	<description>Picaroon is a test framework</description>
@@ -52,7 +52,7 @@
 		<connection>scm:git:git://github.com/mpontoc/picaroon-core.git</connection>
 		<developerConnection>scm:git:git@github.com:mpontoc/picaroon-core.git</developerConnection>
 		<url>https://github.com/mpontoc/picaroon-core</url>
-		<tag>1.0</tag>
+		<tag>1.0.0-RELEASE</tag>
 	</scm>
 
 
