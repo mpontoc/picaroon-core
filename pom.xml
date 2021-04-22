@@ -41,8 +41,8 @@
 			<id>mpontoc</id>
 			<name>Cleber Braz</name>
 			<email>mpontoc@hotmail.com</email>
-			 <organization>com.github.mpontoc</organization>
-      <organizationUrl>https://github.com/mpontoc</organizationUrl>
+			<organization>com.github.mpontoc</organization>
+			<organizationUrl>https://github.com/mpontoc</organizationUrl>
 		</developer>
 	</developers>
 
@@ -272,6 +272,18 @@
 			</activation>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.7</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
