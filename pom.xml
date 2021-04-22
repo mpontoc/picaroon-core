@@ -7,7 +7,7 @@
 		<version>2.3.4.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.com.mpontoc</groupId>
+	<groupId>io.github.mpontoc</groupId>
 	<artifactId>picaroon-core</artifactId>
 	<version>1.0.0</version>
 	<name>picaroon-core</name>
