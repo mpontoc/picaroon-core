@@ -62,7 +62,7 @@ public class Functions {
 		Date d1 = null;
 		Date d2 = null;
 		Date d3 = null;
-		
+
 		try {
 			d1 = dateFormat.parse(horaIninical);
 			d2 = dateFormat.parse(horaFinal);
@@ -73,17 +73,17 @@ public class Functions {
 		long diffHour = timeDiff / (60 * 60 * 1000) % 24;
 		long diffMinutes = timeDiff / (60 * 1000) % 60;
 		long diffSeconds = timeDiff / 1000 % 60;
-		
+
 		horaSubtraida = diffHour + ":" + diffMinutes + ":" + diffSeconds;
-		
+
 		try {
 			d3 = dateFormat.parse(horaSubtraida);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		horaSubtraida = d3.toString().substring(11, 20);
-		
+
 		return horaSubtraida;
 
 	}
@@ -156,7 +156,6 @@ public class Functions {
 		}
 	}
 
-
 	public static void setPropDriver() {
 
 		Others.processKill();
@@ -181,19 +180,30 @@ public class Functions {
 
 	public static void apagaReportAntesExecucao() {
 
-			setPathReportCompleto(System.getProperty("user.dir") + File.separator + "target" + File.separator
-					+ "cucumber-reports" + File.separator + Functions.getPathReport());
+		String pathDefault = System.getProperty("user.dir") + File.separator + "target" + File.separator
+				+ "cucumber-reports";
 
-			try {
-				File dirLog = new File(getPathReportCompleto() + File.separator + "cucumber.log");
-				dirLog.delete();
-			} catch (Exception e1) {
-			}
+		setPathReportCompleto(System.getProperty("user.dir") + File.separator + "target" + File.separator
+				+ "cucumber-reports" + File.separator + Functions.getPathReport());
 
-			try {
-				File dir = null;
-				dir = new File(getPathReportCompleto());
-				File[] listFiles = dir.listFiles();
+		File pathDefault_ = new File(pathDefault);
+
+		if (!pathDefault_.exists())
+			pathDefault_.mkdir();
+
+		try {
+			File dirLog = new File(getPathReportCompleto() + File.separator + "cucumber.log");
+			dirLog.delete();
+		} catch (Exception e1) {
+		}
+
+		try {
+			File dir = null;
+			dir = new File(getPathReportCompleto());
+			File[] listFiles = dir.listFiles();
+
+			if (listFiles != null) {
+
 				for (File file : listFiles) {
 					if (file.getName().contains(".png") == false) {
 						Log.log("Arquivo não será apagado " + file.getName());
@@ -202,11 +212,12 @@ public class Functions {
 						file.delete();
 					}
 				}
-
-				Log.log("Evidências apagadas com sucesso ");
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+
+			Log.log("Evidências apagadas com sucesso ");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
