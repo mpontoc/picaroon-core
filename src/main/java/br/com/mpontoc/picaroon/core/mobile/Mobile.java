@@ -5,7 +5,6 @@ import java.io.File;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import br.com.mpontoc.picaroon.core.utils.Log;
-import br.com.mpontoc.picaroon.core.utils.Prop;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 

@@ -1,7 +1,6 @@
 package br.com.mpontoc.picaroon.core.utils;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 

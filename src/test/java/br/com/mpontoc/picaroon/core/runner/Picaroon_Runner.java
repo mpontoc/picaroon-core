@@ -33,6 +33,7 @@ public class Picaroon_Runner extends BaseTest {
 	@BeforeClass
 	
 	public static void setUp() {
+		Functions.apagaLog4j();
 //		Functions.setAppRunner(true);
 //		Mobile.setApp("calc");
 //		Mobile.setPlataforma("android");

@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.zeroturnaround.zip.ZipUtil;
 
@@ -30,18 +29,24 @@ public class Functions {
 	private static Boolean appRunner = null;
 	private static String descricaoReport = null;
 	private static String horaInicial = null;
+	
+	public static void setUp() {
+
+		System.setProperty("java.awt.headless", "false");
+		printOSandFrame();
+		apagaReportAntesExecucao();
+		ActionsCommands.setUpDriver();
+
+	}
 
 	public static String verifyOS() {
 		String OS = null;
-
 		if (System.getProperty("os.name").toLowerCase().indexOf("windows") > -1) {
 			OS = "WINDOWS";
 		} else {
 			OS = "LINUX";
 		}
-
 		assertNotNull(OS);
-
 		return OS;
 	}
 
@@ -180,29 +185,18 @@ public class Functions {
 	}
 
 	public static void apagaLog4j() {
-		
+
 		String pathLog = System.getProperty("user.dir") + File.separator + "target" + File.separator + "log";
 
 		File dirLog = new File(pathLog);
-		File log = new File(pathLog + File.separator + "execution.log");
 		File[] listFiles = dirLog.listFiles();
-
-		try {
-			if (listFiles != null) {
-				for (File file : listFiles) {
-					if (file.getName().contains(".log")) {
-						file.delete();
-						try {
-							FileUtils.forceDelete(log);
-						} catch (Exception e) {
-						}
-						Log.log("Tentativa de deletar log efetuada " + file.getName());
-					}
+		if (listFiles != null) {
+			for (File file : listFiles) {
+				if (file.getName().contains(".log")) {
+					file.delete();
 				}
+				Log.log("Arquivo de log deletado com sucesso - " + file.getName());
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -304,16 +298,6 @@ public class Functions {
 			e.printStackTrace();
 		}
 		return result;
-	}
-
-	public static void setUp() {
-
-		apagaLog4j();
-		System.setProperty("java.awt.headless", "false");
-		printOSandFrame();
-		apagaReportAntesExecucao();
-		ActionsCommands.setUpDriver();
-
 	}
 
 	public static String getPathReport() {
