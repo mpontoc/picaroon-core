@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.zeroturnaround.zip.ZipUtil;
 
@@ -178,6 +179,33 @@ public class Functions {
 		}
 	}
 
+	public static void apagaLog4j() {
+		
+		String pathLog = System.getProperty("user.dir") + File.separator + "target" + File.separator + "log";
+
+		File dirLog = new File(pathLog);
+		File log = new File(pathLog + File.separator + "execution.log");
+		File[] listFiles = dirLog.listFiles();
+
+		try {
+			if (listFiles != null) {
+				for (File file : listFiles) {
+					if (file.getName().contains(".log")) {
+						file.delete();
+						try {
+							FileUtils.forceDelete(log);
+						} catch (Exception e) {
+						}
+						Log.log("Tentativa de deletar log efetuada " + file.getName());
+					}
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public static void apagaReportAntesExecucao() {
 
 		String pathDefault = System.getProperty("user.dir") + File.separator + "target" + File.separator
@@ -190,12 +218,6 @@ public class Functions {
 
 		if (!pathDefault_.exists())
 			pathDefault_.mkdir();
-
-		try {
-			File dirLog = new File(getPathReportCompleto() + File.separator + "cucumber.log");
-			dirLog.delete();
-		} catch (Exception e1) {
-		}
 
 		try {
 			File dir = null;
@@ -286,6 +308,7 @@ public class Functions {
 
 	public static void setUp() {
 
+		apagaLog4j();
 		System.setProperty("java.awt.headless", "false");
 		printOSandFrame();
 		apagaReportAntesExecucao();
