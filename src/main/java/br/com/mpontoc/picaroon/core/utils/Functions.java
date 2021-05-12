@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.junit.Test;
+import org.springframework.util.FileSystemUtils;
 import org.zeroturnaround.zip.ZipUtil;
 
 import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
@@ -255,6 +256,15 @@ public class Functions {
 			} else {
 				pathReportBackup = System.getProperty("user.dir") + File.separator + "target" + File.separator
 						+ "cucumber-reports-backup";
+			}
+			
+			File log4j = new File(System.getProperty("user.dir") + File.separator + "target" + File.separator
+					+ "log");
+			
+			try {
+				FileSystemUtils.copyRecursively(log4j, new File(pathReport));
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 
 			File path = new File(pathReportBackup);
