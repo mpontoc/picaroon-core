@@ -94,7 +94,7 @@ public class JsonFileReader {
 		return objJson;
 	}
 
-	public static JSONObject getCapsJson(String nameFileJson, String capsNameDevice) {
+	public static JSONObject getCapsJson(String nameFileJson, String capsNameDeviceOrApp) {
 
 		JSONParser parser = new JSONParser();
 		try {
@@ -105,7 +105,7 @@ public class JsonFileReader {
 				JSONObject caps = (JSONObject) obj;
 				Log.log(caps.toString());
 
-				if (caps.get("name").toString().equalsIgnoreCase(capsNameDevice)) {
+				if (caps.get("name").toString().equalsIgnoreCase(capsNameDeviceOrApp)) {
 
 					return (JSONObject) caps.get("caps");
 				}

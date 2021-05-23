@@ -16,6 +16,7 @@ public class Mobile {
 	private static String plataforma = null;
 	private static String deviceUDID = null;
 	private static String deviceName = null;
+	private static String capsNameDeviceOrApp = null;
 	private static String pathIOSapps = null;
 	private static String capsFileJosn = null;
 
@@ -33,8 +34,8 @@ public class Mobile {
 		return null;
 	}
 
-	public static DesiredCapabilities caps(String nameFileJson, String capsNameDevice) {
-		HashMap<String, Object> caps = convertCapsToHashMap(nameFileJson, capsNameDevice);
+	public static DesiredCapabilities caps(String nameFileJson, String capsNameDeviceOrApp) {
+		HashMap<String, Object> caps = convertCapsToHashMap(nameFileJson, capsNameDeviceOrApp);
 		return new DesiredCapabilities(caps);
 	}
 
@@ -84,6 +85,14 @@ public class Mobile {
 
 	public static void setCapsFileJosn(String capsFileJosn) {
 		Mobile.capsFileJosn = capsFileJosn;
+	}
+
+	public static String getCapsNameDeviceOrApp() {
+		return capsNameDeviceOrApp;
+	}
+
+	public static void setCapsNameDeviceOrApp(String capsNameDeviceOrApp) {
+		Mobile.capsNameDeviceOrApp = capsNameDeviceOrApp;
 	}
 
 }

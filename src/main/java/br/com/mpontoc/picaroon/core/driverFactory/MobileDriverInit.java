@@ -34,9 +34,9 @@ public class MobileDriverInit {
 				URL urlAppium = new URL(Prop.getProp("baseAppium"));
 				String device = Mobile.getPlataforma();
 				if (device.equals("android")) {
-					driverMobile = new AndroidDriver<MobileElement>(urlAppium, Mobile.caps(Mobile.getCapsFileJosn() , Mobile.getDeviceName()));
+					driverMobile = new AndroidDriver<MobileElement>(urlAppium, Mobile.caps(Mobile.getCapsFileJosn() , Mobile.getCapsNameDeviceOrApp()));
 				} else {
-					driverMobile = new IOSDriver<MobileElement>(urlAppium, Mobile.caps(Mobile.getCapsFileJosn() , Mobile.getDeviceName()));
+					driverMobile = new IOSDriver<MobileElement>(urlAppium, Mobile.caps(Mobile.getCapsFileJosn() , Mobile.getCapsNameDeviceOrApp()));
 				}
 				Thread.sleep(2000);
 				Mobile.setApp(driverMobile.getCapabilities().getCapability("appName").toString().toLowerCase());
