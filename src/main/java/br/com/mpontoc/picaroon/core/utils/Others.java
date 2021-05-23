@@ -1,10 +1,6 @@
 package br.com.mpontoc.picaroon.core.utils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-
-import br.com.mpontoc.picaroon.core.mobile.Mobile;
 
 public class Others {
 
@@ -16,7 +12,6 @@ public class Others {
 
 		if (killBrowser.equals("true")) {
 
-			// Runtime rt = Runtime.getRuntime();
 			String Browser = Prop.getProp("browserOrDevice");
 
 			if (Functions.verifyOS() == "LINUX") {
@@ -39,7 +34,7 @@ public class Others {
 						Log.log(verifyVersionChrome);
 
 					} else {
-						// rt.exec(killChrome);
+						rt.exec(killChrome);
 						rt.exec(killChromeDriver);
 						rt.exec(verifyVersoinFirefox);
 						rt.exec(verifyVersionChrome);
@@ -76,77 +71,53 @@ public class Others {
 
 	}
 
-	public static void uninstallApps() {
-
-		Mobile.setPackageActivities(Mobile.getApp());
-
-		String[] packageAndActivity = Mobile.getPackageActivities();
-
-		String commands = "adb uninstall " + packageAndActivity[0];
-
-		Process proc = null;
-		try {
-			proc = rt.exec(commands);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
-		// Read the output from the command
-		Log.log("Here is the output of the uninstall command: \n");
-		String s = null;
-
-		try {
-			while ((s = stdInput.readLine()) != null) {
-				Log.log(s);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void newAppCmd() {
-		Mobile.setPackageActivities(Mobile.getApp());
-
-		String[] packageAndActivity = Mobile.getPackageActivities();
-
-		String commands = "adb shell am start -n " + packageAndActivity[0] + "/" + packageAndActivity[1];
-
-		Process proc = null;
-		try {
-			proc = rt.exec(commands);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
-		// Read the output from the command
-		Log.log("Here is the output of the uninstall command: \n");
-		String s = null;
-
-		try {
-			while ((s = stdInput.readLine()) != null) {
-				Log.log(s);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void clearApp() {
-
-		String[] packageAndActivity = Mobile.getPackageActivities();
-
-		String command = "adb shell pm clear " + packageAndActivity[0];
-
-		try {
-			rt.exec(command);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+	/*
+	 * public static void uninstallApps() {
+	 * 
+	 * Mobile.setPackageActivities(Mobile.getApp());
+	 * 
+	 * String[] packageAndActivity = Mobile.getPackageActivities();
+	 * 
+	 * String commands = "adb uninstall " + packageAndActivity[0];
+	 * 
+	 * Process proc = null; try { proc = rt.exec(commands); } catch (IOException e)
+	 * { e.printStackTrace(); }
+	 * 
+	 * BufferedReader stdInput = new BufferedReader(new
+	 * InputStreamReader(proc.getInputStream()));
+	 * 
+	 * // Read the output from the command
+	 * Log.log("Here is the output of the uninstall command: \n"); String s = null;
+	 * 
+	 * try { while ((s = stdInput.readLine()) != null) { Log.log(s); } } catch
+	 * (IOException e) { e.printStackTrace(); } }
+	 * 
+	 * public static void newAppCmd() {
+	 * Mobile.setPackageActivities(Mobile.getApp());
+	 * 
+	 * String[] packageAndActivity = Mobile.getPackageActivities();
+	 * 
+	 * String commands = "adb shell am start -n " + packageAndActivity[0] + "/" +
+	 * packageAndActivity[1];
+	 * 
+	 * Process proc = null; try { proc = rt.exec(commands); } catch (IOException e)
+	 * { // TODO Auto-generated catch block e.printStackTrace(); }
+	 * 
+	 * BufferedReader stdInput = new BufferedReader(new
+	 * InputStreamReader(proc.getInputStream()));
+	 * 
+	 * // Read the output from the command
+	 * Log.log("Here is the output of the uninstall command: \n"); String s = null;
+	 * 
+	 * try { while ((s = stdInput.readLine()) != null) { Log.log(s); } } catch
+	 * (IOException e) { e.printStackTrace(); } }
+	 * 
+	 * public static void clearApp() {
+	 * 
+	 * String[] packageAndActivity = Mobile.getPackageActivities();
+	 * 
+	 * String command = "adb shell pm clear " + packageAndActivity[0];
+	 * 
+	 * try { rt.exec(command); } catch (IOException e) { e.printStackTrace(); } }
+	 */
 }

@@ -13,12 +13,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.Test;
 import org.springframework.util.FileSystemUtils;
 import org.zeroturnaround.zip.ZipUtil;
 
 import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
+import br.com.mpontoc.picaroon.core.driverFactory.MobileDriverInit;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 
 public class Functions {
@@ -30,7 +33,7 @@ public class Functions {
 	private static Boolean appRunner = null;
 	private static String descricaoReport = null;
 	private static String horaInicial = null;
-	
+
 	public static void setUp() {
 
 		System.setProperty("java.awt.headless", "false");
@@ -49,6 +52,20 @@ public class Functions {
 		}
 		assertNotNull(OS);
 		return OS;
+	}
+
+	public static String FindTextStringRegex(String string, String regex) {
+		String stringRetorned = null;
+
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(string);
+
+		if (m.find() == true) {
+			stringRetorned = m.group();
+		} else {
+			stringRetorned = "Text not located";
+		}
+		return stringRetorned;
 	}
 
 	public static String retornaData() {
@@ -105,7 +122,7 @@ public class Functions {
 		if (Prop.getProp("browserOrDevice").equals("mobile")) {
 			ActionsCommands.cucumberWriteReport("\n Plataforma : " + Mobile.getPlataforma());
 			ActionsCommands.cucumberWriteReport("\n Device : " + Mobile.getDeviceName());
-			ActionsCommands.cucumberWriteReport("\n UDID : " + Mobile.getDeviceUDID());
+			ActionsCommands.cucumberWriteReport("\n UDID : " + MobileDriverInit.driverMobile.getCapabilities().getCapability("udid").toString().toLowerCase());
 		} else {
 			ActionsCommands.cucumberWriteReport("\n Browser : " + Prop.getProp("browserOrDevice"));
 		}
@@ -257,10 +274,9 @@ public class Functions {
 				pathReportBackup = System.getProperty("user.dir") + File.separator + "target" + File.separator
 						+ "cucumber-reports-backup";
 			}
-			
-			File log4j = new File(System.getProperty("user.dir") + File.separator + "target" + File.separator
-					+ "log");
-			
+
+			File log4j = new File(System.getProperty("user.dir") + File.separator + "target" + File.separator + "log");
+
 			try {
 				FileSystemUtils.copyRecursively(log4j, new File(pathReport));
 			} catch (IOException e1) {

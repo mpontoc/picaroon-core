@@ -44,7 +44,6 @@ public class ActionsCommands {
 	public static Boolean located = false;
 	public static Boolean[] assertObjReceved = null;
 	public static Boolean isFirstRun = null;
-	static String[] packageAndActivity = Mobile.getPackageActivities();
 	private static Scenario scenario;
 
 	public static void setUpDriver() {
@@ -58,18 +57,15 @@ public class ActionsCommands {
 				deviceElement = 1;
 		}
 
-		String[] packages = Mobile.getPackageActivities();
-
 		if (Prop.getProp("browserOrDevice").contains("mobile")) {
-			if (packages[0] == null || Mobile.getApp().equals(null)) {
+
+			if (Mobile.getApp() == null || driver == null) {
 				driver = null;
 			} else if (MobileDriverInit.driver() != null) {
 				driver = MobileDriverInit.driverMobile;
-
 			} else {
 				Log.log("Não foi possível criar o driver");
 			}
-
 		} else {
 			driver = DriverInit.driver();
 			executor = (JavascriptExecutor) driver;
@@ -77,7 +73,7 @@ public class ActionsCommands {
 	}
 
 	public static void printScreen() {
-		
+
 		Prop.setPropAndSave("printAfterSteps", "true");
 		printScreenAfterStep(getScenario());
 		Prop.setPropAndSave("printAfterSteps", "false");
@@ -86,7 +82,8 @@ public class ActionsCommands {
 
 	public static void printScreenAfterStep(Scenario scenario) {
 
-		if (Prop.getProp("printAfterSteps").equals("true")  && Prop.getProp("browserOrDevice").equals("false") == false) {
+		if (Prop.getProp("printAfterSteps").equals("true")
+				&& Prop.getProp("browserOrDevice").equals("false") == false) {
 
 			if (isFirstRun == true) {
 
@@ -215,7 +212,8 @@ public class ActionsCommands {
 				byType.add(By.xpath("//*[contains(@label,'" + obj + "')]"));
 			} else if (Prop.getProp("browserOrDevice").contains("mobile")
 					&& Mobile.getPlataforma().contains("android")) {
-				byType.add(By.id(packageAndActivity[0] + ":id/" + obj));
+				byType.add(By.id(MobileDriverInit.driverMobile.getCapabilities().getCapability("appPackage").toString()
+						+ ":id/" + obj));
 				byType.add(By.id(obj));
 				byType.add(By.xpath("//*[contains(@content-desc,'" + obj + "')]"));
 				byType.add(By.xpath("//*[@text='" + obj + "']"));
@@ -728,12 +726,9 @@ public class ActionsCommands {
 
 		if (Functions.getAppRunner() != true) {
 
-			Log.log(packageAndActivity[0]);
-			Log.log(packageAndActivity[1]);
-
 			if (driver != null) {
 				Capabilities caps = MobileDriverInit.driverMobile.getCapabilities();
-				if (!caps.toString().contains(packageAndActivity[0])) {
+				if (!caps.toString().contains(Mobile.getApp().toLowerCase())) {
 					Log.log("Iniciando novo app " + Mobile.getApp());
 					driver.quit();
 					driver = null;
@@ -746,8 +741,7 @@ public class ActionsCommands {
 
 				try {
 					driver = MobileDriverInit.driver();
-					Log.log("Appium driver inicializado com os packages: " + packageAndActivity[0] + " - "
-							+ packageAndActivity[1]);
+					Log.log("Appium driver inicializado com o app: " + Mobile.getApp());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -769,25 +763,21 @@ public class ActionsCommands {
 		return driver;
 	}
 
-	public static void newAppActivity() {
-
-		Mobile.setPackageActivities(Mobile.getApp());
-
-		Log.log(packageAndActivity[0]);
-		Log.log(packageAndActivity[1]);
-
-		Activity activity = new Activity(packageAndActivity[0], packageAndActivity[1]);
-		activity.setStopApp(false);
-
-		try {
-			((StartsActivity) driver).startActivity(activity);
-		} catch (Exception e) {
-			Log.log("Problemas na tentativa de iniciar o driver");
-			e.printStackTrace();
-		}
-		Log.log("App aberto pelos Activities packages: " + packageAndActivity[0] + " - " + packageAndActivity[1]);
-	}
-
+	/*
+	 * public static void newAppActivity() {
+	 * 
+	 * Mobile.setPackageActivities(Mobile.getApp());
+	 * 
+	 * Log.log(packageAndActivity[0]); Log.log(packageAndActivity[1]);
+	 * 
+	 * Activity activity = new Activity(packageAndActivity[0],
+	 * packageAndActivity[1]); activity.setStopApp(false);
+	 * 
+	 * try { ((StartsActivity) driver).startActivity(activity); } catch (Exception
+	 * e) { Log.log("Problemas na tentativa de iniciar o driver");
+	 * e.printStackTrace(); } Log.log("App aberto pelos Activities packages: " +
+	 * packageAndActivity[0] + " - " + packageAndActivity[1]); }
+	 */
 	public static void scrollUntilWebElement(String obj) {
 
 		boolean objFinded = ActionsCommands.waitExist(obj, 1);

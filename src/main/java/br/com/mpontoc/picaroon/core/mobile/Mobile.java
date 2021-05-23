@@ -1,12 +1,14 @@
 package br.com.mpontoc.picaroon.core.mobile;
 
-import java.io.File;
+import java.util.HashMap;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import br.com.mpontoc.picaroon.core.utils.Log;
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
-import io.appium.java_client.remote.MobileCapabilityType;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.com.mpontoc.picaroon.core.utils.JsonFileReader;
 
 public class Mobile {
 
@@ -14,70 +16,26 @@ public class Mobile {
 	private static String plataforma = null;
 	private static String deviceUDID = null;
 	private static String deviceName = null;
-
-	private static String packageApp = null;
-	private static String activityApp = null;
-	private static String[] packageActivities = { packageApp, activityApp };
 	private static String pathIOSapps = null;
+	private static String capsFileJosn = null;
 
-	static String DEVICE_ENV = System.getenv("DEVICE");
-	static String DEVICE_NAME_ENV = System.getenv("DEVICE_NAME");
-
-	public static void setApp(String app) {
-		Mobile.app = app;
-		Mobile.setPackageActivities(app);
-	}
-
-	public static String getApp() {
-		return app;
-	}
-
-	public static String[] setPackageActivities(String app) {
-
-		switch (app.trim()) {
-
-		case "calc":
-
-			try {
-
-				packageActivities[0] = "com.calc";
-				packageActivities[1] = "com.calc.activity";
-				Log.log("Iniciando app " + app);
-				return Mobile.packageActivities;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			break;
-
+	@SuppressWarnings("unchecked")
+	private static HashMap<String, Object> convertCapsToHashMap(String nameFileJson, String capsNameDevice) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			return objectMapper.readValue(JsonFileReader.getCapsJson(nameFileJson, capsNameDevice).toString(),
+					HashMap.class);
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
 		}
-		return Mobile.packageActivities;
-
+		return null;
 	}
 
-	public static String[] getPackageActivities() {
-		return Mobile.packageActivities;
-
-	}
-
-	public static DesiredCapabilities caps() {
-		DesiredCapabilities caps = new DesiredCapabilities();
-		caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-		caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.0");
-		caps.setCapability("automationName", "uiautomator2");
-		caps.setCapability("appPackage", packageActivities[0]);
-		caps.setCapability("appActivity", packageActivities[1]);
-		caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
-		// caps.setCapability("autoAcceptAlerts", true);
-		caps.setCapability("noReset", false);
-		if (DEVICE_ENV == null) {
-			caps.setCapability(MobileCapabilityType.UDID, getDeviceUDID());
-			caps.setCapability(MobileCapabilityType.DEVICE_NAME, getDeviceName());
-		} else {
-			caps.setCapability(MobileCapabilityType.UDID, DEVICE_ENV);
-			caps.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME_ENV);
-		}
-		return caps;
+	public static DesiredCapabilities caps(String nameFileJson, String capsNameDevice) {
+		HashMap<String, Object> caps = convertCapsToHashMap(nameFileJson, capsNameDevice);
+		return new DesiredCapabilities(caps);
 	}
 
 	public static String getPlataforma() {
@@ -88,30 +46,12 @@ public class Mobile {
 		Mobile.plataforma = device;
 	}
 
-	public static DesiredCapabilities capsIOS() {
-		DesiredCapabilities caps = new DesiredCapabilities();
-		caps.setCapability("automationName", "XCUITest");
-		caps.setCapability("platformName", "IOS");
-		caps.setCapability("platformVersion", "13.3");
-		caps.setCapability("noReset", false);
-		caps.setCapability("autoGrantPermissions", true);
-		switch (Mobile.getApp()) {
+	public static void setApp(String app) {
+		Mobile.app = app;
+	}
 
-		case "calc":
-			caps.setCapability("app", Mobile.getPathIOSapps() + File.separator + "calc.app");
-			caps.setCapability("bundleId", "com.calc");
-			break;
-		}
-
-		if (DEVICE_ENV == null) {
-			caps.setCapability("udid", getDeviceUDID());
-			caps.setCapability("deviceName", getDeviceName());
-		} else {
-			caps.setCapability("udid", DEVICE_ENV);
-			caps.setCapability("deviceName", DEVICE_NAME_ENV);
-		}
-
-		return caps;
+	public static String getApp() {
+		return app;
 	}
 
 	public static String getDeviceName() {
@@ -136,6 +76,14 @@ public class Mobile {
 
 	public static void setPathIOSapps(String pathIOSapps) {
 		Mobile.pathIOSapps = pathIOSapps;
+	}
+
+	public static String getCapsFileJosn() {
+		return capsFileJosn;
+	}
+
+	public static void setCapsFileJosn(String capsFileJosn) {
+		Mobile.capsFileJosn = capsFileJosn;
 	}
 
 }
