@@ -365,6 +365,46 @@ public class ActionsCommands {
 		}
 		validaElemento(obj[deviceElement], assertObjReceved);
 	}
+	
+	public static void waitExistClickAndPerform(String[] obj, Integer timeout, Boolean... assertObj) {
+		Actions actions = new Actions(driver);
+		WebElement element = null;
+		assertObjReceved = assertObj;
+		located = false;
+		for (int i = 1; i <= timeout; i++) {
+
+			element = findBy(obj[deviceElement]);
+
+			if (element != null) {
+				located = true;
+				Log.log("Elemento '" + tratativaReportElemento(obj) + "' encontrado");
+				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
+					try {
+						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
+//						executor.executeScript("arguments[0].style.border = 'medium solid blue';", element);
+					} catch (Exception e) {
+						;
+					}
+				}
+				try {
+					actions.moveToElement(element);
+					actions.click();
+					actions.perform();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			} else
+				try {
+					Log.log("Não foi possível encontrar o elemento '" + tratativaReportElemento(obj) + "' na tentativa "
+							+ i + " de " + timeout);
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					;
+				}
+		}
+		validaElemento(obj[deviceElement], assertObjReceved);
+	}
 
 	public static void waitExistClickAndPerform(String menuDropDown, String link, Integer timeout,
 			Boolean... assertObj) {
