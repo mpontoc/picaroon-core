@@ -13,7 +13,7 @@ import io.cucumber.junit.CucumberOptions;
 
 @CucumberOptions(
 		
-		tags = { " @browser1 " },
+		tags = { " @tag " },
 		features = "src/test/resources/features", // local onde estão as features
 		glue = { 
 				"br.com.mpontoc.picaroon.core.steps", // package onde estão os steps
@@ -33,6 +33,7 @@ public class Picaroon_Runner extends BaseTest {
 	@BeforeClass
 	
 	public static void setUp() {
+		Functions.apagaLog4j();
 //		Functions.setAppRunner(true);
 //		Mobile.setApp("calc");
 //		Mobile.setPlataforma("android");

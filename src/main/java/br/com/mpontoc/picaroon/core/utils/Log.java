@@ -12,13 +12,11 @@ public class Log {
 	public static void log(String msg) {
 		logger = LogManager.getLogger(getCallerClassName());
 		logger.log(LOG, msg);
-		System.out.println(getCallerClassName() + " - " + msg);
 	}
 	
 	public static void log(String[] msg) {
 		logger = LogManager.getLogger(getCallerClassName());
 		logger.log(LOG, msg);
-		System.out.println(getCallerClassName() + " - " + msg);
 	}
 
 	public Logger getLogger() {
