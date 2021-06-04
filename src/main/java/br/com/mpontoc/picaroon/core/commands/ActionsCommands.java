@@ -134,7 +134,6 @@ public class ActionsCommands {
 			ImageIO.write(resizedImage, "png", byteArrayOutputStream);
 			imageBytes = byteArrayOutputStream.toByteArray();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -207,9 +206,10 @@ public class ActionsCommands {
 
 			if (Prop.getProp("browserOrDevice").contains("mobile") && Mobile.getPlataforma().contains("ios")) {
 				byType.add(MobileBy.AccessibilityId(obj));
+				byType.add(By.xpath("//*[@label='" + obj + "']"));
 				byType.add(By.xpath("//*[@name='" + obj + "']"));
-				byType.add(By.xpath("//*[contains(@name,'" + obj + "')]"));
 				byType.add(By.xpath("//*[contains(@label,'" + obj + "')]"));
+				byType.add(By.xpath("//*[contains(@name,'" + obj + "')]"));
 			} else if (Prop.getProp("browserOrDevice").contains("mobile")
 					&& Mobile.getPlataforma().contains("android")) {
 				byType.add(By.id(MobileDriverInit.driverMobile.getCapabilities().getCapability("appPackage").toString()
@@ -222,8 +222,6 @@ public class ActionsCommands {
 				byType.add(By.xpath("//*[@id='" + obj + "']"));
 				byType.add(By.xpath("//*[@class='" + obj + "']"));
 			}
-
-//			byType.add(By.id("android" + ":id/" + obj));
 			byType.add(By.xpath("//*[(contains[.,'" + obj + "')]"));
 		}
 
@@ -276,7 +274,6 @@ public class ActionsCommands {
 		if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 			try {
 				executor.executeScript("arguments[0].setAttribute('style','border: solid 1px red');", element);
-//				executor.executeScript("arguments[0].style.border = 'medium solid red';", element);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -314,8 +311,6 @@ public class ActionsCommands {
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
-						// executor.executeScript("arguments[0].style.border = 'medium solid blue';",
-						// element);
 					} catch (Exception e) {
 						;
 					}
@@ -347,7 +342,6 @@ public class ActionsCommands {
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
-//						executor.executeScript("arguments[0].style.border = 'medium solid blue';", element);
 					} catch (Exception e) {
 						;
 					}
@@ -365,7 +359,43 @@ public class ActionsCommands {
 		}
 		validaElemento(obj[deviceElement], assertObjReceved);
 	}
-	
+
+	public static void waitExistClickAndPerform(String obj, Integer timeout, Boolean... assertObj) {
+		WebElement element = null;
+		Actions actions = new Actions(driver);
+		assertObjReceved = assertObj;
+		located = false;
+		for (int i = 1; i <= timeout; i++) {
+			element = findBy(obj);
+			if (element != null) {
+				located = true;
+				Log.log("Elemento '" + obj + "' encontrado");
+				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
+					try {
+						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
+					} catch (Exception e) {
+						;
+					}
+				}
+				try {
+					actions.moveToElement(element);
+					actions.click();
+					actions.perform();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			} else
+				try {
+					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					;
+				}
+		}
+		validaElemento(obj, assertObjReceved);
+	}
+
 	public static void waitExistClickAndPerform(String[] obj, Integer timeout, Boolean... assertObj) {
 		Actions actions = new Actions(driver);
 		WebElement element = null;
@@ -381,7 +411,6 @@ public class ActionsCommands {
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
-//						executor.executeScript("arguments[0].style.border = 'medium solid blue';", element);
 					} catch (Exception e) {
 						;
 					}
@@ -406,7 +435,7 @@ public class ActionsCommands {
 		validaElemento(obj[deviceElement], assertObjReceved);
 	}
 
-	public static void waitExistClickAndPerform(String menuDropDown, String link, Integer timeout,
+	public static void waitExistClickAndPerformDropDown(String menuDropDown, String link, Integer timeout,
 			Boolean... assertObj) {
 		Actions actions = new Actions(driver);
 		WebElement element1 = null;
@@ -425,7 +454,6 @@ public class ActionsCommands {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');",
 								element1);
-//						executor.executeScript("arguments[0].style.border = 'medium solid blue';", element1);
 					} catch (Exception e) {
 						;
 					}
@@ -467,7 +495,6 @@ public class ActionsCommands {
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
-//						executor.executeScript("arguments[0].style.border = 'medium solid blue';", element);
 					} catch (Exception e) {
 						;
 					}

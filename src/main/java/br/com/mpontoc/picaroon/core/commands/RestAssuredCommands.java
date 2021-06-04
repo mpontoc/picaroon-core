@@ -11,44 +11,24 @@ import br.com.mpontoc.picaroon.core.utils.Log;
 public class RestAssuredCommands {
 
 	@Test
-	public static String responseString(String endpoint, String method, int statusCode) {
+	public static String getResponseString(String endpoint) {
 
 		String response =
 
-				given()
-				.urlEncodingEnabled(false)
-				.when()
-				.get(endpoint)
-				.then()
-				.log()
-				.all()
-				.statusCode(statusCode)
-				.extract()
-				.body()
-				.asString();
+				given().urlEncodingEnabled(false).when().get(endpoint).then().log().all().extract().body().asString();
 		return response;
 	}
 
 	@Test
-	public static String[] dadosCartao(String response) {
-		
-		String[] retornaDados = null;
-		JSONObject dadosCartaoObj;
-		
+	public static String getJsonField(String response, String field) {
+		String returnDate = null;
+		JSONObject dataField;
 		try {
-			dadosCartaoObj = new JSONObject(response.replaceAll("[\\[\\]]", ""));
-			
-			String[] cartao_dados = { 
-					dadosCartaoObj.getString("txtCard").substring(3), 
-					dadosCartaoObj.getString("txtPass") 
-			};
-			retornaDados = cartao_dados;
-			Log.log("Card " + cartao_dados[0] + " - Pass " + cartao_dados[1]);
+			dataField = new JSONObject(response.replaceAll("[\\[\\]]", ""));
+			returnDate = dataField.getString(field);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
-		return retornaDados;
+		return returnDate;
 	}
-	
 }
