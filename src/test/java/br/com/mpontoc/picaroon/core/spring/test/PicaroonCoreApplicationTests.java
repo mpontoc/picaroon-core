@@ -25,7 +25,7 @@ class PicaroonCoreApplicationTests {
 		ActionsCommands.driver.get("https://www.google.com");
 		Log.log(ActionsCommands.driver.getTitle());
 		Log.log(valueTest);
-		BaseTest.finalizaExecucao();
+		BaseTest.endExection();
 		
 	}
 

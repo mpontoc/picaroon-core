@@ -101,7 +101,7 @@ public class ActionsCommands {
 				isFirstRun = false;
 
 			} else {
-				Log.log("Ja imprimiu no cucumber Report");
+				Log.log("Already printed on cucumber Report");
 			}
 		}
 	}
@@ -218,11 +218,11 @@ public class ActionsCommands {
 				byType.add(By.xpath("//*[contains(@content-desc,'" + obj + "')]"));
 				byType.add(By.xpath("//*[@text='" + obj + "']"));
 			} else {
-				byType.add(By.xpath("//*[(contains[text,'" + obj + "')]"));
+				byType.add(By.xpath("//*[contains(text,'" + obj + "')]"));
 				byType.add(By.xpath("//*[@id='" + obj + "']"));
 				byType.add(By.xpath("//*[@class='" + obj + "']"));
 			}
-			byType.add(By.xpath("//*[(contains[.,'" + obj + "')]"));
+			byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
 		}
 
 		return byType;
@@ -238,13 +238,13 @@ public class ActionsCommands {
 				if (!Prop.getProp("browserOrDevice").contains("mobile")) {
 					if (element.isDisplayed() == true) {
 						borderStyle(element);
-						Log.log("Elemento idenficado por '" + by.toString());
+						Log.log("Element located by '" + by.toString());
 						return element;
 					} else {
 						return element = null;
 					}
 				} else if (element != null) {
-					Log.log("Elemento idenficado por '" + by.toString());
+					Log.log("Element located by '" + by.toString());
 					return element;
 				} else {
 					return element = null;
@@ -262,7 +262,7 @@ public class ActionsCommands {
 		for (By by : listTypeBy(obj)) {
 			try {
 				listElements = driver.findElements(by);
-				Log.log("Elemento idenficado por '" + by.toString());
+				Log.log("Element located by '" + by.toString());
 				return listElements;
 			} catch (Exception e) {
 			}
@@ -285,16 +285,16 @@ public class ActionsCommands {
 		try {
 			if (assertObjReceved[0] == true) {
 				if (located == true) {
-					acao = "Ação obrigatória com o elemento '" + obj + "' efetuada com sucesso";
+					acao = "Mandatory action with the element '" + obj + "' successfully";
 					Log.log(acao);
 					ActionsCommands.cucumberWriteReport(acao);
 				} else
-					Log.log("Ocorreu um problema com o elemento '" + obj + "'");
+					Log.log("There was a problem with the element '" + obj + "'");
 				Assert.assertTrue(located);
 			}
 		} catch (Exception e1) {
 			if (located != true)
-				Log.log("Elemento '" + obj + "' nao econtrado");
+				Log.log("Element '" + obj + "' nao econtrado");
 		}
 
 	}
@@ -307,7 +307,7 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Elemento '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' located");
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -319,7 +319,7 @@ public class ActionsCommands {
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -338,7 +338,7 @@ public class ActionsCommands {
 
 			if (element != null) {
 				located = true;
-				Log.log("Elemento '" + tratativaReportElemento(obj) + "' encontrado");
+				Log.log("Element '" + tratativaReportElemento(obj) + "' encontrado");
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -350,8 +350,8 @@ public class ActionsCommands {
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + tratativaReportElemento(obj) + "' na tentativa "
-							+ i + " de " + timeout);
+					Log.log("Cannot find the Element '" + tratativaReportElemento(obj) + "' times " + i + " of "
+							+ timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -369,7 +369,7 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Elemento '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' encontrado");
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -387,7 +387,7 @@ public class ActionsCommands {
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -407,7 +407,7 @@ public class ActionsCommands {
 
 			if (element != null) {
 				located = true;
-				Log.log("Elemento '" + tratativaReportElemento(obj) + "' encontrado");
+				Log.log("Element '" + tratativaReportElemento(obj) + "' encontrado");
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -425,8 +425,8 @@ public class ActionsCommands {
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + tratativaReportElemento(obj) + "' na tentativa "
-							+ i + " de " + timeout);
+					Log.log("Cannot find the Element '" + tratativaReportElemento(obj) + "' times " + i + " of "
+							+ timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -461,12 +461,11 @@ public class ActionsCommands {
 				element1 = null;
 				element1 = findBy(link);
 				waitExistClick(link, 2);
-				Log.log("Elemento '" + link + "' encontrado");
+				Log.log("Element '" + link + "' encontrado");
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + menuDropDown + "' na tentativa " + i + " de "
-							+ timeout);
+					Log.log("Cannot find the Element '" + menuDropDown + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -491,7 +490,7 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Elemento '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' encontrado");
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -503,7 +502,7 @@ public class ActionsCommands {
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -520,12 +519,12 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Elemento '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' encontrado");
 				element.sendKeys(conteudo);
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -542,13 +541,13 @@ public class ActionsCommands {
 			element = findBy(obj[deviceElement]);
 			if (element != null) {
 				located = true;
-				Log.log("Elemento '" + tratativaReportElemento(obj) + "' encontrado");
+				Log.log("Element '" + tratativaReportElemento(obj) + "' located");
 				element.sendKeys(conteudo);
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + tratativaReportElemento(obj) + "' na tentativa "
-							+ i + " de " + timeout);
+					Log.log("Cannot find the Element '" + tratativaReportElemento(obj) + "' times " + i + " of "
+							+ timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -573,12 +572,12 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Elemento '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' encontrado");
 				element.sendKeys(conteudo);
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -595,11 +594,11 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Elemento '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' encontrado");
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -617,11 +616,11 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Elemento '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' encontrado");
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -633,34 +632,34 @@ public class ActionsCommands {
 
 	public static String[] getStringElements(String obj, Integer timeout, Boolean... assertObj) {
 
-		String[] elementos = null;
+		String[] elements = null;
 		List<WebElement> listElements = null;
 		assertObjReceved = assertObj;
 		located = false;
 
 		for (int i = 1; i <= timeout; i++) {
 			listElements = findByElements(obj);
-			elementos = new String[listElements.size()];
+			elements = new String[listElements.size()];
 			if (listElements != null) {
 				located = true;
 				int index = 0;
 				for (WebElement elemento : listElements) {
 					Log.log(elemento.getText());
-					elementos[index] = elemento.getText();
+					elements[index] = elemento.getText();
 					index++;
 				}
-				Log.log("Elementos '" + obj + "' encontrados");
+				Log.log("Elements '" + obj + "' located");
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
 				}
 		}
 		validaElemento(obj, assertObjReceved);
-		return elementos;
+		return elements;
 
 	}
 
@@ -672,11 +671,11 @@ public class ActionsCommands {
 			listElements = findByElements(obj);
 			if (listElements != null) {
 				located = true;
-				Log.log("Elementos '" + obj + "' encontrados");
+				Log.log("Elements '" + obj + "' located");
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -705,19 +704,21 @@ public class ActionsCommands {
 				}
 				if (textoObtido.length() > 3) {
 					located = true;
-					Log.log("Elemento '" + obj + "' encontrado");
-					try {
-						executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
-					} catch (Exception e) {
-						;
+					Log.log("Element '" + obj + "' encontrado");
+					if (Prop.getProp("collorBackgroud").equals("true")) {
+						try {
+							executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
+						} catch (Exception e) {
+							;
+						}
 					}
-					Log.log("Texto obtido [ '" + textoObtido + "' ]");
-					ActionsCommands.cucumberWriteReport("Texto obtido [ '" + textoObtido + "' ]");
+					Log.log("Text caught [ '" + textoObtido + "' ]");
+					ActionsCommands.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
 					break;
 				}
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -742,20 +743,20 @@ public class ActionsCommands {
 				}
 				if (textoObtido.length() > 3) {
 					located = true;
-					Log.log("Elemento '" + tratativaReportElemento(obj) + "' encontrado");
+					Log.log("Element '" + tratativaReportElemento(obj) + "' encontrado");
 					try {
 						executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
 					} catch (Exception e) {
 						;
 					}
-					Log.log("Texto obtido [ '" + textoObtido + "' ]");
-					ActionsCommands.cucumberWriteReport("Texto obtido [ '" + textoObtido + "' ]");
+					Log.log("Text caught [ '" + textoObtido + "' ]");
+					ActionsCommands.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
 					break;
 				}
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + tratativaReportElemento(obj) + "' na tentativa "
-							+ i + " de " + timeout);
+					Log.log("Cannot find the Element '" + tratativaReportElemento(obj) + "' times " + i + " of "
+							+ timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -773,14 +774,14 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Elemento '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' encontrado");
 				element.click();
 				new Select(element).selectByVisibleText(value);
 				;
 				break;
 			} else
 				try {
-					Log.log("Não foi possível encontrar o elemento '" + obj + "' na tentativa " + i + " de " + timeout);
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
@@ -796,12 +797,12 @@ public class ActionsCommands {
 			if (driver != null) {
 				Capabilities caps = MobileDriverInit.driverMobile.getCapabilities();
 				if (!caps.toString().contains(Mobile.getApp().toLowerCase())) {
-					Log.log("Iniciando novo app " + Mobile.getApp());
+					Log.log("Starting app" + Mobile.getApp());
 					driver.quit();
 					driver = null;
 					driver = MobileDriverInit.driver();
 				} else {
-					Log.log("Reiniciando o app " + Mobile.getApp());
+					Log.log("Reseting app" + Mobile.getApp());
 					MobileDriverInit.driverMobile.resetApp();
 				}
 			} else {
@@ -830,38 +831,30 @@ public class ActionsCommands {
 		return driver;
 	}
 
-	/*
-	 * public static void newAppActivity() {
-	 * 
-	 * Mobile.setPackageActivities(Mobile.getApp());
-	 * 
-	 * Log.log(packageAndActivity[0]); Log.log(packageAndActivity[1]);
-	 * 
-	 * Activity activity = new Activity(packageAndActivity[0],
-	 * packageAndActivity[1]); activity.setStopApp(false);
-	 * 
-	 * try { ((StartsActivity) driver).startActivity(activity); } catch (Exception
-	 * e) { Log.log("Problemas na tentativa de iniciar o driver");
-	 * e.printStackTrace(); } Log.log("App aberto pelos Activities packages: " +
-	 * packageAndActivity[0] + " - " + packageAndActivity[1]); }
-	 */
 	public static void scrollUntilWebElement(String obj) {
 
-		boolean objFinded = ActionsCommands.waitExist(obj, 1);
+		boolean objlocated = ActionsCommands.waitExist(obj, 1);
 
-		if (objFinded == false) {
+		if (objlocated == false) {
 			int i = 0;
-			while (objFinded == false) {
+			while (objlocated == false) {
 
 				ActionsCommands.scrollDown(1);
 
-				objFinded = ActionsCommands.waitExist(obj, 1);
+				objlocated = ActionsCommands.waitExist(obj, 1);
+				Functions.waitSeconds(1);
 				i++;
-				if (i == 10)
+				if (i == 20)
 					break;
 			}
 		} else
-			Log.log("Objeto não localizado na tela " + obj);
+			Log.log("Object no located on screen " + obj);
+	}
+
+	public static void scrollDownDirectlyWeb(String obj) {
+
+		ActionsCommands.executor.executeScript("arguments[0].scrollIntoView(true);", obj);
+
 	}
 
 	public static Scenario getScenario() {

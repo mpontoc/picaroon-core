@@ -6,8 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import br.com.mpontoc.picaroon.core.utils.Log;
-
 public class RestAssuredCommands {
 
 	@Test
@@ -24,7 +22,7 @@ public class RestAssuredCommands {
 		String returnDate = null;
 		JSONObject dataField;
 		try {
-			dataField = new JSONObject(response.replaceAll("[\\[\\]]", ""));
+			dataField = new JSONObject(response);
 			returnDate = dataField.getString(field);
 		} catch (JSONException e) {
 			e.printStackTrace();

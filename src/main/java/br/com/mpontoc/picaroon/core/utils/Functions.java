@@ -114,7 +114,7 @@ public class Functions {
 
 	public static void printInfoExec() {
 
-		ActionsCommands.cucumberWriteReport(" Dados da Execução \n Data e hora : " + retornaData());
+		ActionsCommands.cucumberWriteReport(" Execution Data \n Date and hour: " + retornaData());
 		setHoraInicial(null);
 		setHoraInicial(retornaData().substring(11));
 		ActionsCommands.cucumberWriteReport("\n " + printOSandFrame());
@@ -122,12 +122,13 @@ public class Functions {
 		if (Prop.getProp("browserOrDevice").equals("mobile")) {
 			ActionsCommands.cucumberWriteReport("\n Plataforma : " + Mobile.getPlataforma());
 			ActionsCommands.cucumberWriteReport("\n Device : " + Mobile.getDeviceName());
-			ActionsCommands.cucumberWriteReport("\n UDID : " + MobileDriverInit.driverMobile.getCapabilities().getCapability("udid").toString().toLowerCase());
+			ActionsCommands.cucumberWriteReport("\n UDID : "
+					+ MobileDriverInit.driverMobile.getCapabilities().getCapability("udid").toString().toLowerCase());
 		} else {
 			ActionsCommands.cucumberWriteReport("\n Browser : " + Prop.getProp("browserOrDevice"));
 		}
 		if (getDescricaoReport() != null) {
-			ActionsCommands.cucumberWriteReport("\n Descrição adicional : " + getDescricaoReport());
+			ActionsCommands.cucumberWriteReport("\n More data : " + getDescricaoReport());
 		}
 
 	}
@@ -136,7 +137,7 @@ public class Functions {
 		String finalHora = null;
 		finalHora = Functions.retornaData().substring(11);
 		ActionsCommands.cucumberWriteReport(
-				" Tempo da Execução : " + Functions.substractHours(Functions.getHoraInicial(), finalHora));
+				" Time of execution : " + Functions.substractHours(Functions.getHoraInicial(), finalHora));
 	}
 
 	public static Boolean verificaFeriado() {
@@ -213,7 +214,7 @@ public class Functions {
 				if (file.getName().contains(".log")) {
 					file.delete();
 				}
-				Log.log("Arquivo de log deletado com sucesso - " + file.getName());
+				Log.log("Log file deleted - " + file.getName());
 			}
 		}
 	}
@@ -240,15 +241,15 @@ public class Functions {
 
 				for (File file : listFiles) {
 					if (file.getName().contains(".png") == false) {
-						Log.log("Arquivo não será apagado " + file.getName());
+						Log.log("The file not be deleted " + file.getName());
 					} else {
-						Log.log("Deletando " + file.getName());
+						Log.log("Deleting " + file.getName());
 						file.delete();
 					}
 				}
 			}
 
-			Log.log("Evidências apagadas com sucesso ");
+			Log.log("Files deleted successfully");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -266,14 +267,8 @@ public class Functions {
 			String pathReport = System.getProperty("user.dir") + File.separator + "target" + File.separator
 					+ "cucumber-reports" + File.separator + getPathReport();
 
-			if (Prop.getProp("executionSilk").equals("true")) {
-				pathReportBackup = System.getenv("SCTM_EXEC_RESULTSFOLDER");
-				pathReport = System.getenv("SCTM_EXEC_SOURCESFOLDER") + File.separator + "target" + File.separator
-						+ System.getenv("#sctm_test_id");
-			} else {
-				pathReportBackup = System.getProperty("user.dir") + File.separator + "target" + File.separator
-						+ "cucumber-reports-backup";
-			}
+			pathReportBackup = System.getProperty("user.dir") + File.separator + "target" + File.separator
+					+ "cucumber-reports-backup";
 
 			File log4j = new File(System.getProperty("user.dir") + File.separator + "target" + File.separator + "log");
 
@@ -291,9 +286,9 @@ public class Functions {
 
 			try {
 				ZipUtil.pack(new File(pathReport), new File(pathReportZip));
-				Log.log("Backup do Report salvo no caminho " + pathReportZip);
+				Log.log("Backup of Report saved on path: " + pathReportZip);
 			} catch (Exception e) {
-				Log.log("Não foi possível zipar a pasta de Report");
+				Log.log("Cannot zip a folder to Report");
 				e.printStackTrace();
 			}
 		}
