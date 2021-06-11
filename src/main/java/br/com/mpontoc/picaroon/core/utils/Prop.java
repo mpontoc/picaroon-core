@@ -38,13 +38,11 @@ public class Prop {
 		String file = System.getProperty("user.dir") + "/src/main/resources/project.properties";
 		Path path = (Path) Paths.get(file);
 		Charset charset = StandardCharsets.UTF_8;
-		Log.log(key + " = " + getProp(key));
 
 		try {
 			String content = new String(Files.readAllBytes((java.nio.file.Path) path), charset);
 			content = content.replaceAll(key + " = " + getProp(key), key + " = " + value);
 			Files.write((java.nio.file.Path) path, content.getBytes(charset));
-			Log.log(key + " = " + getProp(key));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

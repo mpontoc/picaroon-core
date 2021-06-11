@@ -64,7 +64,7 @@ public class ActionsCommands {
 			} else if (MobileDriverInit.driver() != null) {
 				driver = MobileDriverInit.driverMobile;
 			} else {
-				Log.log("Não foi possível criar o driver");
+				Log.log("Cannot possible to create driver");
 			}
 		} else {
 			driver = DriverInit.driver();
@@ -294,7 +294,7 @@ public class ActionsCommands {
 			}
 		} catch (Exception e1) {
 			if (located != true)
-				Log.log("Element '" + obj + "' nao econtrado");
+				Log.log("Element '" + obj + "' not located");
 		}
 
 	}
@@ -338,7 +338,7 @@ public class ActionsCommands {
 
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + tratativaReportElemento(obj) + "' encontrado");
+				Log.log("Element '" + tratativaReportElemento(obj) + "' located");
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -369,7 +369,7 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' located");
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -407,7 +407,7 @@ public class ActionsCommands {
 
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + tratativaReportElemento(obj) + "' encontrado");
+				Log.log("Element '" + tratativaReportElemento(obj) + "' located");
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -461,7 +461,7 @@ public class ActionsCommands {
 				element1 = null;
 				element1 = findBy(link);
 				waitExistClick(link, 2);
-				Log.log("Element '" + link + "' encontrado");
+				Log.log("Element '" + link + "' located");
 				break;
 			} else
 				try {
@@ -490,7 +490,7 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' located");
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -519,7 +519,7 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' located");
 				element.sendKeys(conteudo);
 				break;
 			} else
@@ -572,7 +572,7 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' located");
 				element.sendKeys(conteudo);
 				break;
 			} else
@@ -594,7 +594,7 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' located");
 				break;
 			} else
 				try {
@@ -616,7 +616,7 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' located");
 				break;
 			} else
 				try {
@@ -704,7 +704,7 @@ public class ActionsCommands {
 				}
 				if (textoObtido.length() > 3) {
 					located = true;
-					Log.log("Element '" + obj + "' encontrado");
+					Log.log("Element '" + obj + "' located");
 					if (Prop.getProp("collorBackgroud").equals("true")) {
 						try {
 							executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
@@ -743,7 +743,7 @@ public class ActionsCommands {
 				}
 				if (textoObtido.length() > 3) {
 					located = true;
-					Log.log("Element '" + tratativaReportElemento(obj) + "' encontrado");
+					Log.log("Element '" + tratativaReportElemento(obj) + "' located");
 					try {
 						executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
 					} catch (Exception e) {
@@ -774,7 +774,7 @@ public class ActionsCommands {
 			element = findBy(obj);
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + obj + "' encontrado");
+				Log.log("Element '" + obj + "' located");
 				element.click();
 				new Select(element).selectByVisibleText(value);
 				;
