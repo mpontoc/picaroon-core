@@ -23,7 +23,7 @@ public class DriverInit {
 	private static WebDriver createDriver() {
 		String Browser = Prop.getProp("browserOrDevice");
 		String BROWSER_ENV = System.getenv("BROWSER");
-		String baseURL = Prop.getProp("baseURL");
+		String baseURLSeleniumGrip = Prop.getProp("baseURLSeleiumGrid");
 
 		if (BROWSER_ENV != null) {
 			Browser = BROWSER_ENV;
@@ -84,7 +84,7 @@ public class DriverInit {
 				optRemoteFirefox.setHeadless(true);
 				optRemoteFirefox.addArguments("--width=1024");
 				optRemoteFirefox.addArguments("--height=768");
-				driver = new RemoteWebDriver(new URL(baseURL), optRemoteFirefox);
+				driver = new RemoteWebDriver(new URL(baseURLSeleniumGrip), optRemoteFirefox);
 				Thread.sleep(2000);
 				Log.log("Window sizes " + driver.manage().window().getSize().toString());
 			} catch (Exception e) {
@@ -159,7 +159,7 @@ public class DriverInit {
 				optRemoteChrome.setProxy(null);
 				optRemoteChrome.addArguments("--window-size=1024,768");
 
-				driver = new RemoteWebDriver(new URL(baseURL), optRemoteChrome);
+				driver = new RemoteWebDriver(new URL(baseURLSeleniumGrip), optRemoteChrome);
 
 				Thread.sleep(2000);
 				Log.log("Window sizes " + driver.manage().window().getSize().toString());
@@ -182,7 +182,7 @@ public class DriverInit {
 				Log.log(caminhoAPK);
 				// passar o apk para ser instalado no momento da execução
 				caps.setCapability("app", caminhoAPK);
-				driver = new RemoteWebDriver(new URL(baseURL), caps);
+				driver = new RemoteWebDriver(new URL(baseURLSeleniumGrip), caps);
 				Thread.sleep(3000);
 			} catch (Exception e) {
 				e.printStackTrace();
