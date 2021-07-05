@@ -215,8 +215,8 @@ public class ActionsCommands {
 				byType.add(By.id(MobileDriverInit.driverMobile.getCapabilities().getCapability("appPackage").toString()
 						+ ":id/" + obj));
 				byType.add(By.id(obj));
-				byType.add(By.xpath("//*[contains(@content-desc,'" + obj + "')]"));
 				byType.add(By.xpath("//*[@text='" + obj + "']"));
+				byType.add(By.xpath("//*[contains(@content-desc,'" + obj + "')]"));
 			} else {
 				byType.add(By.xpath("//*[contains(text,'" + obj + "')]"));
 				byType.add(By.xpath("//*[@id='" + obj + "']"));

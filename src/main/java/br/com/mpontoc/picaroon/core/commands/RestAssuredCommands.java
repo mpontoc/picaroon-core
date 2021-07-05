@@ -13,7 +13,17 @@ public class RestAssuredCommands {
 
 		String response =
 
-				given().urlEncodingEnabled(false).when().get(endpoint).then().log().all().extract().body().asString();
+				given()
+					.urlEncodingEnabled(false)
+					.when()
+					.get(endpoint)
+					.then()
+					.log()
+					.all()
+					.extract()
+					.body()
+					.asString();
+		
 		return response;
 	}
 

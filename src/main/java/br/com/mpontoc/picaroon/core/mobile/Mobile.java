@@ -18,7 +18,7 @@ public class Mobile {
 	private static String deviceName = null;
 	private static String capsNameDeviceOrApp = null;
 	private static String pathIOSapps = null;
-	private static String capsFileJosn = null;
+	private static String capsFileJson = null;
 
 	@SuppressWarnings("unchecked")
 	private static HashMap<String, Object> convertCapsToHashMap(String nameFileJson, String capsNameDevice) {
@@ -79,12 +79,12 @@ public class Mobile {
 		Mobile.pathIOSapps = pathIOSapps;
 	}
 
-	public static String getCapsFileJosn() {
-		return capsFileJosn;
+	public static String getCapsFileJson() {
+		return capsFileJson;
 	}
 
-	public static void setCapsFileJosn(String capsFileJosn) {
-		Mobile.capsFileJosn = capsFileJosn;
+	public static void setCapsFileJson(String capsFileJson) {
+		Mobile.capsFileJson = capsFileJson;
 	}
 
 	public static String getCapsNameDeviceOrApp() {

@@ -120,10 +120,17 @@ public class Functions {
 		ActionsCommands.cucumberWriteReport("\n " + printOSandFrame());
 
 		if (Prop.getProp("browserOrDevice").equals("mobile")) {
+
+			Mobile.setDeviceUDID(
+					MobileDriverInit.driverMobile.getCapabilities().getCapability("udid").toString().toLowerCase());
+			Mobile.setPlataforma(MobileDriverInit.driverMobile.getCapabilities().getCapability("platformName")
+					.toString().toLowerCase());
+			Mobile.setDeviceName(MobileDriverInit.driverMobile.getCapabilities().getCapability("deviceName").toString()
+					.toLowerCase());
+
 			ActionsCommands.cucumberWriteReport("\n Plataforma : " + Mobile.getPlataforma());
 			ActionsCommands.cucumberWriteReport("\n Device : " + Mobile.getDeviceName());
-			ActionsCommands.cucumberWriteReport("\n UDID : "
-					+ MobileDriverInit.driverMobile.getCapabilities().getCapability("udid").toString().toLowerCase());
+			ActionsCommands.cucumberWriteReport("\n UDID : " + Mobile.getDeviceUDID());
 		} else {
 			ActionsCommands.cucumberWriteReport("\n Browser : " + Prop.getProp("browserOrDevice"));
 		}
