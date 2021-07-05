@@ -89,7 +89,7 @@ public class ActionsCommands {
 
 				scenario.write("\n");
 
-				if (Prop.getProp().contains("mobile")) {
+				if (Prop.getProp("browserOrDevice").contains("mobile")) {
 					scenario.embed(resizeScreenshot(), "image/png");
 				} else {
 					final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
@@ -113,7 +113,7 @@ public class ActionsCommands {
 
 		final File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
-		if (Prop.getProp().contains("mobile")) {
+		if (Prop.getProp("browserOrDevice").contains("mobile")) {
 			width = 480;
 			height = 854;
 		}

@@ -135,7 +135,7 @@ public class Functions {
 			ActionsCommands.cucumberWriteReport("\n Browser : " + Prop.getProp("browserOrDevice"));
 		}
 		if (getDescricaoReport() != null) {
-			ActionsCommands.cucumberWriteReport("\n More data : " + getDescricaoReport());
+			ActionsCommands.cucumberWriteReport("\n More details : " + getDescricaoReport());
 		}
 
 	}
