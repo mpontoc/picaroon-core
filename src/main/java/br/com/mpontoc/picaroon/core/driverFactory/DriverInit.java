@@ -23,7 +23,7 @@ public class DriverInit {
 	private static WebDriver createDriver() {
 		String Browser = Prop.getProp("browserOrDevice");
 		String BROWSER_ENV = System.getenv("BROWSER");
-		String baseURLSeleniumGrip = Prop.getProp("baseURLSeleiumGrid");
+		String baseURLSeleniumGrip = Prop.getProp("baseURLSeleniumGrid");
 
 		if (BROWSER_ENV != null) {
 			Browser = BROWSER_ENV;
