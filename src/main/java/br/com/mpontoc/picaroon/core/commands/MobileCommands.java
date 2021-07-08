@@ -81,6 +81,90 @@ public class MobileCommands {
 		} else
 			Log.log("Objeto não localizado na tela " + obj);
 	}
+	
+	public static void swipeUntilElementRigth(String obj , int percentualTela) {
+
+		Dimension size = ActionsCommands.driver.manage().window().getSize();
+		Log.log(size.toString());
+
+		int y = (int) size.height * percentualTela;
+		int start_x = (int) (size.width * 0.7);
+		int end_x = (int) (size.width * 0.4);
+		int i = 0;
+
+		Log.log(y + " - " + start_x + " - " + end_x);
+
+		boolean objFinded = ActionsCommands.waitExist(obj, 1);
+
+		if (objFinded == false) {
+			while (objFinded == false) {
+				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+				actions.press(PointOption.point( start_x , y ));
+				actions.waitAction(WaitOptions.waitOptions(ofMillis(200)));
+				actions.moveTo(PointOption.point( end_x , y )).release().perform();
+				objFinded = ActionsCommands.waitExist(obj, 1);
+				i++;
+				if (i == 13)
+					break;
+			}
+		} else
+			Log.log("Objeto não localizado na tela " + obj);
+	}
+	
+	public static void swipeUntilElementRight(String obj , int percentualTela) {
+
+		Dimension size = ActionsCommands.driver.manage().window().getSize();
+		Log.log(size.toString());
+
+		int y = (int) size.height * percentualTela;
+		int start_x = (int) (size.width * 0.4);
+		int end_x = (int) (size.width * 0.7);
+		int i = 0;
+		boolean objFinded = ActionsCommands.waitExist(obj, 1);
+
+		if (objFinded == false) {
+			while (objFinded == false) {
+				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+				actions.press(PointOption.point( start_x , y ));
+				actions.waitAction(WaitOptions.waitOptions(ofMillis(200)));
+				actions.moveTo(PointOption.point( end_x , y )).release().perform();
+				objFinded = ActionsCommands.waitExist(obj, 1);
+				i++;
+				if (i == 13)
+					break;
+			}
+		} else
+			Log.log("Objeto não localizado na tela " + obj);
+	}
+	
+	public static void scrollUntilElementLeft(String obj) {
+
+		Dimension size = ActionsCommands.driver.manage().window().getSize();
+		Log.log(size.toString());
+
+		int y = (int) (size.height * 0.8);
+		int start_x = (int) (size.width * 0.4);
+		int end_x = (int) (size.width * 0.7);
+		int i = 0;
+
+		Log.log(y + " - " + start_x + " - " + end_x);
+
+		boolean objFinded = ActionsCommands.waitExist(obj, 1);
+
+		if (objFinded == false) {
+			while (objFinded == false) {
+				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+				actions.press(PointOption.point(y, start_x));
+				actions.waitAction(WaitOptions.waitOptions(ofMillis(200)));
+				actions.moveTo(PointOption.point(y, end_x)).release().perform();
+				objFinded = ActionsCommands.waitExist(obj, 1);
+				i++;
+				if (i == 13)
+					break;
+			}
+		} else
+			Log.log("Objeto não localizado na tela " + obj);
+	}
 
 	public static void scrollUntilElement(String obj, int qtdScroll) {
 
