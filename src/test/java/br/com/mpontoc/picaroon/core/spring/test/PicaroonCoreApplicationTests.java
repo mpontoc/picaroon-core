@@ -19,7 +19,6 @@ class PicaroonCoreApplicationTests {
 	@Test
 	void contextLoads() {
 		
-		Functions.apagaLog4j();
 		Functions.setPathReport("testPicsCore");
 		Functions.setUp();
 		ActionsCommands.driver.get("https://www.google.com");

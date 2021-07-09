@@ -35,7 +35,7 @@ public class Functions {
 	private static String horaInicial = null;
 
 	public static void setUp() {
-
+		Functions.apagaLog4j();
 		System.setProperty("java.awt.headless", "false");
 		printOSandFrame();
 		apagaReportAntesExecucao();
