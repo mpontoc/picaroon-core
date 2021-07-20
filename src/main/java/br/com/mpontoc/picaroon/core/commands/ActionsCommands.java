@@ -806,7 +806,6 @@ public class ActionsCommands {
 					MobileDriverInit.driverMobile.resetApp();
 				}
 			} else {
-
 				try {
 					driver = MobileDriverInit.driver();
 					Log.log("Appium driver inicializado com o app: " + Mobile.getApp());
@@ -815,7 +814,6 @@ public class ActionsCommands {
 				}
 			}
 		} else {
-
 			if (driver != null && Functions.reiniciaApp == null) {
 				Functions.reiniciaApp = true;
 				driver = MobileDriverInit.driverMobile;
