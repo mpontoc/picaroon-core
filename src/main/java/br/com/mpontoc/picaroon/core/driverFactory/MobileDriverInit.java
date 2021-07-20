@@ -3,7 +3,7 @@ package br.com.mpontoc.picaroon.core.driverFactory;
 import java.net.URL;
 
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
-import br.com.mpontoc.picaroon.core.mobile.Mobile;
+import br.com.mpontoc.picaroon.core.utils.Functions;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import br.com.mpontoc.picaroon.core.utils.Prop;
 import io.appium.java_client.AppiumDriver;
@@ -45,6 +45,10 @@ public class MobileDriverInit {
 				Log.log("Não foi possível conectar ao Appium");
 			}
 			break;
+		}
+		
+		if (Functions.getAppRunner() != true) {
+			Functions.printInfoExec();
 		}
 
 		return driverMobile;

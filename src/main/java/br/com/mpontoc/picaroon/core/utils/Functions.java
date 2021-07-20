@@ -33,12 +33,15 @@ public class Functions {
 	private static Boolean appRunner = null;
 	private static String descricaoReport = null;
 	private static String horaInicial = null;
+	private static String horaInicialTotal = null;
+	private static String horaFinalTotal = null;
 
 	public static void setUp() {
 		Functions.apagaLog4j();
 		System.setProperty("java.awt.headless", "false");
 		printOSandFrame();
 		apagaReportAntesExecucao();
+		setHoraInicialTotal(retornaData().substring(11));
 		ActionsCommands.setUpDriver();
 
 	}
@@ -366,6 +369,22 @@ public class Functions {
 
 	public static void setHoraInicial(String horaInicial) {
 		Functions.horaInicial = horaInicial;
+	}
+
+	public static String getHoraInicialTotal() {
+		return horaInicialTotal;
+	}
+
+	public static void setHoraInicialTotal(String horaInicialTotal) {
+		Functions.horaInicialTotal = horaInicialTotal;
+	}
+
+	public static String getHoraFinalTotal() {
+		return horaFinalTotal;
+	}
+
+	public static void setHoraFinalTotal(String horaFinalTotal) {
+		Functions.horaFinalTotal = horaFinalTotal;
 	}
 
 }

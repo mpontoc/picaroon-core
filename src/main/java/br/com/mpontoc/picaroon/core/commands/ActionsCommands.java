@@ -31,8 +31,6 @@ import br.com.mpontoc.picaroon.core.utils.Functions;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import br.com.mpontoc.picaroon.core.utils.Prop;
 import io.appium.java_client.MobileBy;
-import io.appium.java_client.android.Activity;
-import io.appium.java_client.android.StartsActivity;
 import io.cucumber.core.api.Scenario;
 
 public class ActionsCommands {
@@ -792,18 +790,19 @@ public class ActionsCommands {
 
 	public static WebDriver newApp() {
 
-		if (Functions.getAppRunner() != true) {
+		if (Functions.getAppRunner() != true && Mobile.getApp() != null) {
 
 			if (driver != null) {
 				Capabilities caps = MobileDriverInit.driverMobile.getCapabilities();
 				if (!caps.toString().contains(Mobile.getApp().toLowerCase())) {
-					Log.log("Starting app" + Mobile.getApp());
+					Log.log("Starting app " + Mobile.getApp());
 					driver.quit();
 					driver = null;
 					driver = MobileDriverInit.driver();
 				} else {
-					Log.log("Reseting app" + Mobile.getApp());
+					Log.log("Reseting app " + Mobile.getApp());
 					MobileDriverInit.driverMobile.resetApp();
+					Functions.printInfoExec();
 				}
 			} else {
 				try {

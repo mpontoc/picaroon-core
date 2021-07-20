@@ -2,11 +2,10 @@ package br.com.mpontoc.picaroon.core.utils;
 
 import java.io.FileReader;
 
-import org.junit.Test;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.junit.Test;
 
 public class JsonFileReader {
 
