@@ -12,3 +12,7 @@ How to use
 
 For you can use the picaroon-core is necessary to create a project like an example on my other directory:
 [picaroon-test-example](https://github.com/mpontoc/picaroon-test-example)
+
+For download the latest version access link:
+https://mvnrepository.com/artifact/io.github.mpontoc/picaroon-core
+
