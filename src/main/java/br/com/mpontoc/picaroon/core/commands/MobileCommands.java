@@ -81,90 +81,6 @@ public class MobileCommands {
 		} else
 			Log.log("Objeto não localizado na tela " + obj);
 	}
-	
-	public static void swipeUntilElementRigth(String obj , int percentualTela) {
-
-		Dimension size = ActionsCommands.driver.manage().window().getSize();
-		Log.log(size.toString());
-
-		int y = (int) size.height * percentualTela;
-		int start_x = (int) (size.width * 0.7);
-		int end_x = (int) (size.width * 0.4);
-		int i = 0;
-
-		Log.log(y + " - " + start_x + " - " + end_x);
-
-		boolean objFinded = ActionsCommands.waitExist(obj, 1);
-
-		if (objFinded == false) {
-			while (objFinded == false) {
-				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
-				actions.press(PointOption.point( start_x , y ));
-				actions.waitAction(WaitOptions.waitOptions(ofMillis(200)));
-				actions.moveTo(PointOption.point( end_x , y )).release().perform();
-				objFinded = ActionsCommands.waitExist(obj, 1);
-				i++;
-				if (i == 13)
-					break;
-			}
-		} else
-			Log.log("Objeto não localizado na tela " + obj);
-	}
-	
-	public static void swipeUntilElementRight(String obj , int percentualTela) {
-
-		Dimension size = ActionsCommands.driver.manage().window().getSize();
-		Log.log(size.toString());
-
-		int y = (int) size.height * percentualTela;
-		int start_x = (int) (size.width * 0.4);
-		int end_x = (int) (size.width * 0.7);
-		int i = 0;
-		boolean objFinded = ActionsCommands.waitExist(obj, 1);
-
-		if (objFinded == false) {
-			while (objFinded == false) {
-				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
-				actions.press(PointOption.point( start_x , y ));
-				actions.waitAction(WaitOptions.waitOptions(ofMillis(200)));
-				actions.moveTo(PointOption.point( end_x , y )).release().perform();
-				objFinded = ActionsCommands.waitExist(obj, 1);
-				i++;
-				if (i == 13)
-					break;
-			}
-		} else
-			Log.log("Objeto não localizado na tela " + obj);
-	}
-	
-	public static void scrollUntilElementLeft(String obj) {
-
-		Dimension size = ActionsCommands.driver.manage().window().getSize();
-		Log.log(size.toString());
-
-		int y = (int) (size.height * 0.8);
-		int start_x = (int) (size.width * 0.4);
-		int end_x = (int) (size.width * 0.7);
-		int i = 0;
-
-		Log.log(y + " - " + start_x + " - " + end_x);
-
-		boolean objFinded = ActionsCommands.waitExist(obj, 1);
-
-		if (objFinded == false) {
-			while (objFinded == false) {
-				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
-				actions.press(PointOption.point(y, start_x));
-				actions.waitAction(WaitOptions.waitOptions(ofMillis(200)));
-				actions.moveTo(PointOption.point(y, end_x)).release().perform();
-				objFinded = ActionsCommands.waitExist(obj, 1);
-				i++;
-				if (i == 13)
-					break;
-			}
-		} else
-			Log.log("Objeto não localizado na tela " + obj);
-	}
 
 	public static void scrollUntilElement(String obj, int qtdScroll) {
 
@@ -193,7 +109,7 @@ public class MobileCommands {
 				objFinded = ActionsCommands.waitExist(obj, 1);
 				i++;
 			}
-		} 
+		}
 	}
 
 	public static void scrollUntilElementUp(String obj, int qtdScroll) {
@@ -229,24 +145,6 @@ public class MobileCommands {
 			}
 		} else
 			Log.log("Objeto não localizado na tela " + obj);
-	}
-
-	public static void refreshTela() {
-
-		Dimension size = ActionsCommands.driver.manage().window().getSize();
-		Log.log(size.toString());
-
-		int x = size.width / 2;
-		int start_y = (int) (size.height * 0.4);
-		int end_y = (int) (size.height * 0.6);
-
-		Log.log(x + " - " + start_y + " - " + end_y);
-
-		TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
-		actions.press(PointOption.point(x, start_y));
-		actions.waitAction(WaitOptions.waitOptions(ofMillis(200)));
-		actions.moveTo(PointOption.point(x, end_y)).release().perform();
-
 	}
 
 	public static void scrollUntilElementByText(String obj) {
@@ -289,5 +187,81 @@ public class MobileCommands {
 			scrollObject.put("direction", "up");
 			((RemoteWebDriver) ActionsCommands.driver).executeScript("mobile:scroll", scrollObject);
 		}
+	}
+
+	public static void refreshTela() {
+
+		Dimension size = ActionsCommands.driver.manage().window().getSize();
+		Log.log(size.toString());
+
+		int x = size.width / 2;
+		int start_y = (int) (size.height * 0.4);
+		int end_y = (int) (size.height * 0.6);
+
+		Log.log(x + " - " + start_y + " - " + end_y);
+
+		TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+		actions.press(PointOption.point(x, start_y));
+		actions.waitAction(WaitOptions.waitOptions(ofMillis(200)));
+		actions.moveTo(PointOption.point(x, end_y)).release().perform();
+
+	}
+
+	public static void swipeUntilElementLeft(String obj, double percentualTela) {
+
+		Dimension size = ActionsCommands.driver.manage().window().getSize();
+		Log.log(size.toString());
+
+		int y = (int) (size.height * percentualTela);
+		int start_x = (int) (size.width * 0.1);
+		int end_x = (int) (size.width * 0.9);
+		int i = 0;
+
+		Log.log(y + " - " + start_x + " - " + end_x);
+
+		boolean objFinded = ActionsCommands.waitExist(obj, 1);
+
+		if (objFinded == false) {
+			while (objFinded == false) {
+				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+				actions.press(PointOption.point(start_x, y));
+				actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
+				actions.moveTo(PointOption.point(end_x, y)).release().perform();
+				objFinded = ActionsCommands.waitExist(obj, 1);
+				i++;
+				if (i == 13)
+					break;
+			}
+		} else
+			Log.log("Objeto não localizado na tela " + obj);
+	}
+	
+	public static void swipeUntilElementRight(String obj, double percentualTela) {
+
+		Dimension size = ActionsCommands.driver.manage().window().getSize();
+		Log.log(size.toString());
+
+		int y = (int) (size.height * percentualTela);
+		int start_x = (int) (size.width * 0.9);
+		int end_x = (int) (size.width * 0.1);
+		int i = 0;
+
+		Log.log(y + " - " + start_x + " - " + end_x);
+
+		boolean objFinded = ActionsCommands.waitExist(obj, 1);
+
+		if (objFinded == false) {
+			while (objFinded == false) {
+				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+				actions.press(PointOption.point(start_x, y));
+				actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
+				actions.moveTo(PointOption.point(end_x, y)).release().perform();
+				objFinded = ActionsCommands.waitExist(obj, 1);
+				i++;
+				if (i == 13)
+					break;
+			}
+		} else
+			Log.log("Objeto não localizado na tela " + obj);
 	}
 }
