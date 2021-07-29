@@ -31,7 +31,7 @@ import br.com.mpontoc.picaroon.core.utils.Functions;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import br.com.mpontoc.picaroon.core.utils.Prop;
 import io.appium.java_client.MobileBy;
-import io.cucumber.core.api.Scenario;
+import io.cucumber.java.Scenario;;
 
 public class ActionsCommands {
 
