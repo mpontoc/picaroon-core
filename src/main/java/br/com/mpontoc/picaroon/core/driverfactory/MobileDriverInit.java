@@ -1,4 +1,4 @@
-package br.com.mpontoc.picaroon.core.driverFactory;
+package br.com.mpontoc.picaroon.core.driverfactory;
 
 import java.net.URL;
 

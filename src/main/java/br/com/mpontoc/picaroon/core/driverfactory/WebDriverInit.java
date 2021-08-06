@@ -1,4 +1,4 @@
-package br.com.mpontoc.picaroon.core.driverFactory;
+package br.com.mpontoc.picaroon.core.driverfactory;
 
 import java.net.URL;
 
@@ -16,7 +16,7 @@ import br.com.mpontoc.picaroon.core.utils.Log;
 import br.com.mpontoc.picaroon.core.utils.Prop;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class DriverInit {
+public class WebDriverInit {
 
 	public static WebDriver driver;
 

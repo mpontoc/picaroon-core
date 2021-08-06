@@ -1,5 +1,8 @@
 package br.com.mpontoc.picaroon.core.commands;
 
+import static br.com.mpontoc.picaroon.core.driverfactory.DriverFactory.deviceElement;
+import static br.com.mpontoc.picaroon.core.driverfactory.DriverFactory.driver;
+
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -13,94 +16,56 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
-import br.com.mpontoc.picaroon.core.driverFactory.DriverInit;
-import br.com.mpontoc.picaroon.core.driverFactory.MobileDriverInit;
+import br.com.mpontoc.picaroon.core.driverfactory.MobileDriverInit;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
+import br.com.mpontoc.picaroon.core.utils.ElementFunctions;
 import br.com.mpontoc.picaroon.core.utils.Functions;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import br.com.mpontoc.picaroon.core.utils.Prop;
-import io.appium.java_client.MobileBy;
 import io.cucumber.java.Scenario;;
 
 public class ActionsCommands {
 
-	public static WebDriver driver = null;
-	public static Integer deviceElement = null;
-	private static String cucumberReportMessage = "";
-	public static JavascriptExecutor executor = null;
-	public static Boolean located = false;
-	public static Boolean[] assertObjReceved = null;
+	private static String cucumberReportMessage = null;
+	private static JavascriptExecutor executor = null;
+	private static Boolean located = false;
+	private static Boolean[] assertObjReceved = null;
 	public static Boolean isFirstRun = null;
 	private static Scenario scenario;
 
-	public static void setUpDriver() {
-
-		if (Mobile.getPlataforma() != null) {
-			if (Mobile.getPlataforma().equals("android"))
-				// android
-				deviceElement = 0;
-			else
-				// ios
-				deviceElement = 1;
-		}
-
-		if (Prop.getProp("browserOrDevice").contains("mobile")) {
-
-			if (Mobile.getApp() == null || driver == null) {
-				driver = null;
-			} else if (MobileDriverInit.driver() != null) {
-				driver = MobileDriverInit.driverMobile;
-			} else {
-				Log.log("Cannot possible to create driver");
-			}
-		} else {
-			driver = DriverInit.driver();
-			executor = (JavascriptExecutor) driver;
-		}
-	}
+	// ******* Cucumber Report *******
 
 	public static void printScreen() {
 
 		Prop.setPropAndSave("printAfterSteps", "true");
 		printScreenAfterStep(getScenario());
 		Prop.setPropAndSave("printAfterSteps", "false");
-
 	}
 
 	public static void printScreenAfterStep(Scenario scenario) {
 
 		if (Prop.getProp("printAfterSteps").equals("true")
 				&& Prop.getProp("browserOrDevice").equals("false") == false) {
-
 			if (isFirstRun == true) {
-
-				scenario.write("\n");
-
-				if (Prop.getProp("browserOrDevice").contains("mobile")) {
-					scenario.embed(resizeScreenshot(), "image/png");
-				} else {
-					final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-					scenario.embed(screenshot, "image/png");
-				}
-
-				scenario.write("\n");
-
-				isFirstRun = false;
-
-			} else {
-				Log.log("Already printed on cucumber Report");
+				scenario.log("\n");
+//				if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")) {
+				scenario.attach(resizeScreenshot(), "image/png", scenario.getName());
+//				} else {
+//					final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+//					scenario.attach(screenshot, "image/png", scenario.getName());
 			}
+			scenario.log("\n");
+			isFirstRun = false;
+		} else {
+			Log.log("Already printed on cucumber Report");
 		}
 	}
 
@@ -111,9 +76,14 @@ public class ActionsCommands {
 
 		final File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
-		if (Prop.getProp("browserOrDevice").contains("mobile")) {
+		if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")) {
 			width = 480;
 			height = 854;
+		} else {
+			
+			width = 1024;
+			height = 768;			
+			
 		}
 
 		try {
@@ -154,7 +124,7 @@ public class ActionsCommands {
 
 	public static void writeReportStep(Scenario scenario) {
 		scenario = getScenario();
-		scenario.write(getCucumberReportMessage());
+		scenario.log(getCucumberReportMessage());
 		cucumberReportMessage = "";
 	}
 
@@ -169,140 +139,12 @@ public class ActionsCommands {
 		}
 	}
 
-	public static void scrollDown(int count) {
-		for (int i = 0; i < count; i++) {
-			try {
-				executor.executeScript("window.scrollBy(0,325)");
-				Thread.sleep(2000);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-	}
-
-	public static String tratativaReportElemento(String[] elemento) {
-
-		String nomeObjMapeado = null;
-
-		if (elemento[2] != null) {
-			nomeObjMapeado = elemento[2];
-		} else {
-			nomeObjMapeado = elemento[deviceElement];
-		}
-
-		return nomeObjMapeado;
-	}
-
-	private static List<By> listTypeBy(String obj) {
-		List<By> byType = new ArrayList<By>();
-
-		if (obj.contains("//")) {
-
-			byType.add(By.xpath(obj));
-
-		} else {
-
-			if (Prop.getProp("browserOrDevice").contains("mobile") && Mobile.getPlataforma().contains("ios")) {
-				byType.add(MobileBy.AccessibilityId(obj));
-				byType.add(By.xpath("//*[@label='" + obj + "']"));
-				byType.add(By.xpath("//*[@name='" + obj + "']"));
-				byType.add(By.xpath("//*[contains(@label,'" + obj + "')]"));
-				byType.add(By.xpath("//*[contains(@name,'" + obj + "')]"));
-			} else if (Prop.getProp("browserOrDevice").contains("mobile")
-					&& Mobile.getPlataforma().contains("android")) {
-				byType.add(By.id(MobileDriverInit.driverMobile.getCapabilities().getCapability("appPackage").toString()
-						+ ":id/" + obj));
-				byType.add(By.id(obj));
-				byType.add(By.xpath("//*[@text='" + obj + "']"));
-				byType.add(By.xpath("//*[contains(@content-desc,'" + obj + "')]"));
-			} else {
-				byType.add(By.xpath("//*[contains(text,'" + obj + "')]"));
-				byType.add(By.xpath("//*[@id='" + obj + "']"));
-				byType.add(By.xpath("//*[@class='" + obj + "']"));
-			}
-			byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
-		}
-
-		return byType;
-	}
-
-	public static WebElement findBy(String obj) {
-
-		WebElement element = null;
-
-		for (By by : listTypeBy(obj)) {
-			try {
-				element = driver.findElement(by);
-				if (!Prop.getProp("browserOrDevice").contains("mobile")) {
-					if (element.isDisplayed() == true) {
-						borderStyle(element);
-						Log.log("Element located by '" + by.toString());
-						return element;
-					} else {
-						return element = null;
-					}
-				} else if (element != null) {
-					Log.log("Element located by '" + by.toString());
-					return element;
-				} else {
-					return element = null;
-				}
-			} catch (Exception e) {
-			}
-		}
-		return element;
-	}
-
-	public static List<WebElement> findByElements(String obj) {
-
-		List<WebElement> listElements = null;
-
-		for (By by : listTypeBy(obj)) {
-			try {
-				listElements = driver.findElements(by);
-				Log.log("Element located by '" + by.toString());
-				return listElements;
-			} catch (Exception e) {
-			}
-		}
-		return listElements;
-	}
-
-	public static void borderStyle(WebElement element) {
-		if (!Prop.getProp("browserOrDevice").equals("mobile")) {
-			try {
-				executor.executeScript("arguments[0].setAttribute('style','border: solid 1px red');", element);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public static void validaElemento(String obj, Boolean[] assertObjReceved) {
-		String acao = null;
-		try {
-			if (assertObjReceved[0] == true) {
-				if (located == true) {
-					acao = "Mandatory action with the element '" + obj + "' successfully";
-					Log.log(acao);
-					ActionsCommands.cucumberWriteReport(acao);
-				} else
-					Log.log("There was a problem with the element '" + obj + "'");
-				Assert.assertTrue(located);
-			}
-		} catch (Exception e1) {
-			if (located != true)
-				Log.log("Element '" + obj + "' not located");
-		}
-
-	}
-
 	public static void waitExistClick(String obj, Integer timeout, Boolean... assertObj) {
 		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = findBy(obj);
+			element = ElementFunctions.findBy(obj);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
@@ -323,7 +165,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved);
 	}
 
 	public static void waitExistClick(String[] obj, Integer timeout, Boolean... assertObj) {
@@ -332,11 +174,11 @@ public class ActionsCommands {
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
 
-			element = findBy(obj[deviceElement]);
+			element = ElementFunctions.findBy(obj[deviceElement]);
 
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + tratativaReportElemento(obj) + "' located");
+				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -348,14 +190,14 @@ public class ActionsCommands {
 				break;
 			} else
 				try {
-					Log.log("Cannot find the Element '" + tratativaReportElemento(obj) + "' times " + i + " of "
-							+ timeout);
+					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
+							+ " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
 				}
 		}
-		validaElemento(obj[deviceElement], assertObjReceved);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
 	}
 
 	public static void waitExistClickAndPerform(String obj, Integer timeout, Boolean... assertObj) {
@@ -364,7 +206,7 @@ public class ActionsCommands {
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = findBy(obj);
+			element = ElementFunctions.findBy(obj);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
@@ -391,7 +233,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved);
 	}
 
 	public static void waitExistClickAndPerform(String[] obj, Integer timeout, Boolean... assertObj) {
@@ -401,11 +243,11 @@ public class ActionsCommands {
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
 
-			element = findBy(obj[deviceElement]);
+			element = ElementFunctions.findBy(obj[deviceElement]);
 
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + tratativaReportElemento(obj) + "' located");
+				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
 				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -423,14 +265,14 @@ public class ActionsCommands {
 				break;
 			} else
 				try {
-					Log.log("Cannot find the Element '" + tratativaReportElemento(obj) + "' times " + i + " of "
-							+ timeout);
+					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
+							+ " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
 				}
 		}
-		validaElemento(obj[deviceElement], assertObjReceved);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
 	}
 
 	public static void waitExistClickAndPerformDropDown(String menuDropDown, String link, Integer timeout,
@@ -440,7 +282,7 @@ public class ActionsCommands {
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element1 = findBy(menuDropDown);
+			element1 = ElementFunctions.findBy(menuDropDown);
 			if (element1 != null && element1.isDisplayed()) {
 				located = true;
 				actions.moveToElement(element1);
@@ -457,7 +299,7 @@ public class ActionsCommands {
 					}
 				}
 				element1 = null;
-				element1 = findBy(link);
+				element1 = ElementFunctions.findBy(link);
 				waitExistClick(link, 2);
 				Log.log("Element '" + link + "' located");
 				break;
@@ -469,7 +311,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		validaElemento(link, assertObjReceved);
+		ElementFunctions.validaElemento(link, assertObjReceved);
 	}
 
 	public static void waitExistClickNewWindow(String obj, Integer numberWindow, Integer timeout,
@@ -485,7 +327,7 @@ public class ActionsCommands {
 
 		for (int i = 1; i <= timeout; i++) {
 			driver.switchTo().window((String) janela.get(numberWindow));
-			element = findBy(obj);
+			element = ElementFunctions.findBy(obj);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
@@ -506,7 +348,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved);
 	}
 
 	public static void waitExistSet(String obj, String conteudo, Integer timeout, Boolean... assertObj) {
@@ -514,7 +356,7 @@ public class ActionsCommands {
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = findBy(obj);
+			element = ElementFunctions.findBy(obj);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
@@ -528,7 +370,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved);
 	}
 
 	public static void waitExistSet(String[] obj, String conteudo, Integer timeout, Boolean... assertObj) {
@@ -536,22 +378,22 @@ public class ActionsCommands {
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = findBy(obj[deviceElement]);
+			element = ElementFunctions.findBy(obj[deviceElement]);
 			if (element != null) {
 				located = true;
-				Log.log("Element '" + tratativaReportElemento(obj) + "' located");
+				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
 				element.sendKeys(conteudo);
 				break;
 			} else
 				try {
-					Log.log("Cannot find the Element '" + tratativaReportElemento(obj) + "' times " + i + " of "
-							+ timeout);
+					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
+							+ " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
 				}
 		}
-		validaElemento(obj[deviceElement], assertObjReceved);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
 	}
 
 	public static void waitExistSetNewWindow(String obj, String conteudo, Integer numberWindow, Integer timeout,
@@ -567,7 +409,7 @@ public class ActionsCommands {
 
 		for (int i = 1; i <= timeout; i++) {
 			driver.switchTo().window((String) janela.get(numberWindow));
-			element = findBy(obj);
+			element = ElementFunctions.findBy(obj);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
@@ -581,7 +423,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved);
 	}
 
 	public static boolean waitExist(String obj, Integer timeout, Boolean... assertObj) {
@@ -589,7 +431,7 @@ public class ActionsCommands {
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = findBy(obj);
+			element = ElementFunctions.findBy(obj);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
@@ -602,16 +444,40 @@ public class ActionsCommands {
 					;
 				}
 		}
-		validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved);
 		return located;
 	}
 
-	public static WebElement waitExistWebElement(String obj, Integer timeout, Boolean... assertObj) {
+	public static boolean waitExist(String[] obj, Integer timeout, Boolean... assertObj) {
 		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = findBy(obj);
+			element = ElementFunctions.findBy(obj[deviceElement]);
+			if (element != null) {
+				located = true;
+				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
+				break;
+			} else
+				try {
+					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
+							+ " of " + timeout);
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					;
+				}
+		}
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
+		return located;
+	}
+
+	public static WebElement waitExistElement(String obj, Integer timeout, Boolean... assertObj) {
+
+		WebElement element = null;
+		assertObjReceved = assertObj;
+		located = false;
+		for (int i = 1; i <= timeout; i++) {
+			element = ElementFunctions.findBy(obj);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
@@ -624,7 +490,31 @@ public class ActionsCommands {
 					;
 				}
 		}
-		validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved);
+		return element;
+	}
+
+	public static WebElement waitExistElement(String[] obj, Integer timeout, Boolean... assertObj) {
+
+		WebElement element = null;
+		assertObjReceved = assertObj;
+		located = false;
+		for (int i = 1; i <= timeout; i++) {
+			element = ElementFunctions.findBy(obj[deviceElement]);
+			if (element != null) {
+				located = true;
+				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
+				break;
+			} else
+				try {
+					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
+							+ " of " + timeout);
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					;
+				}
+		}
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
 		return element;
 	}
 
@@ -636,7 +526,7 @@ public class ActionsCommands {
 		located = false;
 
 		for (int i = 1; i <= timeout; i++) {
-			listElements = findByElements(obj);
+			listElements = ElementFunctions.findByElements(obj);
 			elements = new String[listElements.size()];
 			if (listElements != null) {
 				located = true;
@@ -653,10 +543,9 @@ public class ActionsCommands {
 					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
-					;
 				}
 		}
-		validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved);
 		return elements;
 
 	}
@@ -666,7 +555,7 @@ public class ActionsCommands {
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			listElements = findByElements(obj);
+			listElements = ElementFunctions.findByElements(obj);
 			if (listElements != null) {
 				located = true;
 				Log.log("Elements '" + obj + "' located");
@@ -679,7 +568,30 @@ public class ActionsCommands {
 					;
 				}
 		}
-		validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved);
+		return listElements;
+	}
+
+	public static List<WebElement> getElements(String[] obj, Integer timeout, Boolean... assertObj) {
+		List<WebElement> listElements = null;
+		assertObjReceved = assertObj;
+		located = false;
+		for (int i = 1; i <= timeout; i++) {
+			listElements = ElementFunctions.findByElements(obj[deviceElement]);
+			if (listElements != null) {
+				located = true;
+				Log.log("Elements '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
+				break;
+			} else
+				try {
+					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
+							+ " of " + timeout);
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					;
+				}
+		}
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
 		return listElements;
 	}
 
@@ -689,9 +601,10 @@ public class ActionsCommands {
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = findBy(obj);
+			element = ElementFunctions.findBy(obj);
 			if (element != null) {
-				if (Prop.getProp("browserOrDevice").contains("mobile") && Mobile.getPlataforma().equals("ios")) {
+				if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")
+						&& Mobile.getPlataforma().equals("ios")) {
 					try {
 						textoObtido = element.getAttribute("label").toString();
 					} catch (Exception e) {
@@ -722,7 +635,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved);
 		return textoObtido;
 	}
 
@@ -732,16 +645,17 @@ public class ActionsCommands {
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = findBy(obj[deviceElement]);
+			element = ElementFunctions.findBy(obj[deviceElement]);
 			if (element != null) {
-				if (Prop.getProp("browserOrDevice").contains("mobile") && Mobile.getPlataforma().equals("ios")) {
+				if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")
+						&& Mobile.getPlataforma().equals("ios")) {
 					textoObtido = element.getAttribute("label").toString();
 				} else {
 					textoObtido = element.getText().toString();
 				}
 				if (textoObtido.length() > 3) {
 					located = true;
-					Log.log("Element '" + tratativaReportElemento(obj) + "' located");
+					Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
 					try {
 						executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
 					} catch (Exception e) {
@@ -753,23 +667,24 @@ public class ActionsCommands {
 				}
 			} else
 				try {
-					Log.log("Cannot find the Element '" + tratativaReportElemento(obj) + "' times " + i + " of "
-							+ timeout);
+					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
+							+ " of " + timeout);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					;
 				}
 		}
-		validaElemento(obj[deviceElement], assertObjReceved);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
 		return textoObtido;
 	}
 
 	public static void waitExistSelectComboBox(String obj, String value, Integer timeout, Boolean... assertObj) {
+
 		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = findBy(obj);
+			element = ElementFunctions.findBy(obj);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
@@ -785,13 +700,12 @@ public class ActionsCommands {
 					;
 				}
 		}
-		validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved);
 	}
 
-	public static WebDriver newApp() {
+	public static void newApp() {
 
 		if (Functions.getAppRunner() != true && Mobile.getApp() != null) {
-
 			if (driver != null) {
 				Capabilities caps = MobileDriverInit.driverMobile.getCapabilities();
 				if (!caps.toString().contains(Mobile.getApp().toLowerCase())) {
@@ -823,29 +737,7 @@ public class ActionsCommands {
 				driver = null;
 				driver = MobileDriverInit.driver();
 			}
-
 		}
-		return driver;
-	}
-
-	public static void scrollUntilWebElement(String obj) {
-
-		boolean objlocated = ActionsCommands.waitExist(obj, 1);
-
-		if (objlocated == false) {
-			int i = 0;
-			while (objlocated == false) {
-
-				ActionsCommands.scrollDown(1);
-
-				objlocated = ActionsCommands.waitExist(obj, 1);
-				Functions.waitSeconds(1);
-				i++;
-				if (i == 20)
-					break;
-			}
-		} else
-			Log.log("Object no located on screen " + obj);
 	}
 
 	public static void scrollDownDirectlyWeb(String obj) {

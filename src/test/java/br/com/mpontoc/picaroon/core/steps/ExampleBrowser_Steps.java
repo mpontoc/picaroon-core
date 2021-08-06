@@ -1,8 +1,8 @@
 package br.com.mpontoc.picaroon.core.steps;
 
-import static br.com.mpontoc.picaroon.core.commands.ActionsCommands.driver;
 
 import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
+import br.com.mpontoc.picaroon.core.driverfactory.DriverFactory;
 import br.com.mpontoc.picaroon.core.utils.Functions;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import br.com.mpontoc.picaroon.core.utils.Prop;
@@ -40,21 +40,21 @@ public class ExampleBrowser_Steps {
 		
 		Functions.printInfoExec();
 		
-		driver.get(site);
+		DriverFactory.driver.get(site);
 		
 	}
 
 	@Quando("serão apresentadas informações do dia")
 	public void serão_apresentadas_informações_do_dia() {
 		
-		ActionsCommands.cucumberWriteReport(driver.getTitle());
+		ActionsCommands.cucumberWriteReport(DriverFactory.driver.getTitle());
 		
 	}
 
 	@Então("estarei atualizado com o que está acontecendo no momento")
 	public void estarei_atualizado_com_o_que_está_acontecendo_no_momento() {
 		
-		Log.log(driver.getTitle());
+		Log.log(DriverFactory.driver.getTitle());
 		
 	}
 
