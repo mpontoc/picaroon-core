@@ -1,7 +1,8 @@
 package br.com.mpontoc.picaroon.core.utils;
 
-import static br.com.mpontoc.picaroon.core.driverfactory.DriverFactory.deviceElement;
-import static br.com.mpontoc.picaroon.core.driverfactory.DriverFactory.driver;
+import static br.com.mpontoc.picaroon.core.drivers.DriverFactory.deviceElement;
+import static br.com.mpontoc.picaroon.core.drivers.DriverFactory.driver;
+import static br.com.mpontoc.picaroon.core.drivers.DriverFactory.executor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +11,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static br.com.mpontoc.picaroon.core.driverfactory.DriverFactory.executor;
-
 import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
-import br.com.mpontoc.picaroon.core.driverfactory.MobileDriverInit;
+import br.com.mpontoc.picaroon.core.drivers.MobileDriverInit;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 import io.appium.java_client.MobileBy;
 
@@ -108,7 +107,7 @@ public class ElementFunctions {
 	}
 
 	public static void borderStyle(WebElement element) {
-		if (!Prop.getProp("browserOrDevice").equals("mobile")) {
+		if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
 			try {
 				executor.executeScript("arguments[0].setAttribute('style','border: solid 1px red');", element);
 			} catch (Exception e) {

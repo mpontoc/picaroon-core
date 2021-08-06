@@ -1,4 +1,4 @@
-package br.com.mpontoc.picaroon.core.driverfactory;
+package br.com.mpontoc.picaroon.core.drivers;
 
 import java.net.URL;
 
@@ -21,7 +21,7 @@ public class WebDriverInit {
 	public static WebDriver driver;
 
 	private static WebDriver createDriver() {
-		String Browser = Prop.getProp("browserOrDevice");
+		String Browser = Prop.getProp("browserOrDevice").toLowerCase();
 		String BROWSER_ENV = System.getenv("BROWSER");
 		String baseURLSeleniumGrip = Prop.getProp("baseURLSeleniumGrid");
 

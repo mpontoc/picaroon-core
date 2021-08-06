@@ -9,8 +9,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 
-import br.com.mpontoc.picaroon.core.driverfactory.DriverFactory;
-import br.com.mpontoc.picaroon.core.driverfactory.MobileDriverInit;
+import br.com.mpontoc.picaroon.core.drivers.DriverFactory;
+import br.com.mpontoc.picaroon.core.drivers.MobileDriverInit;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import io.appium.java_client.MobileBy;

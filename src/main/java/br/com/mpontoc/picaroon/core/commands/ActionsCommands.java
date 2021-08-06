@@ -1,7 +1,7 @@
 package br.com.mpontoc.picaroon.core.commands;
 
-import static br.com.mpontoc.picaroon.core.driverfactory.DriverFactory.deviceElement;
-import static br.com.mpontoc.picaroon.core.driverfactory.DriverFactory.driver;
+import static br.com.mpontoc.picaroon.core.drivers.DriverFactory.deviceElement;
+import static br.com.mpontoc.picaroon.core.drivers.DriverFactory.driver;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
@@ -24,7 +24,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
-import br.com.mpontoc.picaroon.core.driverfactory.MobileDriverInit;
+import br.com.mpontoc.picaroon.core.drivers.MobileDriverInit;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 import br.com.mpontoc.picaroon.core.utils.ElementFunctions;
 import br.com.mpontoc.picaroon.core.utils.Functions;
@@ -53,14 +53,10 @@ public class ActionsCommands {
 	public static void printScreenAfterStep(Scenario scenario) {
 
 		if (Prop.getProp("printAfterSteps").equals("true")
-				&& Prop.getProp("browserOrDevice").equals("false") == false) {
+				&& !Prop.getProp("browserOrDevice").toLowerCase().contains("false")) {
 			if (isFirstRun == true) {
 				scenario.log("\n");
-//				if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")) {
 				scenario.attach(resizeScreenshot(), "image/png", scenario.getName());
-//				} else {
-//					final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-//					scenario.attach(screenshot, "image/png", scenario.getName());
 			}
 			scenario.log("\n");
 			isFirstRun = false;
@@ -148,7 +144,7 @@ public class ActionsCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
-				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
+				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -179,7 +175,7 @@ public class ActionsCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
-				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
+				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -210,7 +206,7 @@ public class ActionsCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
-				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
+				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -248,7 +244,7 @@ public class ActionsCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
-				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
+				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -286,11 +282,11 @@ public class ActionsCommands {
 			if (element1 != null && element1.isDisplayed()) {
 				located = true;
 				actions.moveToElement(element1);
-				if (Prop.getProp("browserOrDevice").contains("chrome-h")) {
+				if (Prop.getProp("browserOrDevice").toLowerCase().contains("chrome-h")) {
 					actions.click();
 				}
 				actions.perform();
-				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
+				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');",
 								element1);
@@ -331,7 +327,7 @@ public class ActionsCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
-				if (!Prop.getProp("browserOrDevice").equals("mobile")) {
+				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -703,42 +699,7 @@ public class ActionsCommands {
 		ElementFunctions.validaElemento(obj, assertObjReceved);
 	}
 
-	public static void newApp() {
 
-		if (Functions.getAppRunner() != true && Mobile.getApp() != null) {
-			if (driver != null) {
-				Capabilities caps = MobileDriverInit.driverMobile.getCapabilities();
-				if (!caps.toString().contains(Mobile.getApp().toLowerCase())) {
-					Log.log("Starting app " + Mobile.getApp());
-					driver.quit();
-					driver = null;
-					driver = MobileDriverInit.driver();
-				} else {
-					Log.log("Reseting app " + Mobile.getApp());
-					MobileDriverInit.driverMobile.resetApp();
-					Functions.printInfoExec();
-				}
-			} else {
-				try {
-					driver = MobileDriverInit.driver();
-					Log.log("Appium driver inicializado com o app: " + Mobile.getApp());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		} else {
-			if (driver != null && Functions.reiniciaApp == null) {
-				Functions.reiniciaApp = true;
-				driver = MobileDriverInit.driverMobile;
-			} else if (driver != null && Functions.reiniciaApp != null) {
-				MobileDriverInit.driverMobile.resetApp();
-				driver = MobileDriverInit.driverMobile;
-			} else {
-				driver = null;
-				driver = MobileDriverInit.driver();
-			}
-		}
-	}
 
 	public static void scrollDownDirectlyWeb(String obj) {
 

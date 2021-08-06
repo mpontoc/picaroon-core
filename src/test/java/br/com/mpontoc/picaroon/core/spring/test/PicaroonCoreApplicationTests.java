@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
-import br.com.mpontoc.picaroon.core.driverfactory.DriverFactory;
+import br.com.mpontoc.picaroon.core.drivers.DriverFactory;
 import br.com.mpontoc.picaroon.core.utils.BaseTest;
 import br.com.mpontoc.picaroon.core.utils.Functions;
 import br.com.mpontoc.picaroon.core.utils.Log;
@@ -21,7 +21,7 @@ class PicaroonCoreApplicationTests {
 	void contextLoads() {
 		
 		Functions.setPathReport("testPicsCore");
-		Functions.setUp();
+		Functions.setupExecution();
 		DriverFactory.driver.get("https://www.google.com");
 		Log.log(DriverFactory.driver.getTitle());
 		Log.log(valueTest);

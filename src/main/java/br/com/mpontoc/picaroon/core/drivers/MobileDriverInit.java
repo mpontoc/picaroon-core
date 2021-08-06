@@ -1,4 +1,4 @@
-package br.com.mpontoc.picaroon.core.driverfactory;
+package br.com.mpontoc.picaroon.core.drivers;
 
 import java.net.URL;
 
@@ -17,7 +17,7 @@ public class MobileDriverInit {
 
 	private static AppiumDriver<MobileElement> createMobileDriver() {
 
-		String Browser = Prop.getProp("browserOrDevice");
+		String Browser = Prop.getProp("browserOrDevice").toLowerCase();
 		String BROWSER_ENV = System.getenv("BROWSER");
 
 		if (BROWSER_ENV != null) {

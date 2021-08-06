@@ -2,8 +2,7 @@ package br.com.mpontoc.picaroon.core.utils;
 
 import org.junit.AfterClass;
 
-import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
-import br.com.mpontoc.picaroon.core.driverfactory.DriverFactory;
+import br.com.mpontoc.picaroon.core.drivers.DriverFactory;
 
 public class BaseTest {
 

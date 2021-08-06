@@ -1,20 +1,11 @@
 package br.com.mpontoc.picaroon.core.steps;
 
-import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
 import br.com.mpontoc.picaroon.core.utils.Functions;
-import io.cucumber.java.Scenario;
-import io.cucumber.java.BeforeStep;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class Example_Steps {
-	
-	@BeforeStep("@tag")
-	public void reportClear(Scenario scenario) {
-		ActionsCommands.isFirstRun = true;
-		ActionsCommands.setScenario(scenario);
-	}
 
 	@Given("I want to write a step with precondition")
 	public void i_want_to_write_a_step_with_precondition() {

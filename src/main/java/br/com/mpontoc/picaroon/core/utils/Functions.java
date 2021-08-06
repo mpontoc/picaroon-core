@@ -21,8 +21,8 @@ import org.springframework.util.FileSystemUtils;
 import org.zeroturnaround.zip.ZipUtil;
 
 import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
-import br.com.mpontoc.picaroon.core.driverfactory.DriverFactory;
-import br.com.mpontoc.picaroon.core.driverfactory.MobileDriverInit;
+import br.com.mpontoc.picaroon.core.drivers.DriverFactory;
+import br.com.mpontoc.picaroon.core.drivers.MobileDriverInit;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 
 public class Functions {
@@ -37,7 +37,7 @@ public class Functions {
 	private static String horaInicialTotal = null;
 	private static String horaFinalTotal = null;
 
-	public static void setUp() {
+	public static void setupExecution() {
 		Functions.apagaLog4j();
 		System.setProperty("java.awt.headless", "false");
 		printOSandFrame();
@@ -123,7 +123,7 @@ public class Functions {
 		setHoraInicial(retornaData().substring(11));
 		ActionsCommands.cucumberWriteReport("\n " + printOSandFrame());
 
-		if (Prop.getProp("browserOrDevice").equals("mobile")) {
+		if (Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
 
 			Mobile.setDeviceUDID(
 					MobileDriverInit.driverMobile.getCapabilities().getCapability("udid").toString().toLowerCase());
