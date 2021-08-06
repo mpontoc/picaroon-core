@@ -9,6 +9,7 @@ import br.com.mpontoc.picaroon.core.drivers.DriverFactory;
 import br.com.mpontoc.picaroon.core.utils.BaseTest;
 import br.com.mpontoc.picaroon.core.utils.Functions;
 import br.com.mpontoc.picaroon.core.utils.Log;
+import br.com.mpontoc.picaroon.core.utils.Prop;
 
 @SpringBootTest
 class PicaroonCoreApplicationTests {
@@ -20,6 +21,7 @@ class PicaroonCoreApplicationTests {
 	@Test
 	void contextLoads() {
 		
+		Prop.setPropAndSave("browserOrDevice", "chrome-headless");
 		Functions.setPathReport("testPicsCore");
 		Functions.setupExecution();
 		DriverFactory.driver.get("https://www.google.com");
