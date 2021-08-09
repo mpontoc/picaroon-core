@@ -18,8 +18,6 @@ import io.appium.java_client.MobileBy;
 
 public class ElementFunctions {
 	
-	private static Boolean located = false;
-	
 	public static String tratativaReportElemento(String[] elemento) {
 		String nomeObjMapeado = null;
 		if (elemento.length > 2) {
@@ -116,7 +114,7 @@ public class ElementFunctions {
 		}
 	}
 
-	public static void validaElemento(String obj, Boolean[] assertObjReceved) {
+	public static void validaElemento(String obj, Boolean[] assertObjReceved, Boolean located) {
 		String acao = null;
 		try {
 			if (assertObjReceved[0] == true) {

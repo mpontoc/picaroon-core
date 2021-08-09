@@ -161,7 +161,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved , located);
 	}
 
 	public static void waitExistClick(String[] obj, Integer timeout, Boolean... assertObj) {
@@ -193,7 +193,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved , located);
 	}
 
 	public static void waitExistClickAndPerform(String obj, Integer timeout, Boolean... assertObj) {
@@ -229,7 +229,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved , located);
 	}
 
 	public static void waitExistClickAndPerform(String[] obj, Integer timeout, Boolean... assertObj) {
@@ -268,7 +268,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved , located);
 	}
 
 	public static void waitExistClickAndPerformDropDown(String menuDropDown, String link, Integer timeout,
@@ -307,7 +307,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(link, assertObjReceved);
+		ElementFunctions.validaElemento(link, assertObjReceved, located);
 	}
 
 	public static void waitExistClickNewWindow(String obj, Integer numberWindow, Integer timeout,
@@ -344,7 +344,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved , located);
 	}
 
 	public static void waitExistSet(String obj, String conteudo, Integer timeout, Boolean... assertObj) {
@@ -366,7 +366,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved , located);
 	}
 
 	public static void waitExistSet(String[] obj, String conteudo, Integer timeout, Boolean... assertObj) {
@@ -389,7 +389,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
 	}
 
 	public static void waitExistSetNewWindow(String obj, String conteudo, Integer numberWindow, Integer timeout,
@@ -419,7 +419,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved , located);
 	}
 
 	public static boolean waitExist(String obj, Integer timeout, Boolean... assertObj) {
@@ -440,7 +440,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved , located);
 		return located;
 	}
 
@@ -463,7 +463,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
 		return located;
 	}
 
@@ -486,7 +486,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved , located);
 		return element;
 	}
 
@@ -510,7 +510,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
 		return element;
 	}
 
@@ -541,7 +541,7 @@ public class ActionsCommands {
 				} catch (InterruptedException e) {
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved , located);
 		return elements;
 
 	}
@@ -564,7 +564,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved , located);
 		return listElements;
 	}
 
@@ -587,7 +587,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
 		return listElements;
 	}
 
@@ -631,7 +631,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved , located);
 		return textoObtido;
 	}
 
@@ -670,7 +670,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
 		return textoObtido;
 	}
 
@@ -696,7 +696,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved);
+		ElementFunctions.validaElemento(obj, assertObjReceved , located);
 	}
 
 
