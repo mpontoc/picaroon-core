@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>io.github.mpontoc</groupId>
 	<artifactId>picaroon-core</artifactId>
-	<version>3.0.2</version>
+	<version>3.0.3</version>
 	<name>picaroon-core</name>
 	<packaging>jar</packaging>
 	<description>Picaroon is a test framework</description>
@@ -57,9 +57,7 @@
 		<connection>scm:git:git://github.com/mpontoc/picaroon-core.git</connection>
 		<developerConnection>scm:git:git@github.com:mpontoc/picaroon-core.git</developerConnection>
 		<url>https://github.com/mpontoc/picaroon-core</url>
-		<tag>picaroon-core-1.0.2</tag>
 	</scm>
-
 
 	<dependencies>
 		<!-- Spring Boot Framework -->
@@ -182,8 +180,6 @@
 			<artifactId>json-simple</artifactId>
 			<version>1.1</version>
 		</dependency>
-
-
 	</dependencies>
 
 
@@ -192,7 +188,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.1</version>
 				<executions>
 					<execution>
 						<goals>
@@ -205,9 +200,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.0.4</version>
 				<executions>
 					<execution>
+						<id>attach-sources</id>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -223,72 +218,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<excludes>
-						<exclude>**com.gargoylesoftware*</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>${exec-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>java</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<includePluginDependencies>false</includePluginDependencies>
-					<cleanupDaemonThreads>false</cleanupDaemonThreads>
-					<classpathScope>test</classpathScope>
-					<systemProperties>
-						<systemProperty>
-							<key>logback.configurationFile</key>
-							<value>src/main/resources/logback.xml</value>
-						</systemProperty>
-					</systemProperties>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<descriptors>
-						<descriptor>src/main/resources/assembly.xml</descriptor>
-					</descriptors>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>${maven-jar-plugin.version}</version>
-				<configuration>
-					<excludes>
-						<exclude>**/*.xml</exclude>
-					</excludes>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -76,10 +76,10 @@ public class ActionsCommands {
 			width = 480;
 			height = 854;
 		} else {
-			
+
 			width = 1024;
-			height = 768;			
-			
+			height = 768;
+
 		}
 
 		try {
@@ -161,7 +161,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved , located);
+		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 	}
 
 	public static void waitExistClick(String[] obj, Integer timeout, Boolean... assertObj) {
@@ -193,7 +193,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved , located);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
 	}
 
 	public static void waitExistClickAndPerform(String obj, Integer timeout, Boolean... assertObj) {
@@ -229,7 +229,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved , located);
+		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 	}
 
 	public static void waitExistClickAndPerform(String[] obj, Integer timeout, Boolean... assertObj) {
@@ -268,7 +268,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved , located);
+		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
 	}
 
 	public static void waitExistClickAndPerformDropDown(String menuDropDown, String link, Integer timeout,
@@ -344,7 +344,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved , located);
+		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 	}
 
 	public static void waitExistSet(String obj, String conteudo, Integer timeout, Boolean... assertObj) {
@@ -366,7 +366,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved , located);
+		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 	}
 
 	public static void waitExistSet(String[] obj, String conteudo, Integer timeout, Boolean... assertObj) {
@@ -419,7 +419,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved , located);
+		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 	}
 
 	public static boolean waitExist(String obj, Integer timeout, Boolean... assertObj) {
@@ -440,7 +440,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved , located);
+		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 		return located;
 	}
 
@@ -486,7 +486,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved , located);
+		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 		return element;
 	}
 
@@ -541,7 +541,7 @@ public class ActionsCommands {
 				} catch (InterruptedException e) {
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved , located);
+		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 		return elements;
 
 	}
@@ -564,7 +564,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved , located);
+		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 		return listElements;
 	}
 
@@ -600,7 +600,7 @@ public class ActionsCommands {
 			element = ElementFunctions.findBy(obj);
 			if (element != null) {
 				if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")
-						&& Mobile.getPlataforma().equals("ios")) {
+						&& Mobile.getPlataforma().toLowerCase().equals("ios")) {
 					try {
 						textoObtido = element.getAttribute("label").toString();
 					} catch (Exception e) {
@@ -612,7 +612,8 @@ public class ActionsCommands {
 				if (textoObtido.length() > 3) {
 					located = true;
 					Log.log("Element '" + obj + "' located");
-					if (Prop.getProp("collorBackgroud").equals("true")) {
+					if (!Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")
+							&& Prop.getProp("collorBackgroud").equals("true")) {
 						try {
 							executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
 						} catch (Exception e) {
@@ -631,7 +632,7 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved , located);
+		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 		return textoObtido;
 	}
 
@@ -644,7 +645,7 @@ public class ActionsCommands {
 			element = ElementFunctions.findBy(obj[deviceElement]);
 			if (element != null) {
 				if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")
-						&& Mobile.getPlataforma().equals("ios")) {
+						&& Mobile.getPlataforma().toLowerCase().equals("ios")) {
 					textoObtido = element.getAttribute("label").toString();
 				} else {
 					textoObtido = element.getText().toString();
@@ -652,10 +653,13 @@ public class ActionsCommands {
 				if (textoObtido.length() > 3) {
 					located = true;
 					Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
-					try {
-						executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
-					} catch (Exception e) {
-						;
+					if (!Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")
+							&& Prop.getProp("collorBackgroud").equals("true")) {
+						try {
+							executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
+						} catch (Exception e) {
+							;
+						}
 					}
 					Log.log("Text caught [ '" + textoObtido + "' ]");
 					ActionsCommands.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
@@ -696,10 +700,8 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj, assertObjReceved , located);
+		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 	}
-
-
 
 	public static void scrollDownDirectlyWeb(String obj) {
 
