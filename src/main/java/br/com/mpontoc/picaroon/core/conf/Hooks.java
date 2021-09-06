@@ -62,7 +62,7 @@ public class Hooks {
 		}
 		Functions.printTimeExecution();
 		Functions.setHoraFinalTotal(Functions.retornaData().substring(11));
-		ActionsCommands.cucumberWriteReport("Total time execution until 'moment/final exection' "
+		ActionsCommands.cucumberWriteReport("Total time execution until 'moment/final execution' "
 				+ Functions.substractHours(Functions.getHoraInicialTotal(), Functions.getHoraFinalTotal()));
 	}
 

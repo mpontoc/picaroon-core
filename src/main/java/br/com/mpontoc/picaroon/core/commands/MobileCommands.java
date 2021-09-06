@@ -26,17 +26,10 @@ import io.appium.java_client.touch.offset.PointOption;
 
 public class MobileCommands {
 
-	public static AndroidDriver<AndroidElement> androidDriver;
-	public static IOSDriver<IOSElement> iosDriver;
-
-	public static AndroidDriver<AndroidElement> androidDriver() {
-		try {
-			androidDriver = (AndroidDriver<AndroidElement>) DriverFactory.driver;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return androidDriver;
-	}
+	@SuppressWarnings("unchecked")
+	public static AndroidDriver<AndroidElement> androidDriver = (AndroidDriver<AndroidElement>) DriverFactory.driver;
+	@SuppressWarnings("unchecked")
+	public static IOSDriver<IOSElement> iosDriver = (IOSDriver<IOSElement>) DriverFactory.driver;
 
 	public static void pressKeyAndroid(String key) {
 
@@ -48,7 +41,7 @@ public class MobileCommands {
 			command = AndroidKey.MENU;
 		}
 		try {
-			MobileCommands.androidDriver().pressKey(new KeyEvent(command));
+			MobileCommands.androidDriver.pressKey(new KeyEvent(command));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

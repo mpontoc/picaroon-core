@@ -7,7 +7,7 @@ import br.com.mpontoc.picaroon.core.drivers.DriverFactory;
 public class BaseTest {
 
 	@AfterClass
-	public static void endExection() {
+	public static void endExecution() {
 		try {
 			DriverFactory.driver.quit();
 		} catch (Exception e) {
