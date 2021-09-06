@@ -19,8 +19,6 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
-import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 
@@ -28,8 +26,6 @@ public class MobileCommands {
 
 	@SuppressWarnings("unchecked")
 	public static AndroidDriver<AndroidElement> androidDriver = (AndroidDriver<AndroidElement>) DriverFactory.driver;
-	@SuppressWarnings("unchecked")
-	public static IOSDriver<IOSElement> iosDriver = (IOSDriver<IOSElement>) DriverFactory.driver;
 
 	public static void pressKeyAndroid(String key) {
 
