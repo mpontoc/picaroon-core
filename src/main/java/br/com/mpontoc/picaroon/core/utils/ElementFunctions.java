@@ -12,12 +12,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
-import br.com.mpontoc.picaroon.core.drivers.MobileDriverInit;
+import br.com.mpontoc.picaroon.core.drivers.impl.AppiumDriverImpl;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 import io.appium.java_client.MobileBy;
 
 public class ElementFunctions {
-	
+
 	public static String tratativaReportElemento(String[] elemento) {
 		String nomeObjMapeado = null;
 		if (elemento.length > 2) {
@@ -46,11 +46,12 @@ public class ElementFunctions {
 				byType.add(By.xpath("//*[contains(@name,'" + obj + "')]"));
 			} else if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")
 					&& Mobile.getPlataforma().contains("android")) {
-				byType.add(By.id(MobileDriverInit.driverMobile.getCapabilities().getCapability("appPackage").toString()
+				byType.add(By.id(AppiumDriverImpl.driverMobile.getCapabilities().getCapability("appPackage").toString()
 						+ ":id/" + obj));
 				byType.add(By.id(obj));
 				byType.add(By.xpath("//*[@text='" + obj + "']"));
 				byType.add(By.xpath("//*[contains(@content-desc,'" + obj + "')]"));
+				byType.add(By.className(obj));
 			} else {
 				byType.add(By.xpath("//*[contains(text,'" + obj + "')]"));
 				byType.add(By.xpath("//*[@id='" + obj + "']"));
@@ -132,6 +133,5 @@ public class ElementFunctions {
 		}
 
 	}
-
 
 }

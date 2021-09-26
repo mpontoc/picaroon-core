@@ -2,7 +2,6 @@ package br.com.mpontoc.picaroon.core.conf;
 
 import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
 import br.com.mpontoc.picaroon.core.drivers.DriverFactory;
-import br.com.mpontoc.picaroon.core.drivers.MobileDriverInit;
 import br.com.mpontoc.picaroon.core.utils.Functions;
 import br.com.mpontoc.picaroon.core.utils.Prop;
 import io.cucumber.java.After;
@@ -21,10 +20,6 @@ public class Hooks {
 		ActionsCommands.setScenario(scenario);
 
 		if (Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
-
-			if (MobileDriverInit.driverMobile != null && Functions.getAppRunner() == true) {
-				MobileDriverInit.driverMobile.resetApp();
-			}
 
 			if (Functions.getAppRunner() == true) {
 				DriverFactory.newApp();
@@ -52,7 +47,10 @@ public class Hooks {
 
 	@AfterStep
 	public void reportAfter(Scenario scenario) {
-		ActionsCommands.printScreenAfterStep(scenario);
+		
+		if (Prop.getProp("printAfterSteps").equals("true")) {
+			ActionsCommands.printScreenAfterStep(scenario);
+		}
 	}
 
 	@After
@@ -65,5 +63,4 @@ public class Hooks {
 		ActionsCommands.cucumberWriteReport("Total time execution until 'moment/final execution' "
 				+ Functions.substractHours(Functions.getHoraInicialTotal(), Functions.getHoraFinalTotal()));
 	}
-
 }

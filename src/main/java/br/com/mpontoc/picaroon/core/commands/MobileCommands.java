@@ -10,38 +10,18 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import br.com.mpontoc.picaroon.core.drivers.DriverFactory;
-import br.com.mpontoc.picaroon.core.drivers.MobileDriverInit;
+import br.com.mpontoc.picaroon.core.drivers.impl.AndroidDriverImpl;
+import br.com.mpontoc.picaroon.core.drivers.impl.AppiumDriverImpl;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 
 public class MobileCommands {
-
-	@SuppressWarnings("unchecked")
-	public static AndroidDriver<AndroidElement> androidDriver = (AndroidDriver<AndroidElement>) DriverFactory.driver;
-
-	public static void pressKeyAndroid(String key) {
-
-		AndroidKey command = null;
-
-		if (key.equals("home")) {
-			command = AndroidKey.HOME;
-		} else if (key.equals("menu")) {
-			command = AndroidKey.MENU;
-		}
-		try {
-			MobileCommands.androidDriver.pressKey(new KeyEvent(command));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static void scrollUntilElement(String obj) {
 
@@ -59,7 +39,7 @@ public class MobileCommands {
 
 		if (objFinded == false) {
 			while (objFinded == false) {
-				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+				TouchAction actions = new TouchAction(AppiumDriverImpl.driverMobile);
 				actions.press(PointOption.point(x, start_y));
 				actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
 				actions.moveTo(PointOption.point(x, end_y)).release().perform();
@@ -69,7 +49,7 @@ public class MobileCommands {
 					break;
 			}
 		} else
-			Log.log("Objeto não localizado na tela " + obj);
+			Log.log("Cannot find the Element " + obj);
 	}
 
 	public static void scrollUntilElement(String obj, int qtdScroll) {
@@ -89,10 +69,10 @@ public class MobileCommands {
 		if (objFinded == false) {
 			while (objFinded == false) {
 				if (i == qtdScroll) {
-					Log.log("Quantidade Excedida e obj não localizado");
+					Log.log("Exceeded Quantity and Element Not Found");
 					break;
 				}
-				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+				TouchAction actions = new TouchAction(AppiumDriverImpl.driverMobile);
 				actions.press(PointOption.point(x, start_y));
 				actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
 				actions.moveTo(PointOption.point(x, end_y)).release().perform();
@@ -118,7 +98,7 @@ public class MobileCommands {
 
 		if (objFinded == false) {
 			while (objFinded == false) {
-				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+				TouchAction actions = new TouchAction(AppiumDriverImpl.driverMobile);
 				actions.press(PointOption.point(x, start_y));
 				actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
 				actions.moveTo(PointOption.point(x, end_y)).release().perform();
@@ -128,7 +108,7 @@ public class MobileCommands {
 					break;
 			}
 		} else
-			Log.log("Objeto não localizado na tela " + obj);
+			Log.log("Cannot find the Element " + obj);
 	}
 
 	public static void scrollUntilElementUp(String obj, int qtdScroll) {
@@ -148,7 +128,7 @@ public class MobileCommands {
 		if (objFinded == false) {
 			while (objFinded == false) {
 				if (ActionsCommands.waitExist(obj, 1) == false) {
-					TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+					TouchAction actions = new TouchAction(AppiumDriverImpl.driverMobile);
 					actions.press(PointOption.point(x, start_y));
 					actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
 					actions.moveTo(PointOption.point(x, end_y)).release().perform();
@@ -163,7 +143,7 @@ public class MobileCommands {
 					break;
 			}
 		} else
-			Log.log("Objeto não localizado na tela " + obj);
+			Log.log("Cannot find the Element " + obj);
 	}
 
 	public static void scrollUntilElementByText(String obj) {
@@ -174,7 +154,7 @@ public class MobileCommands {
 						"new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\""
 								+ obj + "\").instance(" + 0 + "));"));
 			} catch (Exception e) {
-				Log.log("Objeto não localizado na tela " + obj);
+				Log.log("Cannot find the Element " + obj);
 			}
 		} else {
 			RemoteWebElement element = (RemoteWebElement) DriverFactory.driver
@@ -195,7 +175,7 @@ public class MobileCommands {
 						"new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\""
 								+ obj + "\").instance(" + 0 + "));"));
 			} catch (Exception e) {
-				Log.log("Objeto não localizado na tela " + obj);
+				Log.log("Cannot find the Element " + obj);
 			}
 		} else {
 			RemoteWebElement element = (RemoteWebElement) DriverFactory.driver
@@ -219,7 +199,7 @@ public class MobileCommands {
 
 		Log.log(x + " - " + start_y + " - " + end_y);
 
-		TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+		TouchAction actions = new TouchAction(AppiumDriverImpl.driverMobile);
 		actions.press(PointOption.point(x, start_y));
 		actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
 		actions.moveTo(PointOption.point(x, end_y)).release().perform();
@@ -242,7 +222,7 @@ public class MobileCommands {
 
 		if (objFinded == false) {
 			while (objFinded == false) {
-				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+				TouchAction actions = new TouchAction(AppiumDriverImpl.driverMobile);
 				actions.press(PointOption.point(start_x, y));
 				actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
 				actions.moveTo(PointOption.point(end_x, y)).release().perform();
@@ -252,7 +232,7 @@ public class MobileCommands {
 					break;
 			}
 		} else
-			Log.log("Objeto não localizado na tela " + obj);
+			Log.log("Cannot find the Element " + obj);
 	}
 
 	public static void swipeUntilElementLeft(double percentualTela, int qtd) {
@@ -267,14 +247,14 @@ public class MobileCommands {
 
 		Log.log(y + " - " + start_x + " - " + end_x);
 		while (i <= qtd) {
-			TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+			TouchAction actions = new TouchAction(AppiumDriverImpl.driverMobile);
 			actions.press(PointOption.point(start_x, y));
 			actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
 			actions.moveTo(PointOption.point(end_x, y)).release().perform();
 			i++;
 		}
 	}
-	
+
 	public static void swipeUntilElementRight(String obj, double percentualTela) {
 
 		Dimension size = DriverFactory.driver.manage().window().getSize();
@@ -291,7 +271,7 @@ public class MobileCommands {
 
 		if (objFinded == false) {
 			while (objFinded == false) {
-				TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+				TouchAction actions = new TouchAction(AppiumDriverImpl.driverMobile);
 				actions.press(PointOption.point(start_x, y));
 				actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
 				actions.moveTo(PointOption.point(end_x, y)).release().perform();
@@ -301,9 +281,9 @@ public class MobileCommands {
 					break;
 			}
 		} else
-			Log.log("Objeto não localizado na tela " + obj);
+			Log.log("Cannot find the Element " + obj);
 	}
-	
+
 	public static void swipeUntilElementRight(double percentualTela, int qtd) {
 
 		Dimension size = DriverFactory.driver.manage().window().getSize();
@@ -316,11 +296,27 @@ public class MobileCommands {
 
 		Log.log(y + " - " + start_x + " - " + end_x);
 		while (i <= qtd) {
-			TouchAction actions = new TouchAction(MobileDriverInit.driverMobile);
+			TouchAction actions = new TouchAction(AppiumDriverImpl.driverMobile);
 			actions.press(PointOption.point(start_x, y));
 			actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
 			actions.moveTo(PointOption.point(end_x, y)).release().perform();
 			i++;
+		}
+	}
+
+	public static void pressKeyAndroid(String key) {
+
+		AndroidKey command = null;
+
+		if (key.equals("home")) {
+			command = AndroidKey.HOME;
+		} else if (key.equals("menu")) {
+			command = AndroidKey.MENU;
+		}
+		try {
+			AndroidDriverImpl.androidDriver.pressKey(new KeyEvent(command));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
