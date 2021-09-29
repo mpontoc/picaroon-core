@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 
 import br.com.mpontoc.picaroon.core.drivers.impl.AndroidDriverImpl;
 import br.com.mpontoc.picaroon.core.drivers.impl.AppiumDriverImpl;
-import br.com.mpontoc.picaroon.core.drivers.impl.IOSDriverImp;
+import br.com.mpontoc.picaroon.core.drivers.impl.IOSDriverImpl;
 import br.com.mpontoc.picaroon.core.drivers.impl.WebDriverImpl;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 import br.com.mpontoc.picaroon.core.utils.Functions;
@@ -35,13 +35,15 @@ public class SetupDriver {
 				AndroidDriver<AndroidElement> driver = (AndroidDriver<AndroidElement>) driverAndroid.driver();
 				DriverFactory.driver = driver;
 				AppiumDriverImpl.driverMobile = (AppiumDriver<MobileElement>) DriverFactory.driver;
+				DriverFactory.androidDriver = AndroidDriverImpl.androidDriver;
 				Functions.printInfoExec();
 				return driverReturned = driver;
 			} else {
-				Driver driverIOS = new IOSDriverImp();
+				Driver driverIOS = new IOSDriverImpl();
 				IOSDriver<IOSElement> driver = (IOSDriver<IOSElement>) driverIOS.driver();
 				DriverFactory.driver = driver;
 				AppiumDriverImpl.driverMobile = (AppiumDriver<MobileElement>) DriverFactory.driver;
+				DriverFactory.iosDriver = IOSDriverImpl.iosDriver;
 				Functions.printInfoExec();
 				return driverReturned = driver;
 			}

@@ -133,7 +133,7 @@ public class Functions {
 		if (getDescricaoReport() != null) {
 			ActionsCommands.cucumberWriteReport("\n More details : " + getDescricaoReport());
 		}
-
+		ActionsCommands.setPrintedInfo(true);
 	}
 
 	public static void printTimeExecution() {

@@ -11,7 +11,7 @@ import br.com.mpontoc.picaroon.core.utils.Prop;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 
-public class IOSDriverImp implements Driver {
+public class IOSDriverImpl implements Driver {
 
 	public static IOSDriver<IOSElement> iosDriver;
 

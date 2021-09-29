@@ -3,15 +3,22 @@ package br.com.mpontoc.picaroon.core.drivers;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
 import br.com.mpontoc.picaroon.core.drivers.impl.AppiumDriverImpl;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 import br.com.mpontoc.picaroon.core.utils.Functions;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import br.com.mpontoc.picaroon.core.utils.Prop;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSElement;
 
 public class DriverFactory {
 
 	public static WebDriver driver = null;
+	public static IOSDriver<IOSElement> iosDriver = null;
+	public static AndroidDriver<AndroidElement> androidDriver = null;	
 	public static Integer deviceElement = null;
 	public static JavascriptExecutor executor = null;
 

@@ -37,6 +37,7 @@ public class ActionsCommands {
 	private static Boolean[] assertObjReceved = null;
 	public static Boolean isFirstRun = null;
 	private static Scenario scenario;
+	private static Boolean printedInfo = false;
 
 	// ******* Cucumber Report *******
 
@@ -712,6 +713,14 @@ public class ActionsCommands {
 
 	public static void setScenario(Scenario scenario) {
 		ActionsCommands.scenario = scenario;
+	}
+
+	public static Boolean getPrintedInfo() {
+		return printedInfo;
+	}
+
+	public static void setPrintedInfo(Boolean printedInfo) {
+		ActionsCommands.printedInfo = printedInfo;
 	}
 
 }
