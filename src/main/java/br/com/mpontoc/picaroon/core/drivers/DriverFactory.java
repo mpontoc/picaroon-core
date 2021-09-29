@@ -3,7 +3,6 @@ package br.com.mpontoc.picaroon.core.drivers;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
-import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
 import br.com.mpontoc.picaroon.core.drivers.impl.AppiumDriverImpl;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 import br.com.mpontoc.picaroon.core.utils.Functions;
@@ -18,7 +17,7 @@ public class DriverFactory {
 
 	public static WebDriver driver = null;
 	public static IOSDriver<IOSElement> iosDriver = null;
-	public static AndroidDriver<AndroidElement> androidDriver = null;	
+	public static AndroidDriver<AndroidElement> androidDriver = null;
 	public static Integer deviceElement = null;
 	public static JavascriptExecutor executor = null;
 
@@ -42,15 +41,6 @@ public class DriverFactory {
 
 		if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")) {
 			setDeviceElement();
-			if (Mobile.getApp() == null || driver == null) {
-				driver = null;
-			} else if (AppiumDriverImpl.driverMobile != null) {
-				driver = AppiumDriverImpl.driverMobile;
-			} else if (Mobile.getApp() != null) {
-				driver = SetupDriver.createDriver();
-			} else {
-				Log.log("Cannot possible to create driver");
-			}
 		} else {
 			driver = SetupDriver.createDriver();
 			executor = (JavascriptExecutor) driver;
@@ -62,25 +52,24 @@ public class DriverFactory {
 		if (driver != null) {
 			String appRunning = AppiumDriverImpl.driverMobile.getCapabilities().getCapability("appName").toString();
 			if (!appRunning.toLowerCase().equals(Mobile.getApp())) {
-				Log.log("Starting app " + Mobile.getApp());
+				Log.log("Starting app '" + Mobile.getApp() + "'");
 				driver.quit();
 				driver = null;
 				driver = SetupDriver.createDriver();
 			} else if (Prop.getProp("resetApp").equals("true")) {
-				Log.log("Reseting app " + Mobile.getApp());
+				Log.log("Reseting app '" + Mobile.getApp() + "'");
 				AppiumDriverImpl.driverMobile.resetApp();
 				Functions.printInfoExec();
 			} else {
 				driver.quit();
 				driver = null;
 				driver = SetupDriver.createDriver();
-				Log.log("Creating a new driver to app " + Mobile.getApp());
+				Log.log("Creating a new driver to app '" + Mobile.getApp() + "'");
 			}
 		} else {
 			driver = SetupDriver.createDriver();
-			Log.log("Creating a new driver to app " + Mobile.getApp());
+			Log.log("Creating a new driver to app " + Mobile.getApp() + "'");
 		}
-		
 
 	}
 

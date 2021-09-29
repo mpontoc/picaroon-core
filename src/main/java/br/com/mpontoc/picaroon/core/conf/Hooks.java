@@ -30,8 +30,6 @@ public class Hooks {
 		ActionsCommands.setScenario(scenario);
 		ActionsCommands.isFirstRun = true;
 
-		System.out.println(ActionsCommands.getPrintedInfo());
-
 		if (ActionsCommands.getPrintedInfo() == false) {
 			Functions.printInfoExec();
 		}

@@ -26,7 +26,6 @@ public class IOSDriverImpl implements Driver {
 
 			Thread.sleep(2000);
 			Mobile.setApp(iosDriver.getCapabilities().getCapability("appName").toString().toLowerCase());
-			Mobile.setApp(iosDriver.getCapabilities().getCapability("appName").toString().toLowerCase());
 			Mobile.setDeviceUDID(iosDriver.getCapabilities().getCapability("udid").toString().toLowerCase());
 			Mobile.setPlataforma(iosDriver.getCapabilities().getCapability("platformName").toString().toLowerCase());
 			Mobile.setDeviceName(iosDriver.getCapabilities().getCapability("deviceName").toString().toLowerCase());
