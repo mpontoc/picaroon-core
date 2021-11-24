@@ -16,7 +16,6 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -24,10 +23,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
-import br.com.mpontoc.picaroon.core.drivers.MobileDriverInit;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 import br.com.mpontoc.picaroon.core.utils.ElementFunctions;
-import br.com.mpontoc.picaroon.core.utils.Functions;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import br.com.mpontoc.picaroon.core.utils.Prop;
 import io.cucumber.java.Scenario;;
@@ -40,6 +37,7 @@ public class ActionsCommands {
 	private static Boolean[] assertObjReceved = null;
 	public static Boolean isFirstRun = null;
 	private static Scenario scenario;
+	private static Boolean printedInfo = false;
 
 	// ******* Cucumber Report *******
 
@@ -715,6 +713,14 @@ public class ActionsCommands {
 
 	public static void setScenario(Scenario scenario) {
 		ActionsCommands.scenario = scenario;
+	}
+
+	public static Boolean getPrintedInfo() {
+		return printedInfo;
+	}
+
+	public static void setPrintedInfo(Boolean printedInfo) {
+		ActionsCommands.printedInfo = printedInfo;
 	}
 
 }

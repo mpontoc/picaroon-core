@@ -2,7 +2,7 @@ package br.com.mpontoc.picaroon.core.utils;
 
 import java.io.IOException;
 
-public class Others {
+public class ExternalFunctions {
 
 	static Runtime rt = Runtime.getRuntime();
 

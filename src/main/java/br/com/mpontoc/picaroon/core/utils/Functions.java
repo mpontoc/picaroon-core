@@ -22,7 +22,6 @@ import org.zeroturnaround.zip.ZipUtil;
 
 import br.com.mpontoc.picaroon.core.commands.ActionsCommands;
 import br.com.mpontoc.picaroon.core.drivers.DriverFactory;
-import br.com.mpontoc.picaroon.core.drivers.MobileDriverInit;
 import br.com.mpontoc.picaroon.core.mobile.Mobile;
 
 public class Functions {
@@ -125,13 +124,6 @@ public class Functions {
 
 		if (Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
 
-			Mobile.setDeviceUDID(
-					MobileDriverInit.driverMobile.getCapabilities().getCapability("udid").toString().toLowerCase());
-			Mobile.setPlataforma(MobileDriverInit.driverMobile.getCapabilities().getCapability("platformName")
-					.toString().toLowerCase());
-			Mobile.setDeviceName(MobileDriverInit.driverMobile.getCapabilities().getCapability("deviceName").toString()
-					.toLowerCase());
-
 			ActionsCommands.cucumberWriteReport("\n Plataforma : " + Mobile.getPlataforma());
 			ActionsCommands.cucumberWriteReport("\n Device : " + Mobile.getDeviceName());
 			ActionsCommands.cucumberWriteReport("\n UDID : " + Mobile.getDeviceUDID());
@@ -141,7 +133,7 @@ public class Functions {
 		if (getDescricaoReport() != null) {
 			ActionsCommands.cucumberWriteReport("\n More details : " + getDescricaoReport());
 		}
-
+		ActionsCommands.setPrintedInfo(true);
 	}
 
 	public static void printTimeExecution() {
@@ -194,7 +186,7 @@ public class Functions {
 
 	public static void setPropDriver() {
 
-		Others.processKill();
+		ExternalFunctions.processKill();
 
 		String OS = verifyOS();
 

@@ -1,4 +1,4 @@
-package br.com.mpontoc.picaroon.core.drivers;
+package br.com.mpontoc.picaroon.core.drivers.impl;
 
 import java.net.URL;
 
@@ -12,15 +12,16 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import br.com.mpontoc.picaroon.core.drivers.Driver;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import br.com.mpontoc.picaroon.core.utils.Prop;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class WebDriverInit {
+public class WebDriverImpl implements Driver {
 
-	public static WebDriver driver;
+	private static WebDriver driver;
 
-	private static WebDriver createDriver() {
+	private static WebDriver createWebDriver() {
 		String Browser = Prop.getProp("browserOrDevice").toLowerCase();
 		String BROWSER_ENV = System.getenv("BROWSER");
 		String baseURLSeleniumGrip = Prop.getProp("baseURLSeleniumGrid");
@@ -193,8 +194,10 @@ public class WebDriverInit {
 		return driver;
 	}
 
-	public static WebDriver driver() {
-		return createDriver();
+	@Override
+	public Object driver() {
+		createWebDriver();
+		return driver;
 	}
 
 }
