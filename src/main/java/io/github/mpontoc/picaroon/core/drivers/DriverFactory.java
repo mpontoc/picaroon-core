@@ -24,7 +24,7 @@ public class DriverFactory {
 	public static IOSDriver<IOSElement> iosDriver = null;
 	public static AndroidDriver<AndroidElement> androidDriver = null;
 	public static AppiumDriver<MobileElement> mobileDriver = null;
-	public static JavascriptExecutor executor = (JavascriptExecutor) driver;
+	public static JavascriptExecutor executor = null;
 	private static boolean startDriver = false;
 
 	@SuppressWarnings("unchecked")
@@ -39,17 +39,19 @@ public class DriverFactory {
 				iosDriver = new IOSDriverImpl().createDriver();
 				driver = iosDriver;
 				mobileDriver = (AppiumDriver<MobileElement>) driver;
+				executor = (JavascriptExecutor) driver;
 				return driver;
 			} else {
 				androidDriver = new AndroidDriverImpl().createDriver();
 				driver = androidDriver;
 				mobileDriver = (AppiumDriver<MobileElement>) driver;
+				executor = (JavascriptExecutor) driver;
 				return driver;
 			}
 
 		} else {
-
 			driver = new WebDriverImpl().createDriver();
+			executor = (JavascriptExecutor) driver;
 			return driver;
 		}
 	}

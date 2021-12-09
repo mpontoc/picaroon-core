@@ -38,24 +38,32 @@ public class ElementFunctions {
 	}
 
 	public static String tratativaReportElemento(String[] elemento) {
+		
 		String nomeObjMapeado = null;
-		if (elemento.length > 2) {
-			nomeObjMapeado = elemento[2];
+		
+		if (Mobile.getApp() != null) {
+			if (elemento.length > 2) {
+				nomeObjMapeado = elemento[2];
+			} else {
+				nomeObjMapeado = elemento[positionElement];
+			}
 		} else {
-			nomeObjMapeado = elemento[positionElement];
+			if (elemento.length > 1) {
+				nomeObjMapeado = elemento[1];
+			} else {
+				nomeObjMapeado = elemento[positionElement];
+			}
 		}
 		return nomeObjMapeado;
 	}
 
 	private static List<By> listTypeBy(String obj) {
+
 		List<By> byType = new ArrayList<By>();
-
+		
 		if (obj.contains("//")) {
-
 			byType.add(By.xpath(obj));
-
 		} else {
-
 			if (Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
 					&& Mobile.getPlataforma().contains("ios")) {
 				byType.add(MobileBy.AccessibilityId(obj));
@@ -65,9 +73,8 @@ public class ElementFunctions {
 				byType.add(By.xpath("//*[contains(@name,'" + obj + "')]"));
 			} else if (Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
 					&& Mobile.getPlataforma().contains("android")) {
-				byType.add(
-						By.id(DriverFactory.mobileDriver.getCapabilities().getCapability("appPackage").toString()
-								+ ":id/" + obj));
+				byType.add(By.id(DriverFactory.mobileDriver.getCapabilities().getCapability("appPackage").toString()
+						+ ":id/" + obj));
 				byType.add(By.id(obj));
 				byType.add(By.xpath("//*[@text='" + obj + "']"));
 				byType.add(By.xpath("//*[contains(@content-desc,'" + obj + "')]"));
