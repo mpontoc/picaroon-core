@@ -14,7 +14,7 @@ public class BaseTest {
 		}
 		Log.log("Report saved on path: " + Functions.getPathReportCompleto());
 		Functions.zipReportFiles();
-		Log.log("driver killed [ " + Prop.getProp("browserOrDevice") + " ]");
+		Log.log("driver killed [ " + Prop.getProp("browserOrMobile") + " ]");
 	}
 
 }

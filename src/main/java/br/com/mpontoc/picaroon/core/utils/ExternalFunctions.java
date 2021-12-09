@@ -12,7 +12,7 @@ public class ExternalFunctions {
 
 		if (killBrowser.equals("true")) {
 
-			String Browser = Prop.getProp("browserOrDevice");
+			String Browser = Prop.getProp("browserOrMobile");
 
 			if (Functions.verifyOS() == "LINUX") {
 

@@ -1,24 +1,12 @@
 package br.com.mpontoc.picaroon.core.commands;
 
-import static br.com.mpontoc.picaroon.core.drivers.DriverFactory.deviceElement;
 import static br.com.mpontoc.picaroon.core.drivers.DriverFactory.driver;
+import static br.com.mpontoc.picaroon.core.utils.ElementFunctions.positionElement;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
@@ -27,100 +15,18 @@ import br.com.mpontoc.picaroon.core.mobile.Mobile;
 import br.com.mpontoc.picaroon.core.utils.ElementFunctions;
 import br.com.mpontoc.picaroon.core.utils.Log;
 import br.com.mpontoc.picaroon.core.utils.Prop;
+import br.com.mpontoc.picaroon.core.utils.Report;
 import io.cucumber.java.Scenario;;
 
 public class ActionsCommands {
 
-	private static String cucumberReportMessage = null;
+	public static Boolean isFirstRun = null;
 	private static JavascriptExecutor executor = null;
 	private static Boolean located = false;
 	private static Boolean[] assertObjReceved = null;
-	public static Boolean isFirstRun = null;
 	private static Scenario scenario;
 	private static Boolean printedInfo = false;
-
-	// ******* Cucumber Report *******
-
-	public static void printScreen() {
-
-		Prop.setPropAndSave("printAfterSteps", "true");
-		printScreenAfterStep(getScenario());
-		Prop.setPropAndSave("printAfterSteps", "false");
-	}
-
-	public static void printScreenAfterStep(Scenario scenario) {
-
-		if (Prop.getProp("printAfterSteps").equals("true")
-				&& !Prop.getProp("browserOrDevice").toLowerCase().contains("false")) {
-			if (isFirstRun == true) {
-				scenario.log("\n");
-				scenario.attach(resizeScreenshot(), "image/png", scenario.getName());
-			}
-			scenario.log("\n");
-			isFirstRun = false;
-		} else {
-			Log.log("Already printed on cucumber Report");
-		}
-	}
-
-	public static byte[] resizeScreenshot() {
-		int width = 0;
-		int height = 0;
-		byte[] imageBytes = null;
-
-		final File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
-		if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")) {
-			width = 480;
-			height = 854;
-		} else {
-
-			width = 1024;
-			height = 768;
-
-		}
-
-		try {
-			BufferedImage image = ImageIO.read(screenshot);
-			Image originalImage = image.getScaledInstance(width, height, Image.SCALE_DEFAULT);
-			int type = ((image.getType() == 0) ? BufferedImage.TYPE_INT_ARGB : image.getType());
-			BufferedImage resizedImage = new BufferedImage(width, height, type);
-			Graphics2D g2d = resizedImage.createGraphics();
-			g2d.setComposite(AlphaComposite.Src);
-			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-			g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2d.drawImage(originalImage, 0, 0, width, height, null);
-			g2d.dispose();
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-			ImageIO.write(resizedImage, "png", byteArrayOutputStream);
-			imageBytes = byteArrayOutputStream.toByteArray();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return imageBytes;
-
-	}
-
-	private static void setCucumberReportMessage(String msg) {
-		cucumberReportMessage = msg;
-	}
-
-	private static String getCucumberReportMessage() {
-		return cucumberReportMessage;
-	}
-
-	public static void cucumberWriteReport(String msg) {
-		setCucumberReportMessage(msg);
-		writeReportStep(getScenario());
-	}
-
-	public static void writeReportStep(Scenario scenario) {
-		scenario = getScenario();
-		scenario.log(getCucumberReportMessage());
-		cucumberReportMessage = "";
-	}
+	private static WebElement element = null;
 
 	public static void waitSeconds(int segundos) {
 
@@ -134,7 +40,6 @@ public class ActionsCommands {
 	}
 
 	public static void waitExistClick(String obj, Integer timeout, Boolean... assertObj) {
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
@@ -142,7 +47,7 @@ public class ActionsCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
-				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
+				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -163,17 +68,16 @@ public class ActionsCommands {
 	}
 
 	public static void waitExistClick(String[] obj, Integer timeout, Boolean... assertObj) {
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
 
-			element = ElementFunctions.findBy(obj[deviceElement]);
+			element = ElementFunctions.findBy(obj[positionElement]);
 
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
-				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
+				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -191,11 +95,10 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
+		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
 	}
 
 	public static void waitExistClickAndPerform(String obj, Integer timeout, Boolean... assertObj) {
-		WebElement element = null;
 		Actions actions = new Actions(driver);
 		assertObjReceved = assertObj;
 		located = false;
@@ -204,7 +107,7 @@ public class ActionsCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
-				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
+				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -232,17 +135,16 @@ public class ActionsCommands {
 
 	public static void waitExistClickAndPerform(String[] obj, Integer timeout, Boolean... assertObj) {
 		Actions actions = new Actions(driver);
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
 
-			element = ElementFunctions.findBy(obj[deviceElement]);
+			element = ElementFunctions.findBy(obj[positionElement]);
 
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
-				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
+				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -266,34 +168,33 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
+		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
 	}
 
 	public static void waitExistClickAndPerformDropDown(String menuDropDown, String link, Integer timeout,
 			Boolean... assertObj) {
 		Actions actions = new Actions(driver);
-		WebElement element1 = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element1 = ElementFunctions.findBy(menuDropDown);
-			if (element1 != null && element1.isDisplayed()) {
+			element = ElementFunctions.findBy(menuDropDown);
+			if (element != null && element.isDisplayed()) {
 				located = true;
-				actions.moveToElement(element1);
-				if (Prop.getProp("browserOrDevice").toLowerCase().contains("chrome-h")) {
+				actions.moveToElement(element);
+				if (Prop.getProp("browserOrMobile").toLowerCase().contains("chrome-h")) {
 					actions.click();
 				}
 				actions.perform();
-				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
+				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');",
-								element1);
+								element);
 					} catch (Exception e) {
 						;
 					}
 				}
-				element1 = null;
-				element1 = ElementFunctions.findBy(link);
+				element = null;
+				element = ElementFunctions.findBy(link);
 				waitExistClick(link, 2);
 				Log.log("Element '" + link + "' located");
 				break;
@@ -310,7 +211,6 @@ public class ActionsCommands {
 
 	public static void waitExistClickNewWindow(String obj, Integer numberWindow, Integer timeout,
 			Boolean... assertObj) {
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 
@@ -325,7 +225,7 @@ public class ActionsCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
-				if (!Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
+				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -346,7 +246,6 @@ public class ActionsCommands {
 	}
 
 	public static void waitExistSet(String obj, String conteudo, Integer timeout, Boolean... assertObj) {
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
@@ -368,11 +267,10 @@ public class ActionsCommands {
 	}
 
 	public static void waitExistSet(String[] obj, String conteudo, Integer timeout, Boolean... assertObj) {
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj[deviceElement]);
+			element = ElementFunctions.findBy(obj[positionElement]);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
@@ -387,12 +285,11 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
+		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
 	}
 
 	public static void waitExistSetNewWindow(String obj, String conteudo, Integer numberWindow, Integer timeout,
 			Boolean... assertObj) {
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 
@@ -421,7 +318,6 @@ public class ActionsCommands {
 	}
 
 	public static boolean waitExist(String obj, Integer timeout, Boolean... assertObj) {
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
@@ -443,11 +339,10 @@ public class ActionsCommands {
 	}
 
 	public static boolean waitExist(String[] obj, Integer timeout, Boolean... assertObj) {
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj[deviceElement]);
+			element = ElementFunctions.findBy(obj[positionElement]);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
@@ -461,13 +356,11 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
+		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
 		return located;
 	}
 
 	public static WebElement waitExistElement(String obj, Integer timeout, Boolean... assertObj) {
-
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
@@ -489,12 +382,10 @@ public class ActionsCommands {
 	}
 
 	public static WebElement waitExistElement(String[] obj, Integer timeout, Boolean... assertObj) {
-
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj[deviceElement]);
+			element = ElementFunctions.findBy(obj[positionElement]);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
@@ -508,10 +399,11 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
+		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
 		return element;
 	}
 
+	@SuppressWarnings("unused")
 	public static String[] getStringElements(String obj, Integer timeout, Boolean... assertObj) {
 
 		String[] elements = null;
@@ -532,12 +424,9 @@ public class ActionsCommands {
 				}
 				Log.log("Elements '" + obj + "' located");
 				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-				}
+			} else {
+				Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
+			}
 		}
 		ElementFunctions.validaElemento(obj, assertObjReceved, located);
 		return elements;
@@ -571,7 +460,7 @@ public class ActionsCommands {
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			listElements = ElementFunctions.findByElements(obj[deviceElement]);
+			listElements = ElementFunctions.findByElements(obj[positionElement]);
 			if (listElements != null) {
 				located = true;
 				Log.log("Elements '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
@@ -585,19 +474,18 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
+		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
 		return listElements;
 	}
 
 	public static String waitExistGetText(String obj, Integer timeout, Boolean... assertObj) {
-		WebElement element = null;
 		String textoObtido = "";
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
 			element = ElementFunctions.findBy(obj);
 			if (element != null) {
-				if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")
+				if (Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
 						&& Mobile.getPlataforma().toLowerCase().equals("ios")) {
 					try {
 						textoObtido = element.getAttribute("label").toString();
@@ -610,7 +498,7 @@ public class ActionsCommands {
 				if (textoObtido.length() > 3) {
 					located = true;
 					Log.log("Element '" + obj + "' located");
-					if (!Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")
+					if (!Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
 							&& Prop.getProp("collorBackgroud").equals("true")) {
 						try {
 							executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
@@ -619,7 +507,7 @@ public class ActionsCommands {
 						}
 					}
 					Log.log("Text caught [ '" + textoObtido + "' ]");
-					ActionsCommands.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
+					Report.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
 					break;
 				}
 			} else
@@ -635,14 +523,13 @@ public class ActionsCommands {
 	}
 
 	public static String waitExistGetText(String[] obj, Integer timeout, Boolean... assertObj) {
-		WebElement element = null;
 		String textoObtido = "";
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj[deviceElement]);
+			element = ElementFunctions.findBy(obj[positionElement]);
 			if (element != null) {
-				if (Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")
+				if (Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
 						&& Mobile.getPlataforma().toLowerCase().equals("ios")) {
 					textoObtido = element.getAttribute("label").toString();
 				} else {
@@ -651,7 +538,7 @@ public class ActionsCommands {
 				if (textoObtido.length() > 3) {
 					located = true;
 					Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
-					if (!Prop.getProp("browserOrDevice").toLowerCase().contains("mobile")
+					if (!Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
 							&& Prop.getProp("collorBackgroud").equals("true")) {
 						try {
 							executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
@@ -660,7 +547,7 @@ public class ActionsCommands {
 						}
 					}
 					Log.log("Text caught [ '" + textoObtido + "' ]");
-					ActionsCommands.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
+					Report.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
 					break;
 				}
 			} else
@@ -672,13 +559,11 @@ public class ActionsCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[deviceElement], assertObjReceved, located);
+		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
 		return textoObtido;
 	}
 
 	public static void waitExistSelectComboBox(String obj, String value, Integer timeout, Boolean... assertObj) {
-
-		WebElement element = null;
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {

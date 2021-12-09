@@ -21,13 +21,11 @@ public class Prop {
 		try {
 			file = new FileInputStream("./src/main/resources/application.properties");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			props.load(file);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return props;
@@ -55,13 +53,11 @@ public class Prop {
 		try {
 			file = new FileInputStream("./src/main/resources/project.properties");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			props.load(file);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return props.getProperty(prop);

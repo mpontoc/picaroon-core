@@ -21,8 +21,9 @@ public class WebDriverImpl implements Driver {
 
 	private static WebDriver driver;
 
-	private static WebDriver createWebDriver() {
-		String Browser = Prop.getProp("browserOrDevice").toLowerCase();
+	@Override
+	public WebDriver createDriver() {
+		String Browser = Prop.getProp("browserOrMobile").toLowerCase();
 		String BROWSER_ENV = System.getenv("BROWSER");
 		String baseURLSeleniumGrip = Prop.getProp("baseURLSeleniumGrid");
 
@@ -48,7 +49,7 @@ public class WebDriverImpl implements Driver {
 				Thread.sleep(1000);
 				Log.log("Window sizes " + driver.manage().window().getSize().toString());
 			} catch (Exception e2) {
-				Log.log("Não foi possível iniciar o driver " + Prop.getProp("browserOrDevice"));
+				Log.log("Não foi possível iniciar o driver " + Prop.getProp("browserOrMobile"));
 				e2.printStackTrace();
 			}
 
@@ -106,7 +107,7 @@ public class WebDriverImpl implements Driver {
 				Thread.sleep(1000);
 				Log.log("Window sizes " + driver.manage().window().getSize().toString());
 			} catch (Exception e1) {
-				Log.log("Não foi possível iniciar o driver " + Prop.getProp("browserOrDevice"));
+				Log.log("Não foi possível iniciar o driver " + Prop.getProp("browserOrMobile"));
 				e1.printStackTrace();
 			}
 			break;
@@ -125,7 +126,7 @@ public class WebDriverImpl implements Driver {
 				Thread.sleep(1000);
 				Log.log("Window sizes " + driver.manage().window().getSize().toString());
 			} catch (Exception e1) {
-				Log.log("Não foi possível iniciar o driver " + Prop.getProp("browserOrDevice"));
+				Log.log("Não foi possível iniciar o driver " + Prop.getProp("browserOrMobile"));
 				e1.printStackTrace();
 			}
 			break;
@@ -191,12 +192,6 @@ public class WebDriverImpl implements Driver {
 			}
 			break;
 		}
-		return driver;
-	}
-
-	@Override
-	public Object driver() {
-		createWebDriver();
 		return driver;
 	}
 

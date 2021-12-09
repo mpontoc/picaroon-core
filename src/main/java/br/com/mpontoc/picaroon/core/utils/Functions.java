@@ -117,21 +117,21 @@ public class Functions {
 
 	public static void printInfoExec() {
 
-		ActionsCommands.cucumberWriteReport(" Execution Data \n Date and hour: " + retornaData());
+		Report.cucumberWriteReport(" Execution Data \n Date and hour: " + retornaData());
 		setHoraInicial(null);
 		setHoraInicial(retornaData().substring(11));
-		ActionsCommands.cucumberWriteReport("\n " + printOSandFrame());
+		Report.cucumberWriteReport("\n " + printOSandFrame());
 
-		if (Prop.getProp("browserOrDevice").toLowerCase().equals("mobile")) {
+		if (Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
 
-			ActionsCommands.cucumberWriteReport("\n Plataforma : " + Mobile.getPlataforma());
-			ActionsCommands.cucumberWriteReport("\n Device : " + Mobile.getDeviceName());
-			ActionsCommands.cucumberWriteReport("\n UDID : " + Mobile.getDeviceUDID());
+			Report.cucumberWriteReport("\n Plataforma : " + Mobile.getPlataforma());
+			Report.cucumberWriteReport("\n Device : " + Mobile.getDeviceName());
+			Report.cucumberWriteReport("\n UDID : " + Mobile.getDeviceUDID());
 		} else {
-			ActionsCommands.cucumberWriteReport("\n Browser : " + Prop.getProp("browserOrDevice"));
+			Report.cucumberWriteReport("\n Browser : " + Prop.getProp("browserOrMobile"));
 		}
 		if (getDescricaoReport() != null) {
-			ActionsCommands.cucumberWriteReport("\n More details : " + getDescricaoReport());
+			Report.cucumberWriteReport("\n More details : " + getDescricaoReport());
 		}
 		ActionsCommands.setPrintedInfo(true);
 	}
@@ -139,7 +139,7 @@ public class Functions {
 	public static void printTimeExecution() {
 		String finalHora = null;
 		finalHora = Functions.retornaData().substring(11);
-		ActionsCommands.cucumberWriteReport(
+		Report.cucumberWriteReport(
 				" Time of execution : " + Functions.substractHours(Functions.getHoraInicial(), finalHora));
 	}
 

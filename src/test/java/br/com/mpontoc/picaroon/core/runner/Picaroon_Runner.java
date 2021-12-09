@@ -17,7 +17,7 @@ import io.cucumber.junit.CucumberOptions;
 		features = "src/test/resources/features", // local onde estão as features
 		glue = { 
 				"br.com.mpontoc.picaroon.core.steps", // package onde estão os steps
-				"br.com.mpontoc.picaroon.core.conf" // chamada do spring
+				"br.com.mpontoc.picaroon.core.config" // chamada do spring
 		}, 
 		plugin = { "pretty", // imprime a descrição da feature
 				 "json:target/reports/results.json",

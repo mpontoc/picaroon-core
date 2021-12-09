@@ -20,7 +20,7 @@ class PicaroonCoreApplicationTests {
 	@Test
 	void contextLoads() {
 		
-		Prop.setPropAndSave("browserOrDevice", "chrome-headless");
+		Prop.setPropAndSave("browserOrMobile", "chrome-headless");
 		Functions.setPathReport("testPicsCore");
 		Functions.setupExecution();
 		DriverFactory.driver.get("https://www.google.com");
