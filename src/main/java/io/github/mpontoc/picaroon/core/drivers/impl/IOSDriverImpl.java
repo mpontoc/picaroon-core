@@ -2,12 +2,12 @@ package io.github.mpontoc.picaroon.core.drivers.impl;
 
 import java.net.URL;
 
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSElement;
 import io.github.mpontoc.picaroon.core.drivers.Driver;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
 import io.github.mpontoc.picaroon.core.utils.Log;
 import io.github.mpontoc.picaroon.core.utils.Prop;
-import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.ios.IOSElement;
 
 public class IOSDriverImpl implements Driver {
 

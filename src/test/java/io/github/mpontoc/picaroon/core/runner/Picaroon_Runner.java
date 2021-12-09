@@ -3,10 +3,10 @@ package io.github.mpontoc.picaroon.core.runner;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
-import io.github.mpontoc.picaroon.core.utils.BaseTest;
-import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
+import io.github.mpontoc.picaroon.core.utils.BaseTest;
+import io.github.mpontoc.picaroon.core.utils.Functions;
 
 
 @RunWith(Cucumber.class)

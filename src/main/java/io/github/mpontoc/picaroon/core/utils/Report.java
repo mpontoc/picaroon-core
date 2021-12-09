@@ -1,5 +1,6 @@
 package io.github.mpontoc.picaroon.core.utils;
 
+import static io.github.mpontoc.picaroon.core.commands.ActionsCommands.isFirstRun;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
 
 import java.awt.AlphaComposite;
@@ -16,9 +17,8 @@ import javax.imageio.ImageIO;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
-import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
-import static io.github.mpontoc.picaroon.core.commands.ActionsCommands.isFirstRun;
 import io.cucumber.java.Scenario;
+import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
 
 public class Report {
 

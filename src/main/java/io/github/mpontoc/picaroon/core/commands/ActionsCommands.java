@@ -11,12 +11,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
+import io.cucumber.java.Scenario;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
 import io.github.mpontoc.picaroon.core.utils.ElementFunctions;
 import io.github.mpontoc.picaroon.core.utils.Log;
 import io.github.mpontoc.picaroon.core.utils.Prop;
-import io.github.mpontoc.picaroon.core.utils.Report;
-import io.cucumber.java.Scenario;;
+import io.github.mpontoc.picaroon.core.utils.Report;;
 
 public class ActionsCommands {
 

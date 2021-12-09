@@ -12,10 +12,10 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.mpontoc.picaroon.core.drivers.Driver;
 import io.github.mpontoc.picaroon.core.utils.Log;
 import io.github.mpontoc.picaroon.core.utils.Prop;
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class WebDriverImpl implements Driver {
 

@@ -1,15 +1,15 @@
 package io.github.mpontoc.picaroon.core.config;
 
-import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
-import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
-import io.github.mpontoc.picaroon.core.utils.Functions;
-import io.github.mpontoc.picaroon.core.utils.Prop;
-import io.github.mpontoc.picaroon.core.utils.Report;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeStep;
 import io.cucumber.java.Scenario;
+import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
+import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
+import io.github.mpontoc.picaroon.core.utils.Functions;
+import io.github.mpontoc.picaroon.core.utils.Prop;
+import io.github.mpontoc.picaroon.core.utils.Report;
 
 public class Hooks {
 

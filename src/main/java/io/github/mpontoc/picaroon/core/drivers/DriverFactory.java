@@ -3,6 +3,12 @@ package io.github.mpontoc.picaroon.core.drivers;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSElement;
 import io.github.mpontoc.picaroon.core.drivers.impl.AndroidDriverImpl;
 import io.github.mpontoc.picaroon.core.drivers.impl.IOSDriverImpl;
 import io.github.mpontoc.picaroon.core.drivers.impl.WebDriverImpl;
@@ -11,12 +17,6 @@ import io.github.mpontoc.picaroon.core.utils.ElementFunctions;
 import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.github.mpontoc.picaroon.core.utils.Log;
 import io.github.mpontoc.picaroon.core.utils.Prop;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.ios.IOSElement;
 
 public class DriverFactory {
 

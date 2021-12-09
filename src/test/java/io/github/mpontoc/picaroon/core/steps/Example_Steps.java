@@ -1,9 +1,9 @@
 package io.github.mpontoc.picaroon.core.steps;
 
-import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.github.mpontoc.picaroon.core.utils.Functions;
 
 public class Example_Steps {
 

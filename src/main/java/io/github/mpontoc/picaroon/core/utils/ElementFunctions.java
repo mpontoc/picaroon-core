@@ -10,9 +10,9 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import io.appium.java_client.MobileBy;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
-import io.appium.java_client.MobileBy;
 
 public class ElementFunctions {
 
