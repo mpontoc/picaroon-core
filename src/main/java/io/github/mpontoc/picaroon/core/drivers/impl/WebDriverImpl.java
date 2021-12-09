@@ -14,6 +14,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.mpontoc.picaroon.core.drivers.Driver;
+import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.github.mpontoc.picaroon.core.utils.Log;
 import io.github.mpontoc.picaroon.core.utils.Prop;
 
@@ -37,10 +38,15 @@ public class WebDriverImpl implements Driver {
 
 		case "firefox":
 
-			WebDriverManager.firefoxdriver().setup();
+			try {
+				WebDriverManager.firefoxdriver().setup();
+			} catch (Exception e3) {
+				Log.log("\n Ex: \n" + "lib/webdriver/linux/geckodriver for linux \n or \n"
+						+ "lib/webdriver/geckodriver.exe for windows");
+				Functions.setPropDriver();
+			}
 
 			try {
-//				Functions.setPropDriver();
 				FirefoxOptions optionsFirefox = new FirefoxOptions();
 				optionsFirefox.addArguments("--width=1024");
 				optionsFirefox.addArguments("--height=768");
@@ -57,10 +63,15 @@ public class WebDriverImpl implements Driver {
 
 		case "firefox-headless":
 
-			WebDriverManager.firefoxdriver().setup();
+			try {
+				WebDriverManager.firefoxdriver().setup();
+			} catch (Exception e2) {
+				Log.log("\n Ex: \n" + "lib/webdriver/linux/geckodriver for linux \n or \n"
+						+ "lib/webdriver/geckodriver.exe for windows");
+				Functions.setPropDriver();
+			}
 
 			try {
-//				Functions.setPropDriver();
 				FirefoxOptions optHeadlessFirefox = new FirefoxOptions();
 				optHeadlessFirefox.setHeadless(true);
 				optHeadlessFirefox.addArguments("--width=1024");
@@ -97,10 +108,15 @@ public class WebDriverImpl implements Driver {
 
 		case "chrome":
 
-			WebDriverManager.chromedriver().setup();
+			try {
+				WebDriverManager.chromedriver().setup();
+			} catch (Exception e2) {
+				Log.log("\n Ex: \n" + "lib/webdriver/linux/chromedriver for linux \n or \n"
+						+ "lib/webdriver/chromedriver.exe for windows");
+				Functions.setPropDriver();
+			}
 
 			try {
-//				Functions.setPropDriver();
 				ChromeOptions optionsChrome = new ChromeOptions();
 				optionsChrome.addArguments("--window-size=1024,768");
 				driver = new ChromeDriver(optionsChrome);
@@ -114,10 +130,15 @@ public class WebDriverImpl implements Driver {
 
 		case "chrome-headless":
 
-			WebDriverManager.chromedriver().setup();
+			try {
+				WebDriverManager.chromedriver().setup();
+			} catch (Exception e2) {
+				Log.log("\n Ex: \n" + "lib/webdriver/linux/chromedriver for linux \n or \n"
+						+ "lib/webdriver/chromedriver.exe for windows");
+				Functions.setPropDriver();
+			}
 
 			try {
-//				Functions.setPropDriver();
 				ChromeOptions optHeadlessChrome1 = new ChromeOptions();
 				optHeadlessChrome1.setHeadless(true);
 				optHeadlessChrome1.addArguments("--window-size=1024,768");
