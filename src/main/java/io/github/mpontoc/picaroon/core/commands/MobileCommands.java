@@ -1,5 +1,6 @@
 package io.github.mpontoc.picaroon.core.commands;
 
+import static io.github.mpontoc.picaroon.core.utils.ElementFunctions.positionElement;
 import static java.time.Duration.ofMillis;
 
 import java.util.HashMap;
@@ -17,10 +18,11 @@ import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
+import io.github.mpontoc.picaroon.core.utils.ElementFunctions;
 import io.github.mpontoc.picaroon.core.utils.Log;
 
 public class MobileCommands {
-
+	
 	@SuppressWarnings("rawtypes")
 	public static void scrollUntilElement(String obj) {
 
@@ -49,6 +51,36 @@ public class MobileCommands {
 			}
 		} else
 			Log.log("Cannot find the Element " + obj);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public static void scrollUntilElement(String[] obj) {
+
+		Dimension size = DriverFactory.driver.manage().window().getSize();
+		Log.log(size.toString());
+
+		int x = size.width / 2;
+		int start_y = (int) (size.height * 0.7);
+		int end_y = (int) (size.height * 0.4);
+		int i = 0;
+
+		Log.log(x + " - " + start_y + " - " + end_y);
+
+		boolean objFinded = ActionsCommands.waitExist(obj, 1);
+
+		if (objFinded == false) {
+			while (objFinded == false) {
+				TouchAction actions = new TouchAction(DriverFactory.mobileDriver);
+				actions.press(PointOption.point(x, start_y));
+				actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
+				actions.moveTo(PointOption.point(x, end_y)).release().perform();
+				objFinded = ActionsCommands.waitExist(obj, 1);
+				i++;
+				if (i == 13)
+					break;
+			}
+		} else
+			Log.log("Cannot find the Element " + obj[positionElement]);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -81,9 +113,40 @@ public class MobileCommands {
 			}
 		}
 	}
+	
+	@SuppressWarnings("rawtypes")
+	public static void scrollUntilElement(String[] obj, int qtdScroll) {
+
+		Dimension size = DriverFactory.driver.manage().window().getSize();
+		Log.log(size.toString());
+
+		int x = size.width / 2;
+		int start_y = (int) (size.height * 0.7);
+		int end_y = (int) (size.height * 0.5);
+		int i = 0;
+
+		Log.log(x + " - " + start_y + " - " + end_y);
+
+		boolean objFinded = ActionsCommands.waitExist(obj, 1);
+
+		if (objFinded == false) {
+			while (objFinded == false) {
+				if (i == qtdScroll) {
+					Log.log("Exceeded Quantity and Element Not Found");
+					break;
+				}
+				TouchAction actions = new TouchAction(DriverFactory.mobileDriver);
+				actions.press(PointOption.point(x, start_y));
+				actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
+				actions.moveTo(PointOption.point(x, end_y)).release().perform();
+				objFinded = ActionsCommands.waitExist(obj, 1);
+				i++;
+			}
+		}
+	}
 
 	@SuppressWarnings("rawtypes")
-	public static void scrollUntilElementUp(String obj) {
+	public static void scrollUntilElementUp(String[] obj) {
 
 		Dimension size = DriverFactory.driver.manage().window().getSize();
 		Log.log(size.toString());
@@ -113,7 +176,7 @@ public class MobileCommands {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static void scrollUntilElementUp(String obj, int qtdScroll) {
+	public static void scrollUntilElementUp(String[] obj, int qtdScroll) {
 
 		Dimension size = DriverFactory.driver.manage().window().getSize();
 		Log.log(size.toString());
@@ -168,6 +231,27 @@ public class MobileCommands {
 			((RemoteWebDriver) DriverFactory.driver).executeScript("mobile:scroll", scrollObject);
 		}
 	}
+	
+	public static void scrollUntilElementByText(String[] obj) {
+		if (Mobile.getPlataforma().equals("android")) {
+
+			try {
+				DriverFactory.driver.findElement(MobileBy.AndroidUIAutomator(
+						"new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\""
+								+ obj + "\").instance(" + 0 + "));"));
+			} catch (Exception e) {
+				Log.log("Cannot find the Element " + obj[positionElement]);
+			}
+		} else {
+			RemoteWebElement element = (RemoteWebElement) DriverFactory.driver
+					.findElement(By.className("XCUIElementTypeTable"));
+			String elementID = ((RemoteWebElement) element).getId();
+			HashMap<String, String> scrollObject = new HashMap<String, String>();
+			scrollObject.put("element", elementID);
+			scrollObject.put("direction", "down");
+			((RemoteWebDriver) DriverFactory.driver).executeScript("mobile:scroll", scrollObject);
+		}
+	}
 
 	public static void scrollUntilElementByTextUp(String obj) {
 		if (Mobile.getPlataforma().equals("android")) {
@@ -178,6 +262,27 @@ public class MobileCommands {
 								+ obj + "\").instance(" + 0 + "));"));
 			} catch (Exception e) {
 				Log.log("Cannot find the Element " + obj);
+			}
+		} else {
+			RemoteWebElement element = (RemoteWebElement) DriverFactory.driver
+					.findElement(By.className("XCUIElementTypeTable"));
+			String elementID = ((RemoteWebElement) element).getId();
+			HashMap<String, String> scrollObject = new HashMap<String, String>();
+			scrollObject.put("element", elementID);
+			scrollObject.put("direction", "up");
+			((RemoteWebDriver) DriverFactory.driver).executeScript("mobile:scroll", scrollObject);
+		}
+	}
+	
+	public static void scrollUntilElementByTextUp(String[] obj) {
+		if (Mobile.getPlataforma().equals("android")) {
+
+			try {
+				DriverFactory.driver.findElement(MobileBy.AndroidUIAutomator(
+						"new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\""
+								+ obj + "\").instance(" + 0 + "));"));
+			} catch (Exception e) {
+				Log.log("Cannot find the Element " + obj[positionElement]);
 			}
 		} else {
 			RemoteWebElement element = (RemoteWebElement) DriverFactory.driver
@@ -210,7 +315,7 @@ public class MobileCommands {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static void swipeUntilElementLeft(String obj, double percentualTela) {
+	public static void swipeUntilElementLeft(String[] obj, double percentualTela) {
 
 		Dimension size = DriverFactory.driver.manage().window().getSize();
 		Log.log(size.toString());
@@ -261,7 +366,7 @@ public class MobileCommands {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static void swipeUntilElementRight(String obj, double percentualTela) {
+	public static void swipeUntilElementRight(String[] obj, double percentualTela) {
 
 		Dimension size = DriverFactory.driver.manage().window().getSize();
 		Log.log(size.toString());
