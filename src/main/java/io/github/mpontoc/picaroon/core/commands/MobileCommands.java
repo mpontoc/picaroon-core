@@ -18,7 +18,6 @@ import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
-import io.github.mpontoc.picaroon.core.utils.ElementFunctions;
 import io.github.mpontoc.picaroon.core.utils.Log;
 
 public class MobileCommands {
@@ -144,6 +143,36 @@ public class MobileCommands {
 			}
 		}
 	}
+	
+	@SuppressWarnings("rawtypes")
+	public static void scrollUntilElementUp(String obj) {
+
+		Dimension size = DriverFactory.driver.manage().window().getSize();
+		Log.log(size.toString());
+
+		int x = size.width / 2;
+		int start_y = (int) (size.height * 0.5);
+		int end_y = (int) (size.height * 0.7);
+		int i = 0;
+
+		Log.log(x + " - " + start_y + " - " + end_y);
+
+		boolean objFinded = ActionsCommands.waitExist(obj, 1);
+
+		if (objFinded == false) {
+			while (objFinded == false) {
+				TouchAction actions = new TouchAction(DriverFactory.mobileDriver);
+				actions.press(PointOption.point(x, start_y));
+				actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
+				actions.moveTo(PointOption.point(x, end_y)).release().perform();
+				objFinded = ActionsCommands.waitExist(obj, 1);
+				i++;
+				if (i == 13)
+					break;
+			}
+		} else
+			Log.log("Cannot find the Element " + obj);
+	}
 
 	@SuppressWarnings("rawtypes")
 	public static void scrollUntilElementUp(String[] obj) {
@@ -169,6 +198,42 @@ public class MobileCommands {
 				objFinded = ActionsCommands.waitExist(obj, 1);
 				i++;
 				if (i == 13)
+					break;
+			}
+		} else
+			Log.log("Cannot find the Element " + obj);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static void scrollUntilElementUp(String obj, int qtdScroll) {
+
+		Dimension size = DriverFactory.driver.manage().window().getSize();
+		Log.log(size.toString());
+
+		int x = size.width / 2;
+		int start_y = (int) (size.height * 0.5);
+		int end_y = (int) (size.height * 0.7);
+		int i = 0;
+
+		Log.log(x + " - " + start_y + " - " + end_y);
+
+		boolean objFinded = ActionsCommands.waitExist(obj, 1);
+
+		if (objFinded == false) {
+			while (objFinded == false) {
+				if (ActionsCommands.waitExist(obj, 1) == false) {
+					TouchAction actions = new TouchAction(DriverFactory.mobileDriver);
+					actions.press(PointOption.point(x, start_y));
+					actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
+					actions.moveTo(PointOption.point(x, end_y)).release().perform();
+					objFinded = ActionsCommands.waitExist(obj, 1);
+					i++;
+				} else if (ActionsCommands.waitExist(obj, 1) == true) {
+					objFinded = true;
+					break;
+				}
+
+				if (i == qtdScroll)
 					break;
 			}
 		} else

@@ -187,8 +187,7 @@ public class ActionsCommands {
 				actions.perform();
 				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
 					try {
-						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');",
-								element);
+						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
 						;
 					}
@@ -243,6 +242,42 @@ public class ActionsCommands {
 				}
 		}
 		ElementFunctions.validaElemento(obj, assertObjReceved, located);
+	}
+
+	public static void waitExistClickNewWindow(String obj[], Integer numberWindow, Integer timeout,
+			Boolean... assertObj) {
+		assertObjReceved = assertObj;
+		located = false;
+
+		ArrayList<String> janela = new ArrayList<String>(driver.getWindowHandles());
+		Log.log(janela.toString());
+		Log.log(janela.get(1));
+		driver.switchTo().window((String) janela.get(0)).close();
+
+		for (int i = 1; i <= timeout; i++) {
+			driver.switchTo().window((String) janela.get(numberWindow));
+			element = ElementFunctions.findBy(obj[positionElement]);
+			if (element != null) {
+				located = true;
+				Log.log("Element '" + obj + "' located");
+				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
+					try {
+						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
+					} catch (Exception e) {
+						;
+					}
+				}
+				element.click();
+				break;
+			} else
+				try {
+					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i + " of " + timeout);
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					;
+				}
+		}
+		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
 	}
 
 	public static void waitExistSet(String obj, String conteudo, Integer timeout, Boolean... assertObj) {
@@ -315,6 +350,35 @@ public class ActionsCommands {
 				}
 		}
 		ElementFunctions.validaElemento(obj, assertObjReceved, located);
+	}
+	
+	public static void waitExistSetNewWindow(String obj[], String conteudo, Integer numberWindow, Integer timeout,
+			Boolean... assertObj) {
+		assertObjReceved = assertObj;
+		located = false;
+
+		ArrayList<String> janela = new ArrayList<String>(driver.getWindowHandles());
+		Log.log(janela.toString());
+		Log.log(janela.get(1));
+		driver.switchTo().window((String) janela.get(0)).close();
+
+		for (int i = 1; i <= timeout; i++) {
+			driver.switchTo().window((String) janela.get(numberWindow));
+			element = ElementFunctions.findBy(obj[positionElement]);
+			if (element != null) {
+				located = true;
+				Log.log("Element '" + obj + "' located");
+				element.sendKeys(conteudo);
+				break;
+			} else
+				try {
+					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i + " of " + timeout);
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					;
+				}
+		}
+		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
 	}
 
 	public static boolean waitExist(String obj, Integer timeout, Boolean... assertObj) {
@@ -584,6 +648,29 @@ public class ActionsCommands {
 				}
 		}
 		ElementFunctions.validaElemento(obj, assertObjReceved, located);
+	}
+
+	public static void waitExistSelectComboBox(String[] obj, String value, Integer timeout, Boolean... assertObj) {
+		assertObjReceved = assertObj;
+		located = false;
+		for (int i = 1; i <= timeout; i++) {
+			element = ElementFunctions.findBy(obj[positionElement]);
+			if (element != null) {
+				located = true;
+				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
+				element.click();
+				new Select(element).selectByVisibleText(value);
+				;
+				break;
+			} else
+				try {
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					;
+				}
+		}
+		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
 	}
 
 	public static void scrollDownDirectlyWeb(String obj) {
