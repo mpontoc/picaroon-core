@@ -140,7 +140,7 @@ public class Functions {
 		String finalHora = null;
 		finalHora = Functions.retornaData().substring(11);
 		Report.cucumberWriteReport(
-				" Time of execution : " + Functions.substractHours(Functions.getHoraInicial(), finalHora));
+				" Execution time : " + Functions.substractHours(Functions.getHoraInicial(), finalHora));
 	}
 
 	public static Boolean verificaFeriado() {
