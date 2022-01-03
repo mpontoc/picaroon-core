@@ -159,7 +159,9 @@ public class ElementFunctions {
 	}
 
 	public static void validaElemento(String obj, Boolean[] assertObjReceved, Boolean located) {
+		
 		String acao = null;
+		
 		try {
 			if (assertObjReceved[0] == true) {
 				if (located == true) {
@@ -179,10 +181,8 @@ public class ElementFunctions {
 
 	public static Boolean localizaElemento(String obj, Integer timeout, String acao, String... textoSet) {
 
-		ElementFunctions.obj = obj;
-
 		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj);
+			element = findBy(obj);
 			if (element != null) {
 				if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
 					executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
@@ -193,7 +193,7 @@ public class ElementFunctions {
 				break;
 			} else {
 				if (setObjList != null) {
-					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(setObjList)
+					Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList)
 							+ "' times " + i + " of " + timeout);
 					Functions.waitSeconds(1);
 				} else {
@@ -207,11 +207,9 @@ public class ElementFunctions {
 
 	public static Boolean getElements(String obj, Integer timeout) {
 
-		ElementFunctions.obj = obj;
-
 		listElements = null;
 		for (int i = 1; i <= timeout; i++) {
-			listElements = ElementFunctions.findByElements(obj);
+			listElements = findByElements(obj);
 			elements = new String[listElements.size()];
 			if (listElements != null) {
 				int index = 0;
@@ -220,16 +218,16 @@ public class ElementFunctions {
 					elements[index] = elemento.getText();
 					index++;
 				}
-				Log.log("Elements '" + ElementFunctions.obj + "' located");
+				Log.log("Elements '" + obj + "' located");
 				break;
 			} else {
 				if (setObjList != null) {
-					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(setObjList)
+					Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList)
 							+ "' times " + i + " of " + timeout);
 					Functions.waitSeconds(1);
 				} else {
 					if (setObjList != null) {
-						Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(setObjList)
+						Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList)
 								+ "' times " + i + " of " + timeout);
 						Functions.waitSeconds(1);
 					} else {
@@ -245,34 +243,34 @@ public class ElementFunctions {
 	public static void acaoElemento(String acao, String... textoSet) {
 
 		if (acao.equals(CLICK)) {
-			ElementFunctions.element.click();
+			element.click();
 			Log.log("Element '" + obj + "' located and clicked");
 		} else if (acao.equals(CLICK_AND_PERFORM)) {
 			Actions actions = new Actions(driver);
-			actions.moveToElement(ElementFunctions.element);
+			actions.moveToElement(element);
 			actions.click();
 			actions.perform();
-			Log.log("Element '" + ElementFunctions.obj + "' located and clicked by perform");
+			Log.log("Element '" + obj + "' located and clicked by perform");
 		} else if (acao.equals(SET)) {
-			ElementFunctions.element.sendKeys(textoSet);
-			Log.log("Element '" + ElementFunctions.obj + "' located and set with content " + textoSet);
+			element.sendKeys(textoSet);
+			Log.log("Element '" + obj + "' located and set with content " + textoSet);
 		} else if (acao.equals(GET_TEXT)) {
 			if (BROWSER_OR_MOBILE.contains("mobile") && PLATFORM.toLowerCase().equals("ios")) {
 				try {
-					ElementFunctions.textoObtido = ElementFunctions.element.getAttribute("label").toString();
+					textoObtido = element.getAttribute("label").toString();
 				} catch (Exception e) {
-					ElementFunctions.textoObtido = ElementFunctions.element.getAttribute("name").toString();
+					textoObtido = element.getAttribute("name").toString();
 				}
 			} else {
-				ElementFunctions.textoObtido = ElementFunctions.element.getText().toString();
+				textoObtido = element.getText().toString();
 			}
-			if (ElementFunctions.textoObtido.length() > 3) {
-				Log.log("Element '" + ElementFunctions.obj + "' located");
+			if (textoObtido.length() > 3) {
+				Log.log("Element '" + obj + "' located");
 				if (!BROWSER_OR_MOBILE.contains("mobile") && COLOR_BACKGROUND.equals("true")) {
 					executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
 				}
-				Log.log("Text caught [ '" + ElementFunctions.textoObtido + "' ]");
-				Report.cucumberWriteReport("Text caught [ '" + ElementFunctions.textoObtido + "' ]");
+				Log.log("Text caught [ '" + textoObtido + "' ]");
+				Report.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
 			}
 		}
 	}
