@@ -39,7 +39,7 @@ public class Functions {
 		System.setProperty("java.awt.headless", "false");
 		printOSandFrame();
 		apagaReportAntesExecucao();
-		execution.setHoraInicialTotal(retornaData().substring(11));
+		Execution.setHoraInicialTotal(retornaData().substring(11));
 		DriverFactory.setupDriver();
 
 	}
@@ -116,8 +116,8 @@ public class Functions {
 	public static void printInfoExec() {
 
 		Report.cucumberWriteReport(" Execution Data \n Date and hour: " + retornaData());
-		execution.setHoraInicial(null);
-		execution.setHoraInicial(retornaData().substring(11));
+		Execution.setHoraInicial(null);
+		Execution.setHoraInicial(retornaData().substring(11));
 		Report.cucumberWriteReport("\n " + printOSandFrame());
 
 		if (PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
@@ -138,7 +138,7 @@ public class Functions {
 		String finalHora = null;
 		finalHora = Functions.retornaData().substring(11);
 		Report.cucumberWriteReport(
-				" Execution time : " + Functions.substractHours(execution.getHoraInicial(), finalHora));
+				" Execution time : " + Functions.substractHours(Execution.getHoraInicial(), finalHora));
 	}
 
 	public static Boolean verificaFeriado() {
