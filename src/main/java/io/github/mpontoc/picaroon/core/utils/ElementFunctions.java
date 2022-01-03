@@ -29,12 +29,11 @@ public class ElementFunctions {
 	public static Integer positionElement = null;
 
 	public static WebElement element = null;
-	private static Boolean located = null;
 	private static String obj = null;
 	public static String[] setObjList = null;
-	public static String textoObtido = null;
+	public static String textoObtido = "";
 	public static List<WebElement> listElements = null;
-	public static String[] elements;
+	public static String[] elements = null;
 
 	/*
 	 * set the device for position of list string ----- position 0 is android -----
@@ -185,7 +184,6 @@ public class ElementFunctions {
 		for (int i = 1; i <= timeout; i++) {
 			element = ElementFunctions.findBy(obj);
 			if (element != null) {
-				located = true;
 				if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
 					executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 				}
@@ -202,10 +200,9 @@ public class ElementFunctions {
 					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 					Functions.waitSeconds(1);
 				}
-				located = false;
 			}
 		}
-		return located;
+		return false;
 	}
 
 	public static Boolean getElements(String obj, Integer timeout) {
@@ -213,12 +210,10 @@ public class ElementFunctions {
 		ElementFunctions.obj = obj;
 
 		listElements = null;
-		located = false;
 		for (int i = 1; i <= timeout; i++) {
 			listElements = ElementFunctions.findByElements(obj);
 			elements = new String[listElements.size()];
 			if (listElements != null) {
-				located = true;
 				int index = 0;
 				for (WebElement elemento : listElements) {
 					Log.log(elemento.getText());
@@ -241,11 +236,10 @@ public class ElementFunctions {
 						Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
 						Functions.waitSeconds(1);
 					}
-					located = false;
 				}
 			}
 		}
-		return located;
+		return false;
 	}
 
 	public static void acaoElemento(String acao, String... textoSet) {
@@ -273,14 +267,9 @@ public class ElementFunctions {
 				ElementFunctions.textoObtido = ElementFunctions.element.getText().toString();
 			}
 			if (ElementFunctions.textoObtido.length() > 3) {
-				ElementFunctions.located = true;
 				Log.log("Element '" + ElementFunctions.obj + "' located");
 				if (!BROWSER_OR_MOBILE.contains("mobile") && COLOR_BACKGROUND.equals("true")) {
-					try {
-						executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
-					} catch (Exception e) {
-						;
-					}
+					executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
 				}
 				Log.log("Text caught [ '" + ElementFunctions.textoObtido + "' ]");
 				Report.cucumberWriteReport("Text caught [ '" + ElementFunctions.textoObtido + "' ]");

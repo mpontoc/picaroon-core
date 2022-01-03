@@ -16,7 +16,7 @@ import io.github.mpontoc.picaroon.core.utils.ElementFunctions;;
 
 public class ActionsCommands {
 
-	private static Boolean located = null;
+	private static Boolean located = false;
 	private static Scenario scenario = null;
 	private static Boolean printedInfo = null;
 
@@ -61,7 +61,7 @@ public class ActionsCommands {
 
 		ElementFunctions.setObjList = obj;
 
-		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, CLICK);
+		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, CLICK_AND_PERFORM);
 
 		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
 
@@ -148,6 +148,7 @@ public class ActionsCommands {
 		located = ElementFunctions.getElements(obj, timeout);
 
 		ElementFunctions.validaElemento(obj, assertObj, located);
+		
 		return ElementFunctions.elements;
 
 	}
