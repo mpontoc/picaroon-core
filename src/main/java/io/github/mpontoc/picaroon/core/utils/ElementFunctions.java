@@ -1,5 +1,13 @@
 package io.github.mpontoc.picaroon.core.utils;
 
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.CLICK;
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.CLICK_AND_PERFORM;
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.GET_TEXT;
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.SET;
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.WAIT;
+import static io.github.mpontoc.picaroon.core.constants.PropertiesConstants.BROWSER_OR_MOBILE;
+import static io.github.mpontoc.picaroon.core.constants.PropertiesConstants.COLOR_BACKGROUND;
+import static io.github.mpontoc.picaroon.core.constants.PropertiesConstants.PLATFORM;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.executor;
 
@@ -9,14 +17,24 @@ import java.util.List;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import io.appium.java_client.MobileBy;
+import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
 
 public class ElementFunctions {
 
 	public static Integer positionElement = null;
+
+	public static WebElement element = null;
+	private static Boolean located = null;
+	private static String obj = null;
+	public static String[] setObjList = null;
+	public static String textoObtido = null;
+	public static List<WebElement> listElements = null;
+	public static String[] elements;
 
 	/*
 	 * set the device for position of list string ----- position 0 is android -----
@@ -38,9 +56,9 @@ public class ElementFunctions {
 	}
 
 	public static String tratativaReportElemento(String[] elemento) {
-		
+
 		String nomeObjMapeado = null;
-		
+
 		if (Mobile.getApp() != null) {
 			if (elemento.length > 2) {
 				nomeObjMapeado = elemento[2];
@@ -60,18 +78,17 @@ public class ElementFunctions {
 	private static List<By> listTypeBy(String obj) {
 
 		List<By> byType = new ArrayList<By>();
-		
+
 		if (obj.contains("//")) {
 			byType.add(By.xpath(obj));
 		} else {
-			if (Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
-					&& Mobile.getPlataforma().contains("ios")) {
+			if (PropertiesConstants.BROWSER_OR_MOBILE.contains("mobile") && Mobile.getPlataforma().contains("ios")) {
 				byType.add(MobileBy.AccessibilityId(obj));
 				byType.add(By.xpath("//*[@label='" + obj + "']"));
 				byType.add(By.xpath("//*[@name='" + obj + "']"));
 				byType.add(By.xpath("//*[contains(@label,'" + obj + "')]"));
 				byType.add(By.xpath("//*[contains(@name,'" + obj + "')]"));
-			} else if (Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
+			} else if (PropertiesConstants.BROWSER_OR_MOBILE.contains("mobile")
 					&& Mobile.getPlataforma().contains("android")) {
 				byType.add(By.id(DriverFactory.mobileDriver.getCapabilities().getCapability("appPackage").toString()
 						+ ":id/" + obj));
@@ -97,7 +114,7 @@ public class ElementFunctions {
 		for (By by : listTypeBy(obj)) {
 			try {
 				element = driver.findElement(by);
-				if (!Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")) {
+				if (!PropertiesConstants.BROWSER_OR_MOBILE.contains("mobile")) {
 					if (element.isDisplayed() == true) {
 						borderStyle(element);
 						Log.log("Element located by '" + by.toString());
@@ -133,7 +150,7 @@ public class ElementFunctions {
 	}
 
 	public static void borderStyle(WebElement element) {
-		if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
+		if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
 			try {
 				executor.executeScript("arguments[0].setAttribute('style','border: solid 1px red');", element);
 			} catch (Exception e) {
@@ -159,6 +176,116 @@ public class ElementFunctions {
 				Log.log("Element '" + obj + "' not located");
 		}
 
+	}
+
+	public static Boolean localizaElemento(String obj, Integer timeout, String acao, String... textoSet) {
+
+		ElementFunctions.obj = obj;
+
+		for (int i = 1; i <= timeout; i++) {
+			element = ElementFunctions.findBy(obj);
+			if (element != null) {
+				located = true;
+				if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
+					executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
+				}
+				if (!acao.equals(WAIT)) {
+					acaoElemento(acao, textoSet);
+				}
+				break;
+			} else {
+				if (setObjList != null) {
+					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(setObjList)
+							+ "' times " + i + " of " + timeout);
+					Functions.waitSeconds(1);
+				} else {
+					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
+					Functions.waitSeconds(1);
+				}
+				located = false;
+			}
+		}
+		return located;
+	}
+
+	public static Boolean getElements(String obj, Integer timeout) {
+
+		ElementFunctions.obj = obj;
+
+		listElements = null;
+		located = false;
+		for (int i = 1; i <= timeout; i++) {
+			listElements = ElementFunctions.findByElements(obj);
+			elements = new String[listElements.size()];
+			if (listElements != null) {
+				located = true;
+				int index = 0;
+				for (WebElement elemento : listElements) {
+					Log.log(elemento.getText());
+					elements[index] = elemento.getText();
+					index++;
+				}
+				Log.log("Elements '" + ElementFunctions.obj + "' located");
+				break;
+			} else {
+				if (setObjList != null) {
+					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(setObjList)
+							+ "' times " + i + " of " + timeout);
+					Functions.waitSeconds(1);
+				} else {
+					if (setObjList != null) {
+						Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(setObjList)
+								+ "' times " + i + " of " + timeout);
+						Functions.waitSeconds(1);
+					} else {
+						Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
+						Functions.waitSeconds(1);
+					}
+					located = false;
+				}
+			}
+		}
+		return located;
+	}
+
+	public static void acaoElemento(String acao, String... textoSet) {
+
+		if (acao.equals(CLICK)) {
+			ElementFunctions.element.click();
+			Log.log("Element '" + obj + "' located and clicked");
+		} else if (acao.equals(CLICK_AND_PERFORM)) {
+			Actions actions = new Actions(driver);
+			actions.moveToElement(ElementFunctions.element);
+			actions.click();
+			actions.perform();
+			Log.log("Element '" + ElementFunctions.obj + "' located and clicked by perform");
+		} else if (acao.equals(SET)) {
+			ElementFunctions.element.sendKeys(textoSet);
+			Log.log("Element '" + ElementFunctions.obj + "' located and set with content " + textoSet);
+		} else if (acao.equals(GET_TEXT)) {
+			if (BROWSER_OR_MOBILE.contains("mobile") && PLATFORM.toLowerCase().equals("ios")) {
+				try {
+					ElementFunctions.textoObtido = ElementFunctions.element.getAttribute("label").toString();
+				} catch (Exception e) {
+					ElementFunctions.textoObtido = ElementFunctions.element.getAttribute("name").toString();
+				}
+			} else {
+				ElementFunctions.textoObtido = ElementFunctions.element.getText().toString();
+			}
+			if (ElementFunctions.textoObtido.length() > 3) {
+				ElementFunctions.located = true;
+				Log.log("Element '" + ElementFunctions.obj + "' located");
+				if (!BROWSER_OR_MOBILE.contains("mobile") && COLOR_BACKGROUND.equals("true")) {
+					try {
+						executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
+					} catch (Exception e) {
+						;
+					}
+				}
+				Log.log("Text caught [ '" + ElementFunctions.textoObtido + "' ]");
+				Report.cucumberWriteReport("Text caught [ '" + ElementFunctions.textoObtido + "' ]");
+			}
+		}
 	}
 
 }

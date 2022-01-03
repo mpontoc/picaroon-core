@@ -1,23 +1,22 @@
 package io.github.mpontoc.picaroon.core.commands;
 
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
+import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.executor;
 import static io.github.mpontoc.picaroon.core.utils.ElementFunctions.positionElement;
 
 import java.util.ArrayList;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
+import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
 import io.github.mpontoc.picaroon.core.utils.ElementFunctions;
 import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.github.mpontoc.picaroon.core.utils.Log;
-import io.github.mpontoc.picaroon.core.utils.Prop;
 
 public class WebCommands {
 
-	public static JavascriptExecutor executor = null;
 	private static WebElement element = null;
 	private static Boolean[] assertObjReceved = null;
 	private static Boolean located = false;
@@ -63,11 +62,11 @@ public class WebCommands {
 			if (element != null && element.isDisplayed()) {
 				located = true;
 				actions.moveToElement(element);
-				if (Prop.getProp("browserOrMobile").toLowerCase().contains("chrome-h")) {
+				if (PropertiesConstants.BROWSER_OR_MOBILE.contains("chrome-h")) {
 					actions.click();
 				}
 				actions.perform();
-				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
+				if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -106,7 +105,7 @@ public class WebCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located and clicked on new window");
-				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
+				if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -142,7 +141,7 @@ public class WebCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located and clicked on new window");
-				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
+				if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -270,7 +269,7 @@ public class WebCommands {
 
 	public static void scrollDownDirectlyWeb(String obj) {
 
-		ActionsCommands.executor.executeScript("arguments[0].scrollIntoView(true);", obj);
+		executor.executeScript("arguments[0].scrollIntoView(true);", obj);
 
 	}
 

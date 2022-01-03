@@ -13,10 +13,10 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
 import io.github.mpontoc.picaroon.core.drivers.Driver;
 import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.github.mpontoc.picaroon.core.utils.Log;
-import io.github.mpontoc.picaroon.core.utils.Prop;
 
 public class WebDriverImpl implements Driver {
 
@@ -24,9 +24,9 @@ public class WebDriverImpl implements Driver {
 
 	@Override
 	public WebDriver createDriver() {
-		String Browser = Prop.getProp("browserOrMobile").toLowerCase();
+		String Browser = PropertiesConstants.BROWSER_OR_MOBILE;
 		String BROWSER_ENV = System.getenv("BROWSER");
-		String baseURLSeleniumGrip = Prop.getProp("baseURLSeleniumGrid");
+		String baseURLSeleniumGrip = PropertiesConstants.BASE_URL_SELENIUM_GRID;
 
 		if (BROWSER_ENV != null) {
 			Browser = BROWSER_ENV;
@@ -55,7 +55,7 @@ public class WebDriverImpl implements Driver {
 				Thread.sleep(1000);
 				Log.log("Window sizes " + driver.manage().window().getSize().toString());
 			} catch (Exception e2) {
-				Log.log("Não foi possível iniciar o driver " + Prop.getProp("browserOrMobile"));
+				Log.log("Não foi possível iniciar o driver " + PropertiesConstants.BROWSER_OR_MOBILE);
 				e2.printStackTrace();
 			}
 
@@ -123,7 +123,7 @@ public class WebDriverImpl implements Driver {
 				Thread.sleep(1000);
 				Log.log("Window sizes " + driver.manage().window().getSize().toString());
 			} catch (Exception e1) {
-				Log.log("Não foi possível iniciar o driver " + Prop.getProp("browserOrMobile"));
+				Log.log("Não foi possível iniciar o driver " + PropertiesConstants.BROWSER_OR_MOBILE);
 				e1.printStackTrace();
 			}
 			break;
@@ -147,7 +147,7 @@ public class WebDriverImpl implements Driver {
 				Thread.sleep(1000);
 				Log.log("Window sizes " + driver.manage().window().getSize().toString());
 			} catch (Exception e1) {
-				Log.log("Não foi possível iniciar o driver " + Prop.getProp("browserOrMobile"));
+				Log.log("Não foi possível iniciar o driver " + PropertiesConstants.BROWSER_OR_MOBILE);
 				e1.printStackTrace();
 			}
 			break;

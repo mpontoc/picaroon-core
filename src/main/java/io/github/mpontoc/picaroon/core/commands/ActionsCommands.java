@@ -1,30 +1,24 @@
 package io.github.mpontoc.picaroon.core.commands;
 
-import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.CLICK;
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.CLICK_AND_PERFORM;
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.GET_TEXT;
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.SET;
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.WAIT;
 import static io.github.mpontoc.picaroon.core.utils.ElementFunctions.positionElement;
 
 import java.util.List;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 import io.cucumber.java.Scenario;
-import io.github.mpontoc.picaroon.core.mobile.Mobile;
-import io.github.mpontoc.picaroon.core.utils.ElementFunctions;
-import io.github.mpontoc.picaroon.core.utils.Log;
-import io.github.mpontoc.picaroon.core.utils.Prop;
-import io.github.mpontoc.picaroon.core.utils.Report;;
+import io.github.mpontoc.picaroon.core.utils.ElementFunctions;;
 
 public class ActionsCommands {
 
-	public static Boolean isFirstRun = null;
-	public static JavascriptExecutor executor = null;
-	private static Boolean located = false;
-	private static Boolean[] assertObjReceved = null;
-	private static Scenario scenario;
-	private static Boolean printedInfo = false;
-	private static WebElement element = null;
+	private static Boolean located = null;
+	private static Scenario scenario = null;
+	private static Boolean printedInfo = null;
 
 	public static void waitSeconds(int segundos) {
 
@@ -38,426 +32,144 @@ public class ActionsCommands {
 	}
 
 	public static void waitExistClick(String obj, Integer timeout, Boolean... assertObj) {
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj);
-			if (element != null) {
-				located = true;
-				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
-					try {
-						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
-					} catch (Exception e) {
-						;
-					}
-				}
-				element.click();
-				Log.log("Element '" + obj + "' located and clicked");
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj, assertObjReceved, located);
+
+		located = ElementFunctions.localizaElemento(obj, timeout, CLICK);
+
+		ElementFunctions.validaElemento(obj, assertObj, located);
+
 	}
 
 	public static void waitExistClick(String[] obj, Integer timeout, Boolean... assertObj) {
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
 
-			element = ElementFunctions.findBy(obj[positionElement]);
+		ElementFunctions.setObjList = obj;
 
-			if (element != null) {
-				located = true;
-				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
-					try {
-						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
-					} catch (Exception e) {
-						;
-					}
-				}
-				element.click();
-				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located and clicked");
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
-							+ " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
+		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, CLICK);
+
+		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+
 	}
 
 	public static void waitExistClickAndPerform(String obj, Integer timeout, Boolean... assertObj) {
-		Actions actions = new Actions(driver);
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj);
-			if (element != null) {
-				located = true;
-				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
-					try {
-						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
-					} catch (Exception e) {
-						;
-					}
-				}
-				try {
-					actions.moveToElement(element);
-					actions.click();
-					actions.perform();
-					Log.log("Element '" + obj + "' located and clicked by perform");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj, assertObjReceved, located);
+
+		located = ElementFunctions.localizaElemento(obj, timeout, CLICK_AND_PERFORM);
+
+		ElementFunctions.validaElemento(obj, assertObj, located);
+
 	}
 
 	public static void waitExistClickAndPerform(String[] obj, Integer timeout, Boolean... assertObj) {
-		Actions actions = new Actions(driver);
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
 
-			element = ElementFunctions.findBy(obj[positionElement]);
+		ElementFunctions.setObjList = obj;
 
-			if (element != null) {
-				located = true;
-				if (!Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
-					try {
-						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
-					} catch (Exception e) {
-						;
-					}
-				}
-				try {
-					actions.moveToElement(element);
-					actions.click();
-					actions.perform();
-					Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located and clicked by perform");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
-							+ " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
+		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, CLICK);
+
+		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+
 	}
 
+	public static void waitExistSet(String obj, String textoSet, Integer timeout, Boolean... assertObj) {
 
-	public static void waitExistSet(String obj, String conteudo, Integer timeout, Boolean... assertObj) {
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj);
-			if (element != null) {
-				located = true;
-				element.sendKeys(conteudo);
-				Log.log("Element '" + obj + "' located and set " + conteudo);
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj, assertObjReceved, located);
+		located = ElementFunctions.localizaElemento(obj, timeout, SET, textoSet);
+
+		ElementFunctions.validaElemento(obj, assertObj, located);
 	}
 
-	public static void waitExistSet(String[] obj, String conteudo, Integer timeout, Boolean... assertObj) {
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj[positionElement]);
-			if (element != null) {
-				located = true;
-				element.sendKeys(conteudo);
-				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located and set " + conteudo);
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
-							+ " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
-	}
+	public static void waitExistSet(String[] obj, String textoSet, Integer timeout, Boolean... assertObj) {
 
+		ElementFunctions.setObjList = obj;
+
+		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, SET, textoSet);
+
+		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+	}
 
 	public static boolean waitExist(String obj, Integer timeout, Boolean... assertObj) {
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj);
-			if (element != null) {
-				located = true;
-				Log.log("Element '" + obj + "' located");
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj, assertObjReceved, located);
+
+		located = ElementFunctions.localizaElemento(obj, timeout, WAIT);
+
+		ElementFunctions.validaElemento(obj, assertObj, located);
+
 		return located;
 	}
 
 	public static boolean waitExist(String[] obj, Integer timeout, Boolean... assertObj) {
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj[positionElement]);
-			if (element != null) {
-				located = true;
-				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
-							+ " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
+
+		ElementFunctions.setObjList = obj;
+
+		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, WAIT);
+
+		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+
 		return located;
 	}
 
 	public static WebElement waitExistElement(String obj, Integer timeout, Boolean... assertObj) {
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj);
-			if (element != null) {
-				located = true;
-				Log.log("Element '" + obj + "' located");
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj, assertObjReceved, located);
-		return element;
+
+		located = ElementFunctions.localizaElemento(obj, timeout, WAIT);
+
+		ElementFunctions.validaElemento(obj, assertObj, located);
+
+		return ElementFunctions.element;
 	}
 
 	public static WebElement waitExistElement(String[] obj, Integer timeout, Boolean... assertObj) {
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj[positionElement]);
-			if (element != null) {
-				located = true;
-				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
-							+ " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
-		return element;
+		
+		ElementFunctions.setObjList = obj;
+
+		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, WAIT);
+
+		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+
+		return ElementFunctions.element;
 	}
 
-	@SuppressWarnings("unused")
+	public static String waitExistGetText(String obj, Integer timeout, Boolean... assertObj) {
+
+		located = ElementFunctions.localizaElemento(obj, timeout, GET_TEXT);
+
+		ElementFunctions.validaElemento(obj, assertObj, located);
+		
+		return ElementFunctions.textoObtido;
+	}
+
+	public static String waitExistGetText(String[] obj, Integer timeout, Boolean... assertObj) {
+		
+		ElementFunctions.setObjList = obj;
+		
+		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, GET_TEXT);
+
+		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+		
+		return ElementFunctions.textoObtido;
+	}
+
 	public static String[] getStringElements(String obj, Integer timeout, Boolean... assertObj) {
 
-		String[] elements = null;
-		List<WebElement> listElements = null;
-		assertObjReceved = assertObj;
-		located = false;
+		located = ElementFunctions.getElements(obj, timeout);
 
-		for (int i = 1; i <= timeout; i++) {
-			listElements = ElementFunctions.findByElements(obj);
-			elements = new String[listElements.size()];
-			if (listElements != null) {
-				located = true;
-				int index = 0;
-				for (WebElement elemento : listElements) {
-					Log.log(elemento.getText());
-					elements[index] = elemento.getText();
-					index++;
-				}
-				Log.log("Elements '" + obj + "' located");
-				break;
-			} else {
-				Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-			}
-		}
-		ElementFunctions.validaElemento(obj, assertObjReceved, located);
-		return elements;
+		ElementFunctions.validaElemento(obj, assertObj, located);
+		return ElementFunctions.elements;
 
 	}
 
 	public static List<WebElement> getElements(String obj, Integer timeout, Boolean... assertObj) {
-		List<WebElement> listElements = null;
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			listElements = ElementFunctions.findByElements(obj);
-			if (listElements != null) {
-				located = true;
-				Log.log("Elements '" + obj + "' located");
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj, assertObjReceved, located);
-		return listElements;
+		
+		located = ElementFunctions.getElements(obj, timeout);
+
+		ElementFunctions.validaElemento(obj, assertObj, located);
+		
+		return ElementFunctions.listElements;
 	}
 
 	public static List<WebElement> getElements(String[] obj, Integer timeout, Boolean... assertObj) {
-		List<WebElement> listElements = null;
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			listElements = ElementFunctions.findByElements(obj[positionElement]);
-			if (listElements != null) {
-				located = true;
-				Log.log("Elements '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
-				break;
-			} else
-				try {
-					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
-							+ " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
-		return listElements;
-	}
+		
+		ElementFunctions.setObjList = obj;
+		
+		located = ElementFunctions.getElements(obj[positionElement], timeout);
 
-	public static String waitExistGetText(String obj, Integer timeout, Boolean... assertObj) {
-		String textoObtido = "";
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj);
-			if (element != null) {
-				if (Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
-						&& Mobile.getPlataforma().toLowerCase().equals("ios")) {
-					try {
-						textoObtido = element.getAttribute("label").toString();
-					} catch (Exception e) {
-						textoObtido = element.getAttribute("name").toString();
-					}
-				} else {
-					textoObtido = element.getText().toString();
-				}
-				if (textoObtido.length() > 3) {
-					located = true;
-					Log.log("Element '" + obj + "' located");
-					if (!Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
-							&& Prop.getProp("collorBackgroud").equals("true")) {
-						try {
-							executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
-						} catch (Exception e) {
-							;
-						}
-					}
-					Log.log("Text caught [ '" + textoObtido + "' ]");
-					Report.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
-					break;
-				}
-			} else
-				try {
-					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj, assertObjReceved, located);
-		return textoObtido;
-	}
-
-	public static String waitExistGetText(String[] obj, Integer timeout, Boolean... assertObj) {
-		String textoObtido = "";
-		assertObjReceved = assertObj;
-		located = false;
-		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj[positionElement]);
-			if (element != null) {
-				if (Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
-						&& Mobile.getPlataforma().toLowerCase().equals("ios")) {
-					textoObtido = element.getAttribute("label").toString();
-				} else {
-					textoObtido = element.getText().toString();
-				}
-				if (textoObtido.length() > 3) {
-					located = true;
-					Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
-					if (!Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")
-							&& Prop.getProp("collorBackgroud").equals("true")) {
-						try {
-							executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
-						} catch (Exception e) {
-							;
-						}
-					}
-					Log.log("Text caught [ '" + textoObtido + "' ]");
-					Report.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
-					break;
-				}
-			} else
-				try {
-					Log.log("Cannot find the Element '" + ElementFunctions.tratativaReportElemento(obj) + "' times " + i
-							+ " of " + timeout);
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					;
-				}
-		}
-		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
-		return textoObtido;
+		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+		
+		return ElementFunctions.listElements;
 	}
 
 	public static Scenario getScenario() {

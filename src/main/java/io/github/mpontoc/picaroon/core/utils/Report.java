@@ -1,6 +1,5 @@
 package io.github.mpontoc.picaroon.core.utils;
 
-import static io.github.mpontoc.picaroon.core.commands.ActionsCommands.isFirstRun;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
 
 import java.awt.AlphaComposite;
@@ -19,6 +18,8 @@ import org.openqa.selenium.TakesScreenshot;
 
 import io.cucumber.java.Scenario;
 import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
+import io.github.mpontoc.picaroon.core.config.Execution;
+import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
 
 public class Report {
 
@@ -35,14 +36,14 @@ public class Report {
 
 	public static void printScreenAfterStep(Scenario scenario) {
 
-		if (Prop.getProp("printAfterSteps").equals("true")
-				&& !Prop.getProp("browserOrMobile").toLowerCase().contains("false")) {
-			if (isFirstRun == true) {
+		if (PropertiesConstants.PRINT_AFTER_STEPS.equals("true")
+				&& !PropertiesConstants.BROWSER_OR_MOBILE.contains("false")) {
+			if (Execution.getIsFirstRun() == true) {
 				scenario.log("\n");
 				scenario.attach(resizeScreenshot(), "image/png", scenario.getName());
 			}
 			scenario.log("\n");
-			isFirstRun = false;
+			Execution.setIsFirstRun(false);
 		} else {
 			Log.log("Already printed on cucumber Report");
 		}
@@ -55,7 +56,7 @@ public class Report {
 
 		final File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
-		if (Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")) {
+		if (PropertiesConstants.BROWSER_OR_MOBILE.contains("mobile")) {
 			width = 480;
 			height = 854;
 		} else {

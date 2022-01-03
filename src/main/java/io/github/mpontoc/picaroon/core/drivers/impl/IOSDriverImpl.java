@@ -4,10 +4,10 @@ import java.net.URL;
 
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
+import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
 import io.github.mpontoc.picaroon.core.drivers.Driver;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
 import io.github.mpontoc.picaroon.core.utils.Log;
-import io.github.mpontoc.picaroon.core.utils.Prop;
 
 public class IOSDriverImpl implements Driver {
 
@@ -17,7 +17,7 @@ public class IOSDriverImpl implements Driver {
 	public IOSDriver<IOSElement> createDriver() {
 
 		try {
-			URL urlAppium = new URL(Prop.getProp("baseAppium"));
+			URL urlAppium = new URL(PropertiesConstants.BASE_URL_APPIUM);
 			iosDriver = new IOSDriver<IOSElement>(urlAppium,
 					Mobile.caps(Mobile.getCapsFileJson(), Mobile.getCapsNameDeviceOrApp()));
 
