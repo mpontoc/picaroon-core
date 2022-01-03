@@ -159,9 +159,9 @@ public class ElementFunctions {
 	}
 
 	public static void validaElemento(String obj, Boolean[] assertObjReceved, Boolean located) {
-		
+
 		String acao = null;
-		
+
 		try {
 			if (assertObjReceved[0] == true) {
 				if (located == true) {
@@ -188,13 +188,13 @@ public class ElementFunctions {
 					executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 				}
 				if (!acao.equals(WAIT)) {
-					acaoElemento(acao, textoSet);
+					acaoElemento(acao, obj, textoSet);
 				}
-				break;
+				return true;
 			} else {
 				if (setObjList != null) {
-					Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList)
-							+ "' times " + i + " of " + timeout);
+					Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList) + "' times " + i + " of "
+							+ timeout);
 					Functions.waitSeconds(1);
 				} else {
 					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
@@ -205,42 +205,7 @@ public class ElementFunctions {
 		return false;
 	}
 
-	public static Boolean getElements(String obj, Integer timeout) {
-
-		listElements = null;
-		for (int i = 1; i <= timeout; i++) {
-			listElements = findByElements(obj);
-			elements = new String[listElements.size()];
-			if (listElements != null) {
-				int index = 0;
-				for (WebElement elemento : listElements) {
-					Log.log(elemento.getText());
-					elements[index] = elemento.getText();
-					index++;
-				}
-				Log.log("Elements '" + obj + "' located");
-				break;
-			} else {
-				if (setObjList != null) {
-					Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList)
-							+ "' times " + i + " of " + timeout);
-					Functions.waitSeconds(1);
-				} else {
-					if (setObjList != null) {
-						Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList)
-								+ "' times " + i + " of " + timeout);
-						Functions.waitSeconds(1);
-					} else {
-						Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-						Functions.waitSeconds(1);
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	public static void acaoElemento(String acao, String... textoSet) {
+	public static void acaoElemento(String acao, String obj, String... textoSet) {
 
 		if (acao.equals(CLICK)) {
 			element.click();
@@ -252,8 +217,8 @@ public class ElementFunctions {
 			actions.perform();
 			Log.log("Element '" + obj + "' located and clicked by perform");
 		} else if (acao.equals(SET)) {
-			element.sendKeys(textoSet);
-			Log.log("Element '" + obj + "' located and set with content " + textoSet);
+			element.sendKeys(textoSet[0]);
+			Log.log("Element '" + obj + "' located and set with content " + textoSet[0]);
 		} else if (acao.equals(GET_TEXT)) {
 			if (BROWSER_OR_MOBILE.contains("mobile") && PLATFORM.toLowerCase().equals("ios")) {
 				try {
@@ -273,6 +238,41 @@ public class ElementFunctions {
 				Report.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
 			}
 		}
+	}
+
+	public static Boolean getElements(String obj, Integer timeout) {
+
+		listElements = null;
+		for (int i = 1; i <= timeout; i++) {
+			listElements = findByElements(obj);
+			elements = new String[listElements.size()];
+			if (listElements != null) {
+				int index = 0;
+				for (WebElement elemento : listElements) {
+					Log.log(elemento.getText());
+					elements[index] = elemento.getText();
+					index++;
+				}
+				Log.log("Elements '" + obj + "' located");
+				return true;
+			} else {
+				if (setObjList != null) {
+					Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList) + "' times " + i + " of "
+							+ timeout);
+					Functions.waitSeconds(1);
+				} else {
+					if (setObjList != null) {
+						Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList) + "' times " + i
+								+ " of " + timeout);
+						Functions.waitSeconds(1);
+					} else {
+						Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
+						Functions.waitSeconds(1);
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 }
