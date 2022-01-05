@@ -202,7 +202,7 @@ public class ElementFunctions {
 
 	private static void acaoElemento(String acao, String obj, String... textoSet) {
 
-		setTextoObtido(null);
+		setTextoObtido("");
 
 		if (acao.equals(CLICK)) {
 			getElement().click();
