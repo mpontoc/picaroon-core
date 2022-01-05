@@ -2,6 +2,8 @@ package io.github.mpontoc.picaroon.core.utils;
 
 import static io.github.mpontoc.picaroon.core.constants.ElementConstants.CLICK;
 import static io.github.mpontoc.picaroon.core.constants.ElementConstants.CLICK_AND_PERFORM;
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.GET_ELEMENTS;
+import static io.github.mpontoc.picaroon.core.constants.ElementConstants.GET_STRING_ELEMENTS;
 import static io.github.mpontoc.picaroon.core.constants.ElementConstants.GET_TEXT;
 import static io.github.mpontoc.picaroon.core.constants.ElementConstants.SET;
 import static io.github.mpontoc.picaroon.core.constants.ElementConstants.WAIT;
@@ -28,12 +30,9 @@ public class ElementFunctions {
 
 	public static Integer positionElement = null;
 
-	public static WebElement element = null;
-	private static String obj = null;
-	public static String[] setObjList = null;
-	public static String textoObtido = "";
-	public static List<WebElement> listElements = null;
-	public static String[] elements = null;
+	private static List<WebElement> listElements = null;
+	private static WebElement element = null;
+	private static String textoObtido = "";
 
 	/*
 	 * set the device for position of list string ----- position 0 is android -----
@@ -108,34 +107,34 @@ public class ElementFunctions {
 
 	public static WebElement findBy(String obj) {
 
-		WebElement element = null;
+		WebElement elementFindBy = null;
 
 		for (By by : listTypeBy(obj)) {
 			try {
-				element = driver.findElement(by);
+				elementFindBy = driver.findElement(by);
 				if (!PropertiesConstants.BROWSER_OR_MOBILE.contains("mobile")) {
-					if (element.isDisplayed() == true) {
-						borderStyle(element);
+					if (elementFindBy.isDisplayed() == true) {
+						borderStyle(elementFindBy);
 						Log.log("Element located by '" + by.toString());
-						return element;
+						return elementFindBy;
 					} else {
-						return element = null;
+						return elementFindBy = null;
 					}
-				} else if (element != null) {
+				} else if (elementFindBy != null) {
 					Log.log("Element located by '" + by.toString());
-					return element;
+					return elementFindBy;
 				} else {
-					return element = null;
+					return elementFindBy = null;
 				}
 			} catch (Exception e) {
 			}
 		}
-		return element;
+		return elementFindBy;
 	}
 
-	public static List<WebElement> findByElements(String obj) {
+	private static List<WebElement> findByElements(String obj) {
 
-		List<WebElement> listElements = null;
+		listElements = null;
 
 		for (By by : listTypeBy(obj)) {
 			try {
@@ -148,7 +147,7 @@ public class ElementFunctions {
 		return listElements;
 	}
 
-	public static void borderStyle(WebElement element) {
+	private static void borderStyle(WebElement element) {
 		if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
 			try {
 				executor.executeScript("arguments[0].setAttribute('style','border: solid 1px red');", element);
@@ -179,11 +178,14 @@ public class ElementFunctions {
 
 	}
 
-	public static Boolean localizaElemento(String obj, Integer timeout, String acao, String... textoSet) {
+	public static Boolean localizaElemento(String obj, Integer timeout, String acao, String[] objList,
+			String... textoSet) {
+
+		setElement(null);
 
 		for (int i = 1; i <= timeout; i++) {
-			element = findBy(obj);
-			if (element != null) {
+			setElement(findBy(obj));
+			if (getElement() != null) {
 				if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
 					executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 				}
@@ -192,87 +194,118 @@ public class ElementFunctions {
 				}
 				return true;
 			} else {
-				if (setObjList != null) {
-					Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList) + "' times " + i + " of "
-							+ timeout);
-					Functions.waitSeconds(1);
-				} else {
-					Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-					Functions.waitSeconds(1);
-				}
+				retornLogTentativa(obj, timeout, objList, i);
 			}
 		}
 		return false;
 	}
 
-	public static void acaoElemento(String acao, String obj, String... textoSet) {
+	private static void acaoElemento(String acao, String obj, String... textoSet) {
+
+		setTextoObtido(null);
 
 		if (acao.equals(CLICK)) {
-			element.click();
+			getElement().click();
 			Log.log("Element '" + obj + "' located and clicked");
 		} else if (acao.equals(CLICK_AND_PERFORM)) {
 			Actions actions = new Actions(driver);
-			actions.moveToElement(element);
+			actions.moveToElement(getElement());
 			actions.click();
 			actions.perform();
 			Log.log("Element '" + obj + "' located and clicked by perform");
 		} else if (acao.equals(SET)) {
-			element.sendKeys(textoSet[0]);
+			getElement().sendKeys(textoSet[0]);
 			Log.log("Element '" + obj + "' located and set with content " + textoSet[0]);
 		} else if (acao.equals(GET_TEXT)) {
 			if (BROWSER_OR_MOBILE.contains("mobile") && PLATFORM.toLowerCase().equals("ios")) {
 				try {
-					textoObtido = element.getAttribute("label").toString();
+					setTextoObtido(getElement().getAttribute("label").toString());
 				} catch (Exception e) {
-					textoObtido = element.getAttribute("name").toString();
+					setTextoObtido(getElement().getAttribute("name").toString());
 				}
 			} else {
-				textoObtido = element.getText().toString();
+				setTextoObtido(getElement().getText().toString());
 			}
-			if (textoObtido.length() > 3) {
+			if (getTextoObtido().length() > 3) {
 				Log.log("Element '" + obj + "' located");
 				if (!BROWSER_OR_MOBILE.contains("mobile") && COLOR_BACKGROUND.equals("true")) {
-					executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", element);
+					executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", getElement());
 				}
-				Log.log("Text caught [ '" + textoObtido + "' ]");
-				Report.cucumberWriteReport("Text caught [ '" + textoObtido + "' ]");
+				Log.log("Text caught [ '" + getTextoObtido() + "' ]");
+				Report.cucumberWriteReport("Text caught [ '" + getTextoObtido() + "' ]");
 			}
 		}
 	}
 
-	public static Boolean getElements(String obj, Integer timeout) {
+	@SuppressWarnings("unchecked")
+	public static <T> T getElements(String obj, Integer timeout, String[] objListElements, String typeGetElements) {
 
 		listElements = null;
+		String[] listStringElements = null;
+
 		for (int i = 1; i <= timeout; i++) {
 			listElements = findByElements(obj);
-			elements = new String[listElements.size()];
+			listStringElements = new String[listElements.size()];
+
 			if (listElements != null) {
+
 				int index = 0;
+
 				for (WebElement elemento : listElements) {
 					Log.log(elemento.getText());
-					elements[index] = elemento.getText();
+					listStringElements[index] = elemento.getText();
 					index++;
 				}
+
 				Log.log("Elements '" + obj + "' located");
-				return true;
-			} else {
-				if (setObjList != null) {
-					Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList) + "' times " + i + " of "
-							+ timeout);
-					Functions.waitSeconds(1);
-				} else {
-					if (setObjList != null) {
-						Log.log("Cannot find the Element '" + tratativaReportElemento(setObjList) + "' times " + i
-								+ " of " + timeout);
-						Functions.waitSeconds(1);
-					} else {
-						Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-						Functions.waitSeconds(1);
-					}
-				}
-			}
+
+				if (typeGetElements.equals(GET_ELEMENTS))
+					return (T) listElements;
+				else if (typeGetElements.equals(GET_STRING_ELEMENTS))
+					return (T) listStringElements;
+			} else
+				retornLogTentativa(obj, timeout, objListElements, i);
 		}
-		return false;
+		return null;
+	}
+
+	private static void retornLogTentativa(String obj, Integer timeout, String[] objListElements, int i) {
+		if (objListElements != null) {
+			Log.log("Cannot find the Element '" + tratativaReportElemento(objListElements) + "' times " + i + " of "
+					+ timeout);
+			Functions.waitSeconds(1);
+		} else {
+			Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
+			Functions.waitSeconds(1);
+		}
+	}
+
+	/**
+	 * @return the element
+	 */
+	public static WebElement getElement() {
+		return element;
+	}
+
+	/**
+	 * @param element the element to set
+	 */
+	public static void setElement(WebElement element) {
+		ElementFunctions.element = element;
+	}
+
+	/**
+	 * @return the textoObtido
+	 */
+	public static String getTextoObtido() {
+		return textoObtido;
+	}
+
+	/**
+	 * @param textoObtido the textoObtido to set
+	 */
+	public static void setTextoObtido(String textoObtido) {
+		ElementFunctions.textoObtido = textoObtido;
 	}
 
 }
