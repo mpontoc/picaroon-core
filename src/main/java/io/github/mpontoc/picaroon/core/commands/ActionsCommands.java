@@ -82,7 +82,7 @@ public class ActionsCommands {
 		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
 	}
 
-	public static boolean waitExist(String obj, Integer timeout, Boolean... assertObj) {
+	public static Boolean waitExist(String obj, Integer timeout, Boolean... assertObj) {
 
 		located = ElementFunctions.localizaElemento(obj, timeout, WAIT, null);
 
@@ -91,7 +91,7 @@ public class ActionsCommands {
 		return located;
 	}
 
-	public static boolean waitExist(String[] obj, Integer timeout, Boolean... assertObj) {
+	public static Boolean waitExist(String[] obj, Integer timeout, Boolean... assertObj) {
 
 		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, WAIT, obj);
 
