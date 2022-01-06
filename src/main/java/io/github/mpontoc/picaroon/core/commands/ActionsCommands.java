@@ -1,12 +1,12 @@
 package io.github.mpontoc.picaroon.core.commands;
 
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.CLICK;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.CLICK_AND_PERFORM;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.GET_ELEMENTS;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.GET_STRING_ELEMENTS;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.GET_TEXT;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.SET;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.WAIT;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.CLICK;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.CLICK_AND_PERFORM;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_ELEMENTS;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_STRING_ELEMENTS;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_TEXT;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.SET;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.WAIT;
 import static io.github.mpontoc.picaroon.core.utils.ElementFunctions.positionElement;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 import org.openqa.selenium.WebElement;
 
 import io.cucumber.java.Scenario;
-import io.github.mpontoc.picaroon.core.constants.ElementConstants;
+import io.github.mpontoc.picaroon.core.utils.ElementConstants;
 import io.github.mpontoc.picaroon.core.utils.ElementFunctions;;
 
 public class ActionsCommands {

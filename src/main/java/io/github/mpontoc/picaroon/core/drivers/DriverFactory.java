@@ -10,7 +10,6 @@ import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.github.mpontoc.picaroon.core.config.Execution;
-import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
 import io.github.mpontoc.picaroon.core.drivers.impl.AndroidDriverImpl;
 import io.github.mpontoc.picaroon.core.drivers.impl.IOSDriverImpl;
 import io.github.mpontoc.picaroon.core.drivers.impl.WebDriverImpl;
@@ -18,6 +17,7 @@ import io.github.mpontoc.picaroon.core.mobile.Mobile;
 import io.github.mpontoc.picaroon.core.utils.ElementFunctions;
 import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.github.mpontoc.picaroon.core.utils.Log;
+import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
 
 public class DriverFactory {
 
@@ -34,7 +34,7 @@ public class DriverFactory {
 		String device = Mobile.getPlataforma();
 		ElementFunctions.setupElement();
 
-		if (PropertiesConstants.BROWSER_OR_MOBILE.contains("mobile") && Execution.getAppRunner() == true || startDriver == true) {
+		if (PropertiesVariables.BROWSER_OR_MOBILE.contains("mobile") && Execution.getAppRunner() == true || startDriver == true) {
 
 			if (device.toLowerCase().equals("ios")) {
 				iosDriver = new IOSDriverImpl().createDriver();
@@ -66,7 +66,7 @@ public class DriverFactory {
 				driver.quit();
 				driver = null;
 				driver = setupDriver();
-			} else if (PropertiesConstants.RESET_APP.equals("true")) {
+			} else if (PropertiesVariables.RESET_APP.equals("true")) {
 				Log.log("Reseting app '" + Mobile.getApp() + "'");
 				mobileDriver.resetApp();
 				Functions.printInfoExec();

@@ -19,7 +19,6 @@ import org.openqa.selenium.TakesScreenshot;
 import io.cucumber.java.Scenario;
 import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
 import io.github.mpontoc.picaroon.core.config.Execution;
-import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
 
 public class Report {
 
@@ -29,15 +28,13 @@ public class Report {
 
 	public static void printScreen() {
 
-		Prop.setPropAndSave("printAfterSteps", "true");
-		printScreenAfterStep(ActionsCommands.getScenario());
-		Prop.setPropAndSave("printAfterSteps", "false");
+		printScreenAfterStep(ActionsCommands.getScenario(), true);
 	}
 
-	public static void printScreenAfterStep(Scenario scenario) {
+	public static void printScreenAfterStep(Scenario scenario, boolean... printAnyway) {
 
-		if (PropertiesConstants.PRINT_AFTER_STEPS.equals("true")
-				&& !PropertiesConstants.BROWSER_OR_MOBILE.contains("false")) {
+		if (PropertiesVariables.PRINT_AFTER_STEPS.equals("true")
+				&& !PropertiesVariables.BROWSER_OR_MOBILE.contains("false") || printAnyway[0]) {
 			if (Execution.getIsFirstRun() == true) {
 				scenario.log("\n");
 				scenario.attach(resizeScreenshot(), "image/png", scenario.getName());
@@ -56,7 +53,7 @@ public class Report {
 
 		final File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
-		if (PropertiesConstants.BROWSER_OR_MOBILE.contains("mobile")) {
+		if (PropertiesVariables.BROWSER_OR_MOBILE.contains("mobile")) {
 			width = 480;
 			height = 854;
 		} else {

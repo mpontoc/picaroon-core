@@ -22,7 +22,6 @@ import org.zeroturnaround.zip.ZipUtil;
 
 import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
 import io.github.mpontoc.picaroon.core.config.Execution;
-import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
 
@@ -120,13 +119,13 @@ public class Functions {
 		Execution.setHoraInicial(retornaData().substring(11));
 		Report.cucumberWriteReport("\n " + printOSandFrame());
 
-		if (PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
+		if (PropertiesVariables.BROWSER_OR_MOBILE.equals("mobile")) {
 
 			Report.cucumberWriteReport("\n Plataforma : " + Mobile.getPlataforma());
 			Report.cucumberWriteReport("\n Device : " + Mobile.getDeviceName());
 			Report.cucumberWriteReport("\n UDID : " + Mobile.getDeviceUDID());
 		} else {
-			Report.cucumberWriteReport("\n Browser : " + PropertiesConstants.BROWSER_OR_MOBILE);
+			Report.cucumberWriteReport("\n Browser : " + PropertiesVariables.BROWSER_OR_MOBILE);
 		}
 		if (getDescricaoReport() != null) {
 			Report.cucumberWriteReport("\n More details : " + getDescricaoReport());
@@ -260,7 +259,7 @@ public class Functions {
 	public static void zipReportFiles() {
 
 		String pathReportBackup = null;
-		if (PropertiesConstants.BACKUP_REPORTS.equals("true")) {
+		if (PropertiesVariables.BACKUP_REPORTS.equals("true")) {
 
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
 			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT-3:00"));

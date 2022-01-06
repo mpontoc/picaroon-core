@@ -1,17 +1,17 @@
 package io.github.mpontoc.picaroon.core.utils;
 
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.CLICK;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.CLICK_AND_PERFORM;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.GET_ELEMENTS;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.GET_STRING_ELEMENTS;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.GET_TEXT;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.SET;
-import static io.github.mpontoc.picaroon.core.constants.ElementConstants.WAIT;
-import static io.github.mpontoc.picaroon.core.constants.PropertiesConstants.BROWSER_OR_MOBILE;
-import static io.github.mpontoc.picaroon.core.constants.PropertiesConstants.COLOR_BACKGROUND;
-import static io.github.mpontoc.picaroon.core.constants.PropertiesConstants.PLATFORM;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.executor;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.CLICK;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.CLICK_AND_PERFORM;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_ELEMENTS;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_STRING_ELEMENTS;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_TEXT;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.SET;
+import static io.github.mpontoc.picaroon.core.utils.ElementConstants.WAIT;
+import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.BROWSER_OR_MOBILE;
+import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.COLOR_BACKGROUND;
+import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.PLATFORM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import io.appium.java_client.MobileBy;
-import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
 
@@ -80,13 +79,13 @@ public class ElementFunctions {
 		if (obj.contains("//")) {
 			byType.add(By.xpath(obj));
 		} else {
-			if (PropertiesConstants.BROWSER_OR_MOBILE.contains("mobile") && Mobile.getPlataforma().contains("ios")) {
+			if (PropertiesVariables.BROWSER_OR_MOBILE.contains("mobile") && Mobile.getPlataforma().contains("ios")) {
 				byType.add(MobileBy.AccessibilityId(obj));
 				byType.add(By.xpath("//*[@label='" + obj + "']"));
 				byType.add(By.xpath("//*[@name='" + obj + "']"));
 				byType.add(By.xpath("//*[contains(@label,'" + obj + "')]"));
 				byType.add(By.xpath("//*[contains(@name,'" + obj + "')]"));
-			} else if (PropertiesConstants.BROWSER_OR_MOBILE.contains("mobile")
+			} else if (PropertiesVariables.BROWSER_OR_MOBILE.contains("mobile")
 					&& Mobile.getPlataforma().contains("android")) {
 				byType.add(By.id(DriverFactory.mobileDriver.getCapabilities().getCapability("appPackage").toString()
 						+ ":id/" + obj));
@@ -112,7 +111,7 @@ public class ElementFunctions {
 		for (By by : listTypeBy(obj)) {
 			try {
 				elementFindBy = driver.findElement(by);
-				if (!PropertiesConstants.BROWSER_OR_MOBILE.contains("mobile")) {
+				if (!PropertiesVariables.BROWSER_OR_MOBILE.contains("mobile")) {
 					if (elementFindBy.isDisplayed() == true) {
 						borderStyle(elementFindBy);
 						Log.log("Element located by '" + by.toString());
@@ -148,7 +147,7 @@ public class ElementFunctions {
 	}
 
 	private static void borderStyle(WebElement element) {
-		if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
+		if (!PropertiesVariables.BROWSER_OR_MOBILE.equals("mobile")) {
 			try {
 				executor.executeScript("arguments[0].setAttribute('style','border: solid 1px red');", element);
 			} catch (Exception e) {
@@ -186,7 +185,7 @@ public class ElementFunctions {
 		for (int i = 1; i <= timeout; i++) {
 			setElement(findBy(obj));
 			if (getElement() != null) {
-				if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
+				if (!PropertiesVariables.BROWSER_OR_MOBILE.equals("mobile")) {
 					executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 				}
 				if (!acao.equals(WAIT)) {

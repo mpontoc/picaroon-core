@@ -2,7 +2,6 @@ package io.github.mpontoc.picaroon.core.utils;
 
 import org.junit.AfterClass;
 
-import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
 
 public class BaseTest {
@@ -15,7 +14,7 @@ public class BaseTest {
 		}
 		Log.log("Report saved on path: " + Functions.getPathReportCompleto());
 		Functions.zipReportFiles();
-		Log.log("driver killed [ " + PropertiesConstants.BROWSER_OR_MOBILE + " ]");
+		Log.log("driver killed [ " + PropertiesVariables.BROWSER_OR_MOBILE + " ]");
 	}
 
 }

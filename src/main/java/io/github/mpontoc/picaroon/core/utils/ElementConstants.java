@@ -1,4 +1,4 @@
-package io.github.mpontoc.picaroon.core.constants;
+package io.github.mpontoc.picaroon.core.utils;
 
 public class ElementConstants {
 	

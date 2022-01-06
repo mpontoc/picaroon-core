@@ -2,19 +2,17 @@ package io.github.mpontoc.picaroon.core.utils;
 
 import java.io.IOException;
 
-import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
-
 public class ExternalFunctions {
 
 	static Runtime rt = Runtime.getRuntime();
 
 	public static void processKill() {
 
-		String killBrowser = PropertiesConstants.KILL_BROWSER;
+		String killBrowser = PropertiesVariables.KILL_BROWSER;
 
 		if (killBrowser.equals("true")) {
 
-			String Browser = PropertiesConstants.BROWSER_OR_MOBILE;
+			String Browser = PropertiesVariables.BROWSER_OR_MOBILE;
 
 			if (Functions.verifyOS() == "LINUX") {
 

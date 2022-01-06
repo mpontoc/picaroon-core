@@ -10,10 +10,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
-import io.github.mpontoc.picaroon.core.constants.PropertiesConstants;
 import io.github.mpontoc.picaroon.core.utils.ElementFunctions;
 import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.github.mpontoc.picaroon.core.utils.Log;
+import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
 
 public class WebCommands {
 
@@ -62,11 +62,11 @@ public class WebCommands {
 			if (element != null && element.isDisplayed()) {
 				located = true;
 				actions.moveToElement(element);
-				if (PropertiesConstants.BROWSER_OR_MOBILE.contains("chrome-h")) {
+				if (PropertiesVariables.BROWSER_OR_MOBILE.contains("chrome-h")) {
 					actions.click();
 				}
 				actions.perform();
-				if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
+				if (!PropertiesVariables.BROWSER_OR_MOBILE.equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -105,7 +105,7 @@ public class WebCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located and clicked on new window");
-				if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
+				if (!PropertiesVariables.BROWSER_OR_MOBILE.equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
@@ -141,7 +141,7 @@ public class WebCommands {
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located and clicked on new window");
-				if (!PropertiesConstants.BROWSER_OR_MOBILE.equals("mobile")) {
+				if (!PropertiesVariables.BROWSER_OR_MOBILE.equals("mobile")) {
 					try {
 						executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
 					} catch (Exception e) {
