@@ -31,10 +31,16 @@ public class Report {
 		printScreenAfterStep(ActionsCommands.getScenario(), true);
 	}
 
-	public static void printScreenAfterStep(Scenario scenario, boolean... printAnyway) {
+	public static void printScreenAfterStep(Scenario scenario, Boolean... printAnyway) {
+
+		Boolean print = false;
+
+		if (printAnyway.length > 0) {
+			print = printAnyway[0];
+		}
 
 		if (PropertiesVariables.PRINT_AFTER_STEPS.equals("true")
-				&& !PropertiesVariables.BROWSER_OR_MOBILE.contains("false") || printAnyway[0]) {
+				&& !PropertiesVariables.BROWSER_OR_MOBILE.contains("false") || print) {
 			if (Execution.getIsFirstRun() == true) {
 				scenario.log("\n");
 				scenario.attach(resizeScreenshot(), "image/png", scenario.getName());
@@ -42,7 +48,7 @@ public class Report {
 			scenario.log("\n");
 			Execution.setIsFirstRun(false);
 		} else {
-			Log.log("Already printed on cucumber Report");
+			Log.log("Already printed on cucumber Report or only printed after scenario execution");
 		}
 	}
 
