@@ -21,6 +21,7 @@ import org.springframework.util.FileSystemUtils;
 import org.zeroturnaround.zip.ZipUtil;
 
 import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
+import io.github.mpontoc.picaroon.core.config.Execution;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
 
@@ -29,19 +30,15 @@ public class Functions {
 	public static boolean feriado;
 	private static String pathReport = null;
 	private static String pathReportCompleto = null;
-	public static Boolean reiniciaApp = null;
-	private static Boolean appRunner = null;
 	private static String descricaoReport = null;
-	private static String horaInicial = null;
-	private static String horaInicialTotal = null;
-	private static String horaFinalTotal = null;
+	public static Execution execution = new Execution();
 
 	public static void setupExecution() {
 		Functions.apagaLog4j();
 		System.setProperty("java.awt.headless", "false");
 		printOSandFrame();
 		apagaReportAntesExecucao();
-		setHoraInicialTotal(retornaData().substring(11));
+		Execution.setHoraInicialTotal(retornaData().substring(11));
 		DriverFactory.setupDriver();
 
 	}
@@ -118,17 +115,17 @@ public class Functions {
 	public static void printInfoExec() {
 
 		Report.cucumberWriteReport(" Execution Data \n Date and hour: " + retornaData());
-		setHoraInicial(null);
-		setHoraInicial(retornaData().substring(11));
+		Execution.setHoraInicial(null);
+		Execution.setHoraInicial(retornaData().substring(11));
 		Report.cucumberWriteReport("\n " + printOSandFrame());
 
-		if (Prop.getProp("browserOrMobile").toLowerCase().equals("mobile")) {
+		if (PropertiesVariables.BROWSER_OR_MOBILE.equals("mobile")) {
 
 			Report.cucumberWriteReport("\n Plataforma : " + Mobile.getPlataforma());
 			Report.cucumberWriteReport("\n Device : " + Mobile.getDeviceName());
 			Report.cucumberWriteReport("\n UDID : " + Mobile.getDeviceUDID());
 		} else {
-			Report.cucumberWriteReport("\n Browser : " + Prop.getProp("browserOrMobile"));
+			Report.cucumberWriteReport("\n Browser : " + PropertiesVariables.BROWSER_OR_MOBILE);
 		}
 		if (getDescricaoReport() != null) {
 			Report.cucumberWriteReport("\n More details : " + getDescricaoReport());
@@ -140,7 +137,7 @@ public class Functions {
 		String finalHora = null;
 		finalHora = Functions.retornaData().substring(11);
 		Report.cucumberWriteReport(
-				" Time of execution : " + Functions.substractHours(Functions.getHoraInicial(), finalHora));
+				" Execution time : " + Functions.substractHours(Execution.getHoraInicial(), finalHora));
 	}
 
 	public static Boolean verificaFeriado() {
@@ -262,7 +259,7 @@ public class Functions {
 	public static void zipReportFiles() {
 
 		String pathReportBackup = null;
-		if (Prop.getProp("backupReports").equals("true")) {
+		if (PropertiesVariables.BACKUP_REPORTS.equals("true")) {
 
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
 			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT-3:00"));
@@ -340,14 +337,6 @@ public class Functions {
 		Functions.pathReportCompleto = pathReportCompleto;
 	}
 
-	public static Boolean getAppRunner() {
-		return appRunner;
-	}
-
-	public static void setAppRunner(Boolean appRunner) {
-		Functions.appRunner = appRunner;
-	}
-
 	public static String getDescricaoReport() {
 		return descricaoReport;
 	}
@@ -356,28 +345,5 @@ public class Functions {
 		Functions.descricaoReport = descricaoReport;
 	}
 
-	public static String getHoraInicial() {
-		return horaInicial;
-	}
-
-	public static void setHoraInicial(String horaInicial) {
-		Functions.horaInicial = horaInicial;
-	}
-
-	public static String getHoraInicialTotal() {
-		return horaInicialTotal;
-	}
-
-	public static void setHoraInicialTotal(String horaInicialTotal) {
-		Functions.horaInicialTotal = horaInicialTotal;
-	}
-
-	public static String getHoraFinalTotal() {
-		return horaFinalTotal;
-	}
-
-	public static void setHoraFinalTotal(String horaFinalTotal) {
-		Functions.horaFinalTotal = horaFinalTotal;
-	}
 
 }

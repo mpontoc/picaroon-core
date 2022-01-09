@@ -1,6 +1,5 @@
 package io.github.mpontoc.picaroon.core.utils;
 
-import static io.github.mpontoc.picaroon.core.commands.ActionsCommands.isFirstRun;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
 
 import java.awt.AlphaComposite;
@@ -19,6 +18,7 @@ import org.openqa.selenium.TakesScreenshot;
 
 import io.cucumber.java.Scenario;
 import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
+import io.github.mpontoc.picaroon.core.config.Execution;
 
 public class Report {
 
@@ -28,23 +28,27 @@ public class Report {
 
 	public static void printScreen() {
 
-		Prop.setPropAndSave("printAfterSteps", "true");
-		printScreenAfterStep(ActionsCommands.getScenario());
-		Prop.setPropAndSave("printAfterSteps", "false");
+		printScreenAfterStep(ActionsCommands.getScenario(), true);
 	}
 
-	public static void printScreenAfterStep(Scenario scenario) {
+	public static void printScreenAfterStep(Scenario scenario, Boolean... printAnyway) {
 
-		if (Prop.getProp("printAfterSteps").equals("true")
-				&& !Prop.getProp("browserOrMobile").toLowerCase().contains("false")) {
-			if (isFirstRun == true) {
+		Boolean print = false;
+
+		if (printAnyway.length > 0) {
+			print = printAnyway[0];
+		}
+
+		if (PropertiesVariables.PRINT_AFTER_STEPS.equals("true")
+				&& !PropertiesVariables.BROWSER_OR_MOBILE.contains("false") || print) {
+			if (Execution.getIsFirstRun() == true) {
 				scenario.log("\n");
 				scenario.attach(resizeScreenshot(), "image/png", scenario.getName());
 			}
 			scenario.log("\n");
-			isFirstRun = false;
+			Execution.setIsFirstRun(false);
 		} else {
-			Log.log("Already printed on cucumber Report");
+			Log.log("Already printed on cucumber Report or only printed after scenario execution");
 		}
 	}
 
@@ -55,7 +59,7 @@ public class Report {
 
 		final File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
-		if (Prop.getProp("browserOrMobile").toLowerCase().contains("mobile")) {
+		if (PropertiesVariables.BROWSER_OR_MOBILE.contains("mobile")) {
 			width = 480;
 			height = 854;
 		} else {

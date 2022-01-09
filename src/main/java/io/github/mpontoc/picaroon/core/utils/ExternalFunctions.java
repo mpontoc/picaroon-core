@@ -8,11 +8,11 @@ public class ExternalFunctions {
 
 	public static void processKill() {
 
-		String killBrowser = Prop.getProp("killBrowser");
+		String killBrowser = PropertiesVariables.KILL_BROWSER;
 
 		if (killBrowser.equals("true")) {
 
-			String Browser = Prop.getProp("browserOrMobile");
+			String Browser = PropertiesVariables.BROWSER_OR_MOBILE;
 
 			if (Functions.verifyOS() == "LINUX") {
 
