@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
-import io.github.mpontoc.picaroon.core.utils.BaseTest;
+import io.github.mpontoc.picaroon.core.execution.ControlExecution;
 import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.github.mpontoc.picaroon.core.utils.Log;
 import io.github.mpontoc.picaroon.core.utils.Prop;
@@ -20,13 +20,13 @@ class PicaroonCoreApplicationTests {
 	@Test
 	void contextLoads() {
 		
-		Prop.setPropAndSave("browserOrMobile", "firefox-headless");
+		Prop.setPropAndSave("browserOrMobile", "chrome-headless");
 		Functions.setPathReport("testPicsCore");
 		Functions.setupExecution();
 		DriverFactory.driver.get("https://www.google.com");
 		Log.log(DriverFactory.driver.getTitle());
 		Log.log(valueTest);
-		BaseTest.endExecution();
+		ControlExecution.tearDown();
 		
 	}
 

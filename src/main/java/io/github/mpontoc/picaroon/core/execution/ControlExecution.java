@@ -1,13 +1,16 @@
-package io.github.mpontoc.picaroon.core.utils;
+package io.github.mpontoc.picaroon.core.execution;
 
 import org.junit.AfterClass;
 
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
+import io.github.mpontoc.picaroon.core.utils.Functions;
+import io.github.mpontoc.picaroon.core.utils.Log;
+import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
 
-public class BaseTest {
+public class ControlExecution {
 
 	@AfterClass
-	public static void endExecution() {
+	public static void tearDown() {
 		try {
 			DriverFactory.driver.quit();
 		} catch (Exception e) {

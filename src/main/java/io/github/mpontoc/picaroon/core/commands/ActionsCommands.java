@@ -14,8 +14,7 @@ import java.util.List;
 import org.openqa.selenium.WebElement;
 
 import io.cucumber.java.Scenario;
-import io.github.mpontoc.picaroon.core.utils.ElementConstants;
-import io.github.mpontoc.picaroon.core.utils.ElementFunctions;;
+import io.github.mpontoc.picaroon.core.utils.ElementFunctions;
 
 public class ActionsCommands {
 

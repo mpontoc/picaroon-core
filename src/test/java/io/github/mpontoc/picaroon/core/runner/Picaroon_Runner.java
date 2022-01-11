@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
-import io.github.mpontoc.picaroon.core.utils.BaseTest;
 import io.github.mpontoc.picaroon.core.utils.Functions;
 
 
@@ -28,7 +27,7 @@ import io.github.mpontoc.picaroon.core.utils.Functions;
 		strict = true // quando está true ele falha o cenario inteiro caso estja faltando algum step
 )
 
-public class Picaroon_Runner extends BaseTest {
+public class Picaroon_Runner {
 	
 	@BeforeClass
 	

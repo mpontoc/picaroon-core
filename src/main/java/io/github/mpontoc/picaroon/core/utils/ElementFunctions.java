@@ -16,13 +16,14 @@ import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.PLATFORM
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import io.appium.java_client.MobileBy;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
+import io.github.mpontoc.picaroon.core.exception.PicaroonException;
+import io.github.mpontoc.picaroon.core.execution.report.Report;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
 
 public class ElementFunctions {
@@ -159,20 +160,18 @@ public class ElementFunctions {
 	public static void validaElemento(String obj, Boolean[] assertObjReceved, Boolean located) {
 
 		String acao = null;
+		String error = null;
 
-		try {
-			if (assertObjReceved[0] == true) {
-				if (located == true) {
-					acao = "Mandatory action with the element '" + obj + "' successfully";
-					Log.log(acao);
-					Report.cucumberWriteReport(acao);
-				} else
-					Log.log("There was a problem with the element '" + obj + "'");
-				Assert.assertTrue(located);
+		if (assertObjReceved.length > 0 && assertObjReceved[0] == true) {
+			if (located == true) {
+				acao = "Mandatory action with the element '" + obj + "' successfully";
+				Log.log(acao);
+				Report.cucumberWriteReport(acao);
+			} else {
+				error = "There was a problem with the element '" + obj + "'";
+				Log.log(error);
+				throw new PicaroonException(error);
 			}
-		} catch (Exception e1) {
-			if (located != true)
-				Log.log("Element '" + obj + "' not located");
 		}
 
 	}

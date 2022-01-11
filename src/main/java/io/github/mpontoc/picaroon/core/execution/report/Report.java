@@ -1,4 +1,4 @@
-package io.github.mpontoc.picaroon.core.utils;
+package io.github.mpontoc.picaroon.core.execution.report;
 
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
 
@@ -18,7 +18,9 @@ import org.openqa.selenium.TakesScreenshot;
 
 import io.cucumber.java.Scenario;
 import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
-import io.github.mpontoc.picaroon.core.config.Execution;
+import io.github.mpontoc.picaroon.core.execution.Execution;
+import io.github.mpontoc.picaroon.core.utils.Log;
+import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
 
 public class Report {
 

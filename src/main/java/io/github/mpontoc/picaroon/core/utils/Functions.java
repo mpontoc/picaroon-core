@@ -21,8 +21,9 @@ import org.springframework.util.FileSystemUtils;
 import org.zeroturnaround.zip.ZipUtil;
 
 import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
-import io.github.mpontoc.picaroon.core.config.Execution;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
+import io.github.mpontoc.picaroon.core.execution.Execution;
+import io.github.mpontoc.picaroon.core.execution.report.Report;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
 
 public class Functions {
@@ -40,7 +41,6 @@ public class Functions {
 		apagaReportAntesExecucao();
 		Execution.setHoraInicialTotal(retornaData().substring(11));
 		DriverFactory.setupDriver();
-
 	}
 
 	public static String verifyOS() {

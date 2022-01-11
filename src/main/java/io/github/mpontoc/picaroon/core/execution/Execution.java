@@ -1,4 +1,4 @@
-package io.github.mpontoc.picaroon.core.config;
+package io.github.mpontoc.picaroon.core.execution;
 
 public class Execution {
 	
