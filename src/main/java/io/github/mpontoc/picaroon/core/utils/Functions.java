@@ -124,6 +124,8 @@ public class Functions {
 			Report.cucumberWriteReport("\n Plataforma : " + Mobile.getPlataforma());
 			Report.cucumberWriteReport("\n Device : " + Mobile.getDeviceName());
 			Report.cucumberWriteReport("\n UDID : " + Mobile.getDeviceUDID());
+		} else if (PropertiesVariables.BROWSER_OR_MOBILE.equals("false")) {
+			Report.cucumberWriteReport("\n Backend Execution");
 		} else {
 			Report.cucumberWriteReport("\n Browser : " + PropertiesVariables.BROWSER_OR_MOBILE);
 		}
@@ -344,6 +346,5 @@ public class Functions {
 	public static void setDescricaoReport(String descricaoReport) {
 		Functions.descricaoReport = descricaoReport;
 	}
-
 
 }

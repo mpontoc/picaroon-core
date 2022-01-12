@@ -135,16 +135,18 @@ public class MobileElementFunctions {
 			break;
 
 		case LEFT:
+			
 			directionValues.put(START_POSITION_X, (int) 0.1);
 			directionValues.put(END_POSITION_X, (int) 0.9);
 			break;
 
 		case RIGHT:
+			
 			directionValues.put(START_POSITION_X, (int) 0.9);
 			directionValues.put(END_POSITION_X, (int) 0.1);
 			break;
-
 		}
+		
 		return directionValues;
 	}
 

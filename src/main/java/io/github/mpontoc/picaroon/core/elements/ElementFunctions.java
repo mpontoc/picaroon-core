@@ -215,6 +215,7 @@ public class ElementFunctions {
 			actions.perform();
 			Log.log("Element '" + obj + "' located and clicked by perform");
 		} else if (acao.equals(SET)) {
+			getElement().clear();
 			getElement().sendKeys(textoSet[0]);
 			Log.log("Element '" + obj + "' located and set with content " + textoSet[0]);
 		} else if (acao.equals(GET_TEXT)) {

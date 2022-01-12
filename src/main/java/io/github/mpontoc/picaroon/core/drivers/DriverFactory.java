@@ -1,5 +1,7 @@
 package io.github.mpontoc.picaroon.core.drivers;
 
+import static io.github.mpontoc.picaroon.core.drivers.CapabilitiesConstants.APP_NAME;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
@@ -60,7 +62,7 @@ public class DriverFactory {
 	public static void newApp() {
 
 		if (driver != null) {
-			String appRunning = mobileDriver.getCapabilities().getCapability("appName").toString();
+			String appRunning = mobileDriver.getCapabilities().getCapability(APP_NAME).toString();
 			if (!appRunning.toLowerCase().equals(Mobile.getApp())) {
 				Log.log("Starting app '" + Mobile.getApp() + "'");
 				driver.quit();
