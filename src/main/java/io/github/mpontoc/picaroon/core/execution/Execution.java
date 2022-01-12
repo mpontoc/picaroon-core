@@ -3,7 +3,7 @@ package io.github.mpontoc.picaroon.core.execution;
 public class Execution {
 	
 	private static Boolean isFirstRun = null;
-	private static Boolean appRunner = null;
+	private static Boolean appByRunner = null;
 	private static String horaInicial = null;
 	private static String horaInicialTotal = null;
 	private static String horaFinalTotal = null;
@@ -20,16 +20,16 @@ public class Execution {
 		Execution.isFirstRun = isFirstRun;
 	}
 	/**
-	 * @return the appRunner
+	 * @return the appByRunner
 	 */
 	public static Boolean getAppRunner() {
-		return appRunner;
+		return appByRunner;
 	}
 	/**
-	 * @param appRunner the appRunner to set
+	 * @param appByRunner the appByRunner to set
 	 */
-	public static void setAppRunner(Boolean appRunner) {
-		Execution.appRunner = appRunner;
+	public static void setAppRunner(Boolean appByRunner) {
+		Execution.appByRunner = appByRunner;
 	}
 	/**
 	 * @return the horaInicial

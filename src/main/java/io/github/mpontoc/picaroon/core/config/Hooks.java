@@ -10,7 +10,6 @@ import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
 import io.github.mpontoc.picaroon.core.execution.Execution;
 import io.github.mpontoc.picaroon.core.execution.report.Report;
 import io.github.mpontoc.picaroon.core.utils.Functions;
-import io.github.mpontoc.picaroon.core.utils.Log;
 import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
 
 public class Hooks {
@@ -46,7 +45,7 @@ public class Hooks {
 		}
 	}
 
-	@After(order = 1)
+	@After
 	public static void printTimeExecution() {
 
 		if (PropertiesVariables.PRINT_AFTER_STEPS.equals("false")) {
@@ -59,15 +58,4 @@ public class Hooks {
 		ActionsCommands.setPrintedInfo(false);
 	}
 	
-	@After(order = 0)
-	public static void endExecution() {
-		try {
-			DriverFactory.driver.quit();
-		} catch (Exception e) {
-		}
-		Log.log("Report saved on path: " + Functions.getPathReportCompleto());
-		Functions.zipReportFiles();
-		Log.log("driver killed [ " + PropertiesVariables.BROWSER_OR_MOBILE + " ]");
-	}
-
 }

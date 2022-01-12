@@ -1,20 +1,20 @@
 package io.github.mpontoc.picaroon.core.commands;
 
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.CLICK;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.CLICK_AND_PERFORM;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_ELEMENTS;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_STRING_ELEMENTS;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_TEXT;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.SET;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.WAIT;
-import static io.github.mpontoc.picaroon.core.utils.ElementFunctions.positionElement;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.CLICK;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.CLICK_AND_PERFORM;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_ELEMENTS;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_STRING_ELEMENTS;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_TEXT;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SET;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.WAIT;
+import static io.github.mpontoc.picaroon.core.elements.ElementFunctions.POSITION_ELEMENT;
 
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
 
 import io.cucumber.java.Scenario;
-import io.github.mpontoc.picaroon.core.utils.ElementFunctions;
+import io.github.mpontoc.picaroon.core.elements.ElementFunctions;
 
 public class ActionsCommands {
 
@@ -45,9 +45,9 @@ public class ActionsCommands {
 	public static void waitExistClick(String[] obj, Integer timeout, Boolean... assertObj) {
 
 
-		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, CLICK, obj);
+		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, CLICK, obj);
 
-		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
 
 	}
 
@@ -61,9 +61,9 @@ public class ActionsCommands {
 
 	public static void waitExistClickAndPerform(String[] obj, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, CLICK_AND_PERFORM, obj);
+		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, CLICK_AND_PERFORM, obj);
 
-		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
 
 	}
 
@@ -76,9 +76,9 @@ public class ActionsCommands {
 
 	public static void waitExistSet(String[] obj, String textoSet, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, SET, obj, textoSet);
+		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, SET, obj, textoSet);
 
-		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
 	}
 
 	public static Boolean waitExist(String obj, Integer timeout, Boolean... assertObj) {
@@ -92,9 +92,9 @@ public class ActionsCommands {
 
 	public static Boolean waitExist(String[] obj, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, WAIT, obj);
+		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, WAIT, obj);
 
-		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
 
 		return located;
 	}
@@ -110,9 +110,9 @@ public class ActionsCommands {
 
 	public static WebElement waitExistElement(String[] obj, Integer timeout, Boolean... assertObj) {
 		
-		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, WAIT, obj);
+		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, WAIT, obj);
 
-		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
 
 		return ElementFunctions.getElement();
 	}
@@ -128,9 +128,9 @@ public class ActionsCommands {
 
 	public static String waitExistGetText(String[] obj, Integer timeout, Boolean... assertObj) {
 		
-		located = ElementFunctions.localizaElemento(obj[positionElement], timeout, GET_TEXT, obj);
+		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, GET_TEXT, obj);
 
-		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
 		
 		return ElementFunctions.getTextoObtido();
 	}
@@ -156,9 +156,9 @@ public class ActionsCommands {
 
 	public static List<WebElement> getElements(String[] obj, Integer timeout, Boolean... assertObj) {
 		
-		listElements = ElementFunctions.getElements(obj[positionElement], timeout, obj, GET_ELEMENTS);
+		listElements = ElementFunctions.getElements(obj[POSITION_ELEMENT], timeout, obj, GET_ELEMENTS);
 
-		ElementFunctions.validaElemento(obj[positionElement], assertObj, located);
+		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
 		
 		return listElements;
 	}

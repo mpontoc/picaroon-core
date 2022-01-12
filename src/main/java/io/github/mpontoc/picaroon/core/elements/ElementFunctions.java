@@ -1,17 +1,17 @@
-package io.github.mpontoc.picaroon.core.utils;
+package io.github.mpontoc.picaroon.core.elements;
 
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.executor;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.CLICK;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.CLICK_AND_PERFORM;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_ELEMENTS;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_STRING_ELEMENTS;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.GET_TEXT;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.SET;
-import static io.github.mpontoc.picaroon.core.utils.ElementConstants.WAIT;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.CLICK;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.CLICK_AND_PERFORM;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_ELEMENTS;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_STRING_ELEMENTS;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_TEXT;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SET;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.WAIT;
 import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.BROWSER_OR_MOBILE;
 import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.COLOR_BACKGROUND;
-import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.PLATFORM;
+import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.MOBILE_PLATFORM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +25,13 @@ import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
 import io.github.mpontoc.picaroon.core.exception.PicaroonException;
 import io.github.mpontoc.picaroon.core.execution.report.Report;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
+import io.github.mpontoc.picaroon.core.utils.Functions;
+import io.github.mpontoc.picaroon.core.utils.Log;
+import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
 
 public class ElementFunctions {
 
-	public static Integer positionElement = null;
+	public static Integer POSITION_ELEMENT = null;
 
 	private static List<WebElement> listElements = null;
 	private static WebElement element = null;
@@ -43,13 +46,13 @@ public class ElementFunctions {
 		if (Mobile.getPlataforma() != null) {
 			if (Mobile.getPlataforma().equals("android"))
 				// android
-				positionElement = 0;
+				POSITION_ELEMENT = 0;
 			else
 				// ios
-				positionElement = 1;
+				POSITION_ELEMENT = 1;
 		} else {
 			// web
-			positionElement = 0;
+			POSITION_ELEMENT = 0;
 		}
 	}
 
@@ -61,13 +64,13 @@ public class ElementFunctions {
 			if (elemento.length > 2) {
 				nomeObjMapeado = elemento[2];
 			} else {
-				nomeObjMapeado = elemento[positionElement];
+				nomeObjMapeado = elemento[POSITION_ELEMENT];
 			}
 		} else {
 			if (elemento.length > 1) {
 				nomeObjMapeado = elemento[1];
 			} else {
-				nomeObjMapeado = elemento[positionElement];
+				nomeObjMapeado = elemento[POSITION_ELEMENT];
 			}
 		}
 		return nomeObjMapeado;
@@ -215,7 +218,7 @@ public class ElementFunctions {
 			getElement().sendKeys(textoSet[0]);
 			Log.log("Element '" + obj + "' located and set with content " + textoSet[0]);
 		} else if (acao.equals(GET_TEXT)) {
-			if (BROWSER_OR_MOBILE.contains("mobile") && PLATFORM.toLowerCase().equals("ios")) {
+			if (BROWSER_OR_MOBILE.contains("mobile") && MOBILE_PLATFORM.toLowerCase().equals("ios")) {
 				try {
 					setTextoObtido(getElement().getAttribute("label").toString());
 				} catch (Exception e) {

@@ -2,7 +2,7 @@ package io.github.mpontoc.picaroon.core.commands;
 
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.executor;
-import static io.github.mpontoc.picaroon.core.utils.ElementFunctions.positionElement;
+import static io.github.mpontoc.picaroon.core.elements.ElementFunctions.POSITION_ELEMENT;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
-import io.github.mpontoc.picaroon.core.utils.ElementFunctions;
+import io.github.mpontoc.picaroon.core.elements.ElementFunctions;
 import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.github.mpontoc.picaroon.core.utils.Log;
 import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
@@ -137,7 +137,7 @@ public class WebCommands {
 
 		for (int i = 1; i <= timeout; i++) {
 			driver.switchTo().window((String) janela.get(numberWindow));
-			element = ElementFunctions.findBy(obj[positionElement]);
+			element = ElementFunctions.findBy(obj[POSITION_ELEMENT]);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located and clicked on new window");
@@ -159,7 +159,7 @@ public class WebCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
+		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObjReceved, located);
 	}
 
 	public static void waitExistSetNewWindow(String obj, String conteudo, Integer numberWindow, Integer timeout,
@@ -203,7 +203,7 @@ public class WebCommands {
 
 		for (int i = 1; i <= timeout; i++) {
 			driver.switchTo().window((String) janela.get(numberWindow));
-			element = ElementFunctions.findBy(obj[positionElement]);
+			element = ElementFunctions.findBy(obj[POSITION_ELEMENT]);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + obj + "' located");
@@ -218,7 +218,7 @@ public class WebCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
+		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObjReceved, located);
 	}
 
 	public static void waitExistSelectComboBox(String obj, String value, Integer timeout, Boolean... assertObj) {
@@ -248,7 +248,7 @@ public class WebCommands {
 		assertObjReceved = assertObj;
 		located = false;
 		for (int i = 1; i <= timeout; i++) {
-			element = ElementFunctions.findBy(obj[positionElement]);
+			element = ElementFunctions.findBy(obj[POSITION_ELEMENT]);
 			if (element != null) {
 				located = true;
 				Log.log("Element '" + ElementFunctions.tratativaReportElemento(obj) + "' located");
@@ -264,7 +264,7 @@ public class WebCommands {
 					;
 				}
 		}
-		ElementFunctions.validaElemento(obj[positionElement], assertObjReceved, located);
+		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObjReceved, located);
 	}
 
 	public static void scrollDownDirectlyWeb(String obj) {
