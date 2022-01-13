@@ -65,10 +65,8 @@ public class Report {
 			width = 480;
 			height = 854;
 		} else {
-
 			width = 1024;
 			height = 768;
-
 		}
 
 		try {
@@ -91,7 +89,6 @@ public class Report {
 		}
 
 		return imageBytes;
-
 	}
 
 	private static void setCucumberReportMessage(String msg) {

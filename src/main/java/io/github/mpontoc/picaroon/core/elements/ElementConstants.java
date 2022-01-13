@@ -16,5 +16,7 @@ public class ElementConstants {
 	public static final String RIGHT = "right";
 	public final static String SCROLL_SCREEN = "scrollScreen";
 	public final static String SWIPE_SCREEN = "swipeScreen";
+	public final static String NEW_WINDOW = "newWindow";
+	public final static String MENU_DROP_DOWN = "menuDropDown";
 
 }

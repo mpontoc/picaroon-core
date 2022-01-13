@@ -36,101 +36,101 @@ public class ActionsCommands {
 
 	public static void waitExistClick(String obj, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj, timeout, CLICK, null);
+		located = ElementFunctions.locateElement(obj, timeout, CLICK, null);
 
-		ElementFunctions.validaElemento(obj, assertObj, located);
+		ElementFunctions.validateElement(obj, assertObj, located);
 
 	}
 
 	public static void waitExistClick(String[] obj, Integer timeout, Boolean... assertObj) {
 
 
-		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, CLICK, obj);
+		located = ElementFunctions.locateElement(obj[POSITION_ELEMENT], timeout, CLICK, obj);
 
-		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
+		ElementFunctions.validateElement(obj[POSITION_ELEMENT], assertObj, located);
 
 	}
 
 	public static void waitExistClickAndPerform(String obj, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj, timeout, CLICK_AND_PERFORM, null);
+		located = ElementFunctions.locateElement(obj, timeout, CLICK_AND_PERFORM, null);
 
-		ElementFunctions.validaElemento(obj, assertObj, located);
+		ElementFunctions.validateElement(obj, assertObj, located);
 
 	}
 
 	public static void waitExistClickAndPerform(String[] obj, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, CLICK_AND_PERFORM, obj);
+		located = ElementFunctions.locateElement(obj[POSITION_ELEMENT], timeout, CLICK_AND_PERFORM, obj);
 
-		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
+		ElementFunctions.validateElement(obj[POSITION_ELEMENT], assertObj, located);
 
 	}
 
 	public static void waitExistSet(String obj, String textoSet, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj, timeout, SET, null, textoSet);
+		located = ElementFunctions.locateElement(obj, timeout, SET, null, textoSet);
 
-		ElementFunctions.validaElemento(obj, assertObj, located);
+		ElementFunctions.validateElement(obj, assertObj, located);
 	}
 
 	public static void waitExistSet(String[] obj, String textoSet, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, SET, obj, textoSet);
+		located = ElementFunctions.locateElement(obj[POSITION_ELEMENT], timeout, SET, obj, textoSet);
 
-		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
+		ElementFunctions.validateElement(obj[POSITION_ELEMENT], assertObj, located);
 	}
 
 	public static Boolean waitExist(String obj, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj, timeout, WAIT, null);
+		located = ElementFunctions.locateElement(obj, timeout, WAIT, null);
 
-		ElementFunctions.validaElemento(obj, assertObj, located);
+		ElementFunctions.validateElement(obj, assertObj, located);
 
 		return located;
 	}
 
 	public static Boolean waitExist(String[] obj, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, WAIT, obj);
+		located = ElementFunctions.locateElement(obj[POSITION_ELEMENT], timeout, WAIT, obj);
 
-		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
+		ElementFunctions.validateElement(obj[POSITION_ELEMENT], assertObj, located);
 
 		return located;
 	}
 
 	public static WebElement waitExistElement(String obj, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj, timeout, WAIT, null);
+		located = ElementFunctions.locateElement(obj, timeout, WAIT, null);
 
-		ElementFunctions.validaElemento(obj, assertObj, located);
+		ElementFunctions.validateElement(obj, assertObj, located);
 
 		return ElementFunctions.getElement();
 	}
 
 	public static WebElement waitExistElement(String[] obj, Integer timeout, Boolean... assertObj) {
 		
-		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, WAIT, obj);
+		located = ElementFunctions.locateElement(obj[POSITION_ELEMENT], timeout, WAIT, obj);
 
-		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
+		ElementFunctions.validateElement(obj[POSITION_ELEMENT], assertObj, located);
 
 		return ElementFunctions.getElement();
 	}
 
 	public static String waitExistGetText(String obj, Integer timeout, Boolean... assertObj) {
 
-		located = ElementFunctions.localizaElemento(obj, timeout, GET_TEXT, null);
+		located = ElementFunctions.locateElement(obj, timeout, GET_TEXT, null);
 
-		ElementFunctions.validaElemento(obj, assertObj, located);
+		ElementFunctions.validateElement(obj, assertObj, located);
 		
 		return ElementFunctions.getTextoObtido();
 	}
 
 	public static String waitExistGetText(String[] obj, Integer timeout, Boolean... assertObj) {
 		
-		located = ElementFunctions.localizaElemento(obj[POSITION_ELEMENT], timeout, GET_TEXT, obj);
+		located = ElementFunctions.locateElement(obj[POSITION_ELEMENT], timeout, GET_TEXT, obj);
 
-		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
+		ElementFunctions.validateElement(obj[POSITION_ELEMENT], assertObj, located);
 		
 		return ElementFunctions.getTextoObtido();
 	}
@@ -139,7 +139,7 @@ public class ActionsCommands {
 		
 		String[] listStringElements  = ElementFunctions.getElements(obj, timeout, null, GET_STRING_ELEMENTS);
 
-		ElementFunctions.validaElemento(obj, assertObj, located);
+		ElementFunctions.validateElement(obj, assertObj, located);
 		
 		return listStringElements;
 
@@ -149,7 +149,7 @@ public class ActionsCommands {
 		
 		listElements = ElementFunctions.getElements(obj, timeout, null, GET_ELEMENTS);
 
-		ElementFunctions.validaElemento(obj, assertObj, located);
+		ElementFunctions.validateElement(obj, assertObj, located);
 		
 		return listElements;
 	}
@@ -158,7 +158,7 @@ public class ActionsCommands {
 		
 		listElements = ElementFunctions.getElements(obj[POSITION_ELEMENT], timeout, obj, GET_ELEMENTS);
 
-		ElementFunctions.validaElemento(obj[POSITION_ELEMENT], assertObj, located);
+		ElementFunctions.validateElement(obj[POSITION_ELEMENT], assertObj, located);
 		
 		return listElements;
 	}
