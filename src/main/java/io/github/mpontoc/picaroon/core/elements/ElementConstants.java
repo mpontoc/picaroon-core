@@ -18,5 +18,6 @@ public class ElementConstants {
 	public final static String SWIPE_SCREEN = "swipeScreen";
 	public final static String NEW_WINDOW = "newWindow";
 	public final static String MENU_DROP_DOWN = "menuDropDown";
+	public final static String COMBO_BOX = "comboBox";
 
 }

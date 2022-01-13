@@ -1,20 +1,13 @@
 package io.github.mpontoc.picaroon.core.commands;
 
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.CLICK;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.CLICK_AND_PERFORM;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_ELEMENTS;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_STRING_ELEMENTS;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_TEXT;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SET;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.WAIT;
-import static io.github.mpontoc.picaroon.core.elements.ElementFunctions.POSITION_ELEMENT;
+import io.cucumber.java.Scenario;
+import io.github.mpontoc.picaroon.core.elements.ElementFunctions;
+import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import org.openqa.selenium.WebElement;
-
-import io.cucumber.java.Scenario;
-import io.github.mpontoc.picaroon.core.elements.ElementFunctions;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.*;
+import static io.github.mpontoc.picaroon.core.elements.ElementFunctions.POSITION_ELEMENT;
 
 public class ActionsCommands {
 
