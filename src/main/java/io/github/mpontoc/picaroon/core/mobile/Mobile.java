@@ -26,8 +26,6 @@ public class Mobile {
 		try {
 			return objectMapper.readValue(JsonFileReader.getCapsJson(nameFileJson, capsNameDevice).toString(),
 					HashMap.class);
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

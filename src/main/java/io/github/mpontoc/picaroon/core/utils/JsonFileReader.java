@@ -9,152 +9,114 @@ import org.junit.Test;
 
 public class JsonFileReader {
 
-	public static String getJsonSingleField(String nameFileJson, String nameObjectJson, String field) {
+    private static String PATH_TO_JSON_FILES = "./src/test/resources/json/";
 
-		JSONParser parser = new JSONParser();
-		String fieldReturned = null;
-		try {
+    public static String getJsonSingleField(String nameFileJson, String nameObjectJson, String field) {
 
-			Object obj = parser.parse(new FileReader("./src/test/resources/json/" + nameFileJson));
-			Log.log(obj.toString());
-			JSONObject indexJson = (JSONObject) obj;
-			JSONObject getFields = (JSONObject) indexJson.get(nameObjectJson);
-			fieldReturned = (String) getFields.get(field);
+        JSONParser parser = new JSONParser();
+        String fieldReturned = null;
+        try {
 
-		} catch (Exception e) {
+            Object obj = parser.parse(new FileReader(PATH_TO_JSON_FILES + nameFileJson));
+            Log.log(obj.toString());
+            JSONObject indexJson = (JSONObject) obj;
+            JSONObject getFields = (JSONObject) indexJson.get(nameObjectJson);
+            fieldReturned = (String) getFields.get(field);
 
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
 
-		return fieldReturned;
-	}
+            e.printStackTrace();
+        }
 
-	public static String getArrayJsonString(String nameFileJson, String nameObjectJson, String field) {
+        return fieldReturned;
+    }
 
-		JSONParser parser = new JSONParser();
-		String fieldReturned = null;
-		try {
-			JSONArray jsonArray = (JSONArray) parser.parse(new FileReader("./src/test/resources/json/" + nameFileJson));
+    public static String getArrayJsonString(String nameFileJson, String nameObjectJson, String field) {
 
-			for (Object obj : jsonArray) {
+        JSONParser parser = new JSONParser();
+        String fieldReturned = null;
+        try {
+            JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(PATH_TO_JSON_FILES + nameFileJson));
 
-				JSONObject indexJsonArray = (JSONObject) obj;
-				Log.log(indexJsonArray.toString());
+            for (Object obj : jsonArray) {
 
-				JSONObject getValueFieldArray = (JSONObject) indexJsonArray.get(nameObjectJson);
+                JSONObject indexJsonArray = (JSONObject) obj;
+                Log.log(indexJsonArray.toString());
 
-				fieldReturned = (String) getValueFieldArray.get(field);
-				Log.log(fieldReturned);
-			}
+                JSONObject getValueFieldArray = (JSONObject) indexJsonArray.get(nameObjectJson);
 
-		} catch (Exception e) {
+                fieldReturned = (String) getValueFieldArray.get(field);
+                Log.log(fieldReturned);
+            }
 
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
 
-		return fieldReturned;
-	}
+            e.printStackTrace();
+        }
 
-	public static String getJsonToString(String nameFileJson) {
+        return fieldReturned;
+    }
 
-		JSONParser parser = new JSONParser();
-		String jsonToString = null;
+    public static String getJsonToString(String nameFileJson) {
 
-		try {
+        JSONParser parser = new JSONParser();
+        String jsonToString = null;
 
-			Object obj = parser.parse(new FileReader("./src/test/resources/json/" + nameFileJson));
-			Log.log(obj.toString());
-			JSONObject objJson = (JSONObject) obj;
-			jsonToString = objJson.toJSONString();
+        try {
 
-		} catch (Exception e) {
+            Object obj = parser.parse(new FileReader(PATH_TO_JSON_FILES + nameFileJson));
+            Log.log(obj.toString());
+            JSONObject objJson = (JSONObject) obj;
+            jsonToString = objJson.toJSONString();
 
-			e.printStackTrace();
-		}
-		return jsonToString;
-	}
+        } catch (Exception e) {
 
-	public static JSONObject getJsonObject(String nameFileJson) {
+            e.printStackTrace();
+        }
+        return jsonToString;
+    }
 
-		JSONParser parser = new JSONParser();
-		JSONObject objJson = null;
+    public static JSONObject getJsonObject(String nameFileJson) {
 
-		try {
+        JSONParser parser = new JSONParser();
+        JSONObject objJson = null;
 
-			Object obj = parser.parse(new FileReader("./src/test/resources/json/" + nameFileJson));
-			Log.log(obj.toString());
-			objJson = (JSONObject) obj;
-			Log.log(objJson.toString());
+        try {
 
-		} catch (Exception e) {
+            Object obj = parser.parse(new FileReader(PATH_TO_JSON_FILES + nameFileJson));
+            Log.log(obj.toString());
+            objJson = (JSONObject) obj;
+            Log.log(objJson.toString());
 
-			e.printStackTrace();
-		}
-		return objJson;
-	}
+        } catch (Exception e) {
 
-	public static JSONObject getCapsJson(String nameFileJson, String capsNameDeviceOrApp) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
 
-		JSONParser parser = new JSONParser();
-		try {
-			JSONArray jsonArray = (JSONArray) parser.parse(new FileReader("./src/test/resources/json/" + nameFileJson));
+    public static JSONObject getCapsJson(String nameFileJson, String capsNameDeviceOrApp) {
 
-			for (Object obj : jsonArray) {
+        JSONParser parser = new JSONParser();
+        try {
+            JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(PATH_TO_JSON_FILES + nameFileJson));
 
-				JSONObject caps = (JSONObject) obj;
-				Log.log(caps.toString());
+            for (Object obj : jsonArray) {
 
-				if (caps.get("name").toString().equalsIgnoreCase(capsNameDeviceOrApp)) {
+                JSONObject caps = (JSONObject) obj;
+                Log.log(caps.toString());
 
-					return (JSONObject) caps.get("caps");
-				}
-			}
+                if (caps.get("name").toString().equalsIgnoreCase(capsNameDeviceOrApp)) {
 
-		} catch (Exception e) {
+                    return (JSONObject) caps.get("caps");
+                }
+            }
 
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
 
-		return null;
-	}
+            e.printStackTrace();
+        }
 
-//	https://medium.com/geekculture/how-to-set-up-appium-desired-capabilities-from-a-json-file-91b3e0bb16dc#id_token=eyJhbGciOiJSUzI1NiIsImtpZCI6ImNkNDliMmFiMTZlMWU5YTQ5NmM4MjM5ZGFjMGRhZGQwOWQ0NDMwMTIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJuYmYiOjE2MjE2ODQ1MTcsImF1ZCI6IjIxNjI5NjAzNTgzNC1rMWs2cWUwNjBzMnRwMmEyamFtNGxqZGNtczAwc3R0Zy5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjEwMzIxMzUwNDg5MjU3MTIzNDE3NiIsImVtYWlsIjoibXBvbnRvY0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXpwIjoiMjE2Mjk2MDM1ODM0LWsxazZxZTA2MHMydHAyYTJqYW00bGpkY21zMDBzdHRnLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiaWF0IjoxNjIxNjg0ODE3LCJleHAiOjE2MjE2ODg0MTcsImp0aSI6IjgwYjliZmI2MWVmNWJjYjRlOTRkMWRiODIzZmI3NjBkM2YwZjJlYTUifQ.B5bId2zNH_vV5TPW3gLWJ6lKC-ANmt-2Az1lPlK999M4QTwE0M6wCZ5tC7JGAdrBSNNcdDqc6fgzbhQJibHTrMTDwYVWNN5Do34XjF4eD9BkcJ-7ScKI0meENgoR4HTc2JTijGjI5gOo0NlY-0tu0exdmMrYRC8nqpaH4-EdiBO3uPhOpyBJStOlUkdlpa7qHP6vLO6tyJIWh_aTUitlx_tNnVBYXEVLx4yMktYupgwb00tAfdZf0ESh03_UNc-4dJsaJGD0Fq1ctciUk9lWYDpeQVkQrG89USEQz0PVTv1zaiERvNeqgnq6X25dP41Xcd-Jt_O_AEJw_FsEJpEnnA
-
-	@Test
-	public void receiveSingleJson() {
-
-		JSONParser parser = new JSONParser();
-		try {
-
-			JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("./src/test/resources/json/gmail.json"));
-			Log.log(jsonObject.toString());
-
-			Object obj = new Object();
-			obj = jsonObject;
-
-			JSONObject indexJson = (JSONObject) obj;
-
-			JSONObject getValueField = (JSONObject) indexJson.get("gmail");
-
-			String firstName = (String) getValueField.get("user");
-			Log.log(firstName);
-
-			String lastName = (String) getValueField.get("pass");
-			Log.log(lastName);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-	}
-
-	@Test
-	public void testGetSingleJson() {
-
-		String user = getJsonSingleField("gmail.json", "gmail", "user");
-		Log.log("O usuario eh " + user);
-
-	}
-
+        return null;
+    }
 }

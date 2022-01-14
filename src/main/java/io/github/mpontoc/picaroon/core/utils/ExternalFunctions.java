@@ -1,6 +1,7 @@
 package io.github.mpontoc.picaroon.core.utils;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class ExternalFunctions {
 
@@ -14,7 +15,7 @@ public class ExternalFunctions {
 
 			String Browser = PropertiesVariables.BROWSER_OR_MOBILE;
 
-			if (Functions.verifyOS() == "LINUX") {
+			if (Functions.verifyOS().equals("LINUX")) {
 
 				String killFirefox = "pkill firefox";
 				String killFirefoxDriver = "pkill geckodriver";
@@ -25,7 +26,7 @@ public class ExternalFunctions {
 
 				try {
 
-					if (Browser == "firefox") {
+					if (Objects.equals(Browser, "firefox")) {
 						rt.exec(verifyVersoinFirefox).getOutputStream().toString();
 						rt.exec(verifyVersionChrome).getOutputStream();
 						rt.exec(killFirefox);

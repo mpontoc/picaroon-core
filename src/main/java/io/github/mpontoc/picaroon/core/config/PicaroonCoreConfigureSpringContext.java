@@ -7,8 +7,8 @@ import io.cucumber.java.Before;
 import io.cucumber.spring.CucumberContextConfiguration;
 
 @CucumberContextConfiguration
-@ContextConfiguration(classes = CoreConfigInit.class, loader = SpringBootContextLoader.class)
-public class CoreConfigureSpringContext {
+@ContextConfiguration(classes = PicaroonCoreConfigSpringScanPacks.class, loader = SpringBootContextLoader.class)
+public class PicaroonCoreConfigureSpringContext {
 	@Before
 	public void SetupSpringContext() {
 		

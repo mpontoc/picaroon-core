@@ -1,23 +1,16 @@
 package io.github.mpontoc.picaroon.core.commands;
 
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.DOWN;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.LEFT;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.RIGHT;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SCROLL_SCREEN;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SWIPE_SCREEN;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.UP;
-import static io.github.mpontoc.picaroon.core.elements.ElementFunctions.POSITION_ELEMENT;
-import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.MOBILE_PLATFORM;
+import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
+import io.github.mpontoc.picaroon.core.elements.MobileElementFunctions;
+import io.github.mpontoc.picaroon.core.utils.Functions;
+import io.github.mpontoc.picaroon.core.utils.Log;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
-import io.github.mpontoc.picaroon.core.elements.MobileElementFunctions;
-import io.github.mpontoc.picaroon.core.utils.Functions;
-import io.github.mpontoc.picaroon.core.utils.Log;
-import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.*;
+import static io.github.mpontoc.picaroon.core.elements.ElementFunctions.POSITION_ELEMENT;
 
 public class MobileCommands {
 
@@ -127,7 +120,7 @@ public class MobileCommands {
 		MobileElementFunctions.swipeDirection(SWIPE_SCREEN, percentScreen, RIGHT, qtd);
 	}
 
-	public static void changeContextNativeOrWebView(String nativeOrWebview) {
+	public static void changeContextNativeOrWebview(String nativeOrWebview) {
 
 		String currentContext = DriverFactory.mobileDriver.getContext().toString().toLowerCase();
 		Log.log(currentContext);
@@ -149,6 +142,8 @@ public class MobileCommands {
 			if (driverContext.containsKey(nativeOrWebview.toLowerCase())) {
 				DriverFactory.mobileDriver.context(driverContext.get(nativeOrWebview.toLowerCase()));
 				Log.log(DriverFactory.mobileDriver.getContext().toString());
+			} else {
+				Log.log("The context " + nativeOrWebview.toLowerCase() + " is not present on view!");
 			}
 		} else {
 			Log.log("Are same context: " + currentContext + " - " + nativeOrWebview.toLowerCase());

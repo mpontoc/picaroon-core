@@ -30,7 +30,7 @@ public class Functions {
 
 	public static boolean feriado;
 	private static String pathReport = null;
-	private static String pathReportCompleto = null;
+	private static String pathReportComplete = null;
 	private static String descricaoReport = null;
 	public static Execution execution = new Execution();
 
@@ -226,7 +226,7 @@ public class Functions {
 		String pathDefault = System.getProperty("user.dir") + File.separator + "target" + File.separator
 				+ "cucumber-reports";
 
-		setPathReportCompleto(System.getProperty("user.dir") + File.separator + "target" + File.separator
+		setPathReportComplete(System.getProperty("user.dir") + File.separator + "target" + File.separator
 				+ "cucumber-reports" + File.separator + Functions.getPathReport());
 
 		File pathDefault_ = new File(pathDefault);
@@ -236,7 +236,7 @@ public class Functions {
 
 		try {
 			File dir = null;
-			dir = new File(getPathReportCompleto());
+			dir = new File(getPathReportComplete());
 			File[] listFiles = dir.listFiles();
 
 			if (listFiles != null) {
@@ -331,12 +331,12 @@ public class Functions {
 		Functions.pathReport = pathReport;
 	}
 
-	public static String getPathReportCompleto() {
-		return pathReportCompleto;
+	public static String getPathReportComplete() {
+		return pathReportComplete;
 	}
 
-	public static void setPathReportCompleto(String pathReportCompleto) {
-		Functions.pathReportCompleto = pathReportCompleto;
+	public static void setPathReportComplete(String pathReportComplete) {
+		Functions.pathReportComplete = pathReportComplete;
 	}
 
 	public static String getDescricaoReport() {

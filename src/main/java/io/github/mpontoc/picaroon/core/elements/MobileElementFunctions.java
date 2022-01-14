@@ -7,11 +7,11 @@ import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SWIPE_SC
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.RIGHT;
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.UP;
 import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.ANDROID;
-import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.MOBILE_PLATFORM;
 import static java.time.Duration.ofMillis;
 
 import java.util.HashMap;
 
+import io.github.mpontoc.picaroon.core.mobile.Mobile;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -31,7 +31,7 @@ public class MobileElementFunctions {
 	private final static String END_POSITION_Y = "end_y";
 	private final static String START_POSITION_X = "start_x";
 	private final static String END_POSITION_X = "end_x";
-	private static boolean objFinded = false;
+	private static boolean objFound = false;
 
 	@SuppressWarnings("rawtypes")
 	public static void scrollDirection(String obj, String direction, int... qtdScroll) {
@@ -55,15 +55,15 @@ public class MobileElementFunctions {
 
 		int i = 0;
 
-		while (objFinded == false) {
+		while (objFound == false) {
 
 			if (i == qtdTotalScroll) {
 				Log.log("Exceeded quantity to scroll of " + qtdTotalScroll);
 				break;
 			}
 
-			if (objFinded == false && !obj.equals(SCROLL_SCREEN)) {
-				objFinded = ActionsCommands.waitExist(obj, 1);
+			if (objFound == false && !obj.equals(SCROLL_SCREEN)) {
+				objFound = ActionsCommands.waitExist(obj, 1);
 			}
 
 			TouchAction actions = new TouchAction(DriverFactory.mobileDriver);
@@ -75,7 +75,7 @@ public class MobileElementFunctions {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static void swipeDirection(String obj, double percentScrenn, String direction, int... qtdSwipe) {
+	public static void swipeDirection(String obj, double percentScreen, String direction, int... qtdSwipe) {
 
 		HashMap<String, Integer> directionX = getDirection(direction);
 
@@ -88,7 +88,7 @@ public class MobileElementFunctions {
 		Dimension size = DriverFactory.driver.manage().window().getSize();
 		Log.log(size.toString());
 
-		int y = (int) (size.height * percentScrenn);
+		int y = (int) (size.height * percentScreen);
 		int start_x = (int) (size.width * directionX.get(START_POSITION_X));
 		int end_x = (int) (size.width * directionX.get(START_POSITION_Y));
 
@@ -96,15 +96,15 @@ public class MobileElementFunctions {
 
 		int i = 0;
 
-		while (objFinded == false) {
+		while (!objFound) {
 
 			if (i == qtdTotalSwipe) {
 				Log.log("Exceeded quantity to swipe of " + qtdTotalSwipe);
 				break;
 			}
 
-			if (objFinded == false && !obj.equals(SWIPE_SCREEN)) {
-				objFinded = ActionsCommands.waitExist(obj, 1);
+			if (!objFound && !obj.equals(SWIPE_SCREEN)) {
+				objFound = ActionsCommands.waitExist(obj, 1);
 			}
 
 			TouchAction actions = new TouchAction(DriverFactory.mobileDriver);
@@ -152,7 +152,7 @@ public class MobileElementFunctions {
 
 	public static void scrollByText(String obj, String direction) {
 
-		if (MOBILE_PLATFORM.equals(ANDROID)) {
+		if (Mobile.getPlataforma().equals(ANDROID)) {
 
 			try {
 				DriverFactory.driver.findElement(MobileBy.AndroidUIAutomator(

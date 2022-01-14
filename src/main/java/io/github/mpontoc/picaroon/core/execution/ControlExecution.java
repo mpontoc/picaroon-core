@@ -13,9 +13,9 @@ public class ControlExecution {
 	public static void tearDown() {
 		try {
 			DriverFactory.driver.quit();
-		} catch (Exception e) {
+		} catch (Exception ex) {
 		}
-		Log.log("Report saved on path: " + Functions.getPathReportCompleto());
+		Log.log("Report saved on path: " + Functions.getPathReportComplete());
 		Functions.zipReportFiles();
 		Log.log("driver killed [ " + PropertiesVariables.BROWSER_OR_MOBILE + " ]");
 	}

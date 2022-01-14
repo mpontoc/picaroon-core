@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 				"io.github.mpontoc.picaroon.*"
 		} 
 		)
-//@PropertySource("application.properties")
 @EntityScan(
 		basePackages = {
 				"io.github.mpontoc.picaroon.core.config", 
@@ -19,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 		}
 		)
 
-public class CoreConfigInit {
+public class PicaroonCoreConfigSpringScanPacks {
 	
 
 }

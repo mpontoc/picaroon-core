@@ -43,7 +43,7 @@ public class Report {
 
 		if (PropertiesVariables.PRINT_AFTER_STEPS.equals("true")
 				&& !PropertiesVariables.BROWSER_OR_MOBILE.contains("false") || print) {
-			if (Execution.getIsFirstRun() == true) {
+			if (Execution.getIsFirstRun()) {
 				scenario.log("\n");
 				scenario.attach(resizeScreenshot(), "image/png", scenario.getName());
 			}

@@ -7,4 +7,5 @@ public class CapabilitiesConstants {
 	public static String PLATFORM_NAME = "platformName";
 	public static String DEVICE_NAME = "deviceName";
 	public static String BROWSER = "browser";
+	public static String MOBILE = "mobile";
 }

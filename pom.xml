@@ -229,6 +229,7 @@
 						<artifactId>maven-gpg-plugin</artifactId>
 						<version>${maven-gpg-plugin.version}</version>
 						<configuration>
+							<!--suppress UnresolvedMavenProperty -->
 							<passphrase>${gpg.passphrase}</passphrase>
 						</configuration>
 						<executions>

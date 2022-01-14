@@ -17,6 +17,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.mpontoc.picaroon.core.drivers.CapabilitiesConstants.MOBILE;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.executor;
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.*;
@@ -37,7 +38,7 @@ public class ElementFunctions {
     public static void setupElement() {
 
         if (Mobile.getPlataforma() != null) {
-            if (Mobile.getPlataforma().equals("android"))
+            if (Mobile.getPlataforma().equals(ANDROID))
                 // android
                 POSITION_ELEMENT = 0;
             else
@@ -51,7 +52,7 @@ public class ElementFunctions {
 
     public static String setElementToReportLog(String[] elemento) {
 
-        String nomeObjMapeado = null;
+        String nomeObjMapeado;
 
         if (Mobile.getApp() != null) {
             if (elemento.length > 2) {
@@ -106,7 +107,7 @@ public class ElementFunctions {
         for (By by : listTypeBy(obj)) {
             try {
                 elementFindBy = driver.findElement(by);
-                if (!PropertiesVariables.BROWSER_OR_MOBILE.contains("mobile")) {
+                if (!PropertiesVariables.BROWSER_OR_MOBILE.contains(MOBILE)) {
                     if (elementFindBy.isDisplayed() == true) {
                         borderStyle(elementFindBy);
                         Log.log("Element located by '" + by.toString());
@@ -142,7 +143,7 @@ public class ElementFunctions {
     }
 
     private static void borderStyle(WebElement element) {
-        if (!PropertiesVariables.BROWSER_OR_MOBILE.equals("mobile")) {
+        if (!PropertiesVariables.BROWSER_OR_MOBILE.equals(MOBILE)) {
             try {
                 executor.executeScript("arguments[0].setAttribute('style','border: solid 1px red');", element);
             } catch (Exception e) {
@@ -153,8 +154,8 @@ public class ElementFunctions {
 
     public static void validateElement(String obj, Boolean[] assertObjReceived, Boolean located) {
 
-        String action = null;
-        String error = null;
+        String action;
+        String error;
         boolean mustValidate = false;
 
         if (assertObjReceived != null && assertObjReceived.length >= 1) {
@@ -171,7 +172,7 @@ public class ElementFunctions {
                 Log.log(error);
                 throw new PicaroonException(error);
             }
-        } else if (!located){
+        } else if (!located) {
             Log.log("Element '" + obj + "' not located");
         }
     }
@@ -183,7 +184,7 @@ public class ElementFunctions {
         for (int i = 1; i <= timeout; i++) {
             setElement(findBy(obj));
             if (getElement() != null) {
-                if (!PropertiesVariables.BROWSER_OR_MOBILE.equals("mobile")) {
+                if (!PropertiesVariables.BROWSER_OR_MOBILE.equals(MOBILE)) {
                     executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
                 }
                 if (!action.equals(WAIT)) {
@@ -205,7 +206,7 @@ public class ElementFunctions {
 
             case CLICK:
 
-                if (!BROWSER_OR_MOBILE.contains("mobile") && COLOR_BACKGROUND.equals("true")) {
+                if (!BROWSER_OR_MOBILE.contains(MOBILE) && COLOR_BACKGROUND.equals("true")) {
                     executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", getElement());
                 }
                 getElement().click();
@@ -214,7 +215,7 @@ public class ElementFunctions {
 
             case CLICK_AND_PERFORM:
 
-                if (!BROWSER_OR_MOBILE.contains("mobile") && COLOR_BACKGROUND.equals("true")) {
+                if (!BROWSER_OR_MOBILE.contains(MOBILE) && COLOR_BACKGROUND.equals("true")) {
                     executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", getElement());
                 }
                 Actions actions = new Actions(driver);
@@ -231,7 +232,7 @@ public class ElementFunctions {
                 break;
 
             case GET_TEXT:
-                if (BROWSER_OR_MOBILE.contains("mobile") && MOBILE_PLATFORM.toLowerCase().equals("ios")) {
+                if (BROWSER_OR_MOBILE.contains(MOBILE) && Mobile.getPlataforma().equals(IOS)) {
                     try {
                         setTextoObtido(getElement().getAttribute("label").toString());
                     } catch (Exception e) {
@@ -242,7 +243,7 @@ public class ElementFunctions {
                 }
                 if (getTextoObtido().length() > 3) {
                     Log.log("Element '" + obj + "' located");
-                    if (!BROWSER_OR_MOBILE.contains("mobile") && COLOR_BACKGROUND.equals("true")) {
+                    if (!BROWSER_OR_MOBILE.contains(MOBILE) && COLOR_BACKGROUND.equals("true")) {
                         executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", getElement());
                     }
                     Log.log("Text caught [ '" + getTextoObtido() + "' ]");
@@ -267,7 +268,7 @@ public class ElementFunctions {
                     actions2.click();
                 }
                 actions2.perform();
-                if (!PropertiesVariables.BROWSER_OR_MOBILE.equals("mobile")) {
+                if (!PropertiesVariables.BROWSER_OR_MOBILE.equals(MOBILE)) {
                     executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
                 }
                 Functions.waitSeconds(2);
@@ -282,7 +283,7 @@ public class ElementFunctions {
     public static <T> T getElements(String obj, Integer timeout, String[] objListElements, String typeGetElements) {
 
         listElements = null;
-        String[] listStringElements = null;
+        String[] listStringElements;
 
         for (int i = 1; i <= timeout; i++) {
             listElements = findByElements(obj);
@@ -300,8 +301,11 @@ public class ElementFunctions {
 
                 Log.log("Elements '" + obj + "' located");
 
-                if (typeGetElements.equals(GET_ELEMENTS)) return (T) listElements;
-                else if (typeGetElements.equals(GET_STRING_ELEMENTS)) return (T) listStringElements;
+                if (typeGetElements.equals(GET_ELEMENTS)) {
+                    return (T) listElements;
+                } else if (typeGetElements.equals(GET_STRING_ELEMENTS)) {
+                    return (T) listStringElements;
+                }
             } else returnsTry(obj, timeout, objListElements, i);
         }
         return null;
