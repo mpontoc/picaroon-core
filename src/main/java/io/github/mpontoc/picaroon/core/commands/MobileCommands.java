@@ -7,9 +7,17 @@ import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SCROLL_S
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SWIPE_SCREEN;
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.UP;
 import static io.github.mpontoc.picaroon.core.elements.ElementFunctions.POSITION_ELEMENT;
+import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.MOBILE_PLATFORM;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
 import io.github.mpontoc.picaroon.core.elements.MobileElementFunctions;
+import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.github.mpontoc.picaroon.core.utils.Log;
+import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
 
 public class MobileCommands {
 
@@ -117,6 +125,35 @@ public class MobileCommands {
 	public static void swipeRight(double percentScreen, int qtd) {
 
 		MobileElementFunctions.swipeDirection(SWIPE_SCREEN, percentScreen, RIGHT, qtd);
+	}
+
+	public static void changeContextNativeOrWebView(String nativeOrWebview) {
+
+		String currentContext = DriverFactory.mobileDriver.getContext().toString().toLowerCase();
+		Log.log(currentContext);
+
+		Map<String, String> driverContext = new HashMap<String, String>();
+		Set<String> contextName = DriverFactory.mobileDriver.getContextHandles();
+		Log.log(contextName.toString());
+
+		if (!currentContext.contains(nativeOrWebview.toLowerCase())) {
+			for (String contexts : contextName) {
+				Log.log(contexts);
+				if (contextName.contains("NATIVE_APP")) {
+					driverContext.put("native", contextName.toString());
+				} else if (contextName.contains("WEBVIEW")) {
+					driverContext.put("webview", contextName.toString());
+				}
+				Functions.waitSeconds(2);
+			}
+			if (driverContext.containsKey(nativeOrWebview.toLowerCase())) {
+				DriverFactory.mobileDriver.context(driverContext.get(nativeOrWebview.toLowerCase()));
+				Log.log(DriverFactory.mobileDriver.getContext().toString());
+			}
+		} else {
+			Log.log("Are same context: " + currentContext + " - " + nativeOrWebview.toLowerCase());
+		}
+
 	}
 
 }

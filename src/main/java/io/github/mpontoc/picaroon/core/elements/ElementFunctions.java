@@ -161,8 +161,8 @@ public class ElementFunctions {
             mustValidate = assertObjReceived[0];
         }
 
-        if (mustValidate == true) {
-            if (located == true) {
+        if (mustValidate) {
+            if (located) {
                 action = "Mandatory action with the element '" + obj + "' successfully";
                 Log.log(action);
                 Report.cucumberWriteReport(action);
@@ -171,7 +171,7 @@ public class ElementFunctions {
                 Log.log(error);
                 throw new PicaroonException(error);
             }
-        } else {
+        } else if (!located){
             Log.log("Element '" + obj + "' not located");
         }
     }

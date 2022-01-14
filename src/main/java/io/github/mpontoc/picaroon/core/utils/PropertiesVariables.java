@@ -4,7 +4,7 @@ import io.github.mpontoc.picaroon.core.mobile.Mobile;
 
 public class PropertiesVariables {
 	
-	public static String MOBILE_PLATFORM = Mobile.getPlataforma();
+	public static String MOBILE_PLATFORM = Mobile.getPlataforma().toLowerCase();
 	public static String BROWSER_OR_MOBILE = Prop.getProp("browserOrMobile").toLowerCase();
 	public static String COLOR_BACKGROUND = Prop.getProp("colorBackground").toLowerCase();
 	public static String PRINT_AFTER_STEPS = Prop.getProp("printAfterSteps").toLowerCase();
