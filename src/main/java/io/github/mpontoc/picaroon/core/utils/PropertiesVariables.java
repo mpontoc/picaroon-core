@@ -1,7 +1,5 @@
 package io.github.mpontoc.picaroon.core.utils;
 
-import io.github.mpontoc.picaroon.core.mobile.Mobile;
-
 public class PropertiesVariables {
 	
 	public static String BROWSER_OR_MOBILE = Prop.getProp("browserOrMobile").toLowerCase();

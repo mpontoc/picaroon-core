@@ -1,5 +1,30 @@
 package io.github.mpontoc.picaroon.core.elements;
 
+import static io.github.mpontoc.picaroon.core.drivers.CapabilitiesConstants.MOBILE;
+import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
+import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.executor;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.CLICK;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.CLICK_AND_PERFORM;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.COMBO_BOX;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_ELEMENTS;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_STRING_ELEMENTS;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.GET_TEXT;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.MENU_DROP_DOWN;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SET;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.WAIT;
+import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.ANDROID;
+import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.BROWSER_OR_MOBILE;
+import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.COLOR_BACKGROUND;
+import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.IOS;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+
 import io.appium.java_client.MobileBy;
 import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
@@ -9,19 +34,6 @@ import io.github.mpontoc.picaroon.core.mobile.Mobile;
 import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.github.mpontoc.picaroon.core.utils.Log;
 import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Select;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static io.github.mpontoc.picaroon.core.drivers.CapabilitiesConstants.MOBILE;
-import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
-import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.executor;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.*;
-import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.*;
 
 public class ElementFunctions {
 

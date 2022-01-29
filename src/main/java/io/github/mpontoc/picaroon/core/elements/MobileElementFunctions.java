@@ -2,16 +2,15 @@ package io.github.mpontoc.picaroon.core.elements;
 
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.DOWN;
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.LEFT;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.RIGHT;
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SCROLL_SCREEN;
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SWIPE_SCREEN;
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.RIGHT;
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.UP;
 import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.ANDROID;
 import static java.time.Duration.ofMillis;
 
 import java.util.HashMap;
 
-import io.github.mpontoc.picaroon.core.mobile.Mobile;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -23,6 +22,7 @@ import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import io.github.mpontoc.picaroon.core.commands.ActionsCommands;
 import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
+import io.github.mpontoc.picaroon.core.mobile.Mobile;
 import io.github.mpontoc.picaroon.core.utils.Log;
 
 public class MobileElementFunctions {

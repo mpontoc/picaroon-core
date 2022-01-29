@@ -1,16 +1,21 @@
 package io.github.mpontoc.picaroon.core.commands;
 
-import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
-import io.github.mpontoc.picaroon.core.elements.MobileElementFunctions;
-import io.github.mpontoc.picaroon.core.utils.Functions;
-import io.github.mpontoc.picaroon.core.utils.Log;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.DOWN;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.LEFT;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.RIGHT;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SCROLL_SCREEN;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.SWIPE_SCREEN;
+import static io.github.mpontoc.picaroon.core.elements.ElementConstants.UP;
+import static io.github.mpontoc.picaroon.core.elements.ElementFunctions.POSITION_ELEMENT;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static io.github.mpontoc.picaroon.core.elements.ElementConstants.*;
-import static io.github.mpontoc.picaroon.core.elements.ElementFunctions.POSITION_ELEMENT;
+import io.github.mpontoc.picaroon.core.drivers.DriverFactory;
+import io.github.mpontoc.picaroon.core.elements.MobileElementFunctions;
+import io.github.mpontoc.picaroon.core.utils.Functions;
+import io.github.mpontoc.picaroon.core.utils.Log;
 
 public class MobileCommands {
 

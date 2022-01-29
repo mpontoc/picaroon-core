@@ -12,7 +12,6 @@ import io.appium.java_client.ios.IOSElement;
 import io.github.mpontoc.picaroon.core.drivers.Driver;
 import io.github.mpontoc.picaroon.core.exception.PicaroonException;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
-import io.github.mpontoc.picaroon.core.utils.Log;
 import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
 
 public class IOSDriverImpl implements Driver {
