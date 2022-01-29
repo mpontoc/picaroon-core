@@ -2,6 +2,7 @@ package io.github.mpontoc.picaroon.core.drivers.impl;
 
 import java.net.URL;
 
+import org.junit.Assert;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -38,13 +39,14 @@ public class WebDriverImpl implements Driver {
 
 		case "firefox":
 
-			try {
-				WebDriverManager.firefoxdriver().setup();
-			} catch (Exception e3) {
-				Log.log("\n Ex: \n" + "lib/webdriver/linux/geckodriver for linux \n or \n"
-						+ "lib/webdriver/geckodriver.exe for windows");
+//			try {
+//				WebDriverManager.firefoxdriver().setup();
+//			} catch (Exception e3) {
+				Log.log("\n Ex: \n" + "lib/webdriver/linux/chromedriver to linux \n or \n"
+						+ "lib/webdriver/windows/chromedriver.exe to windows or \\n\" "
+						+ "lib/webdriver/mac/chromedriver to mac");
 				Functions.setPropDriver();
-			}
+//			}
 
 			try {
 				FirefoxOptions optionsFirefox = new FirefoxOptions();
@@ -66,8 +68,9 @@ public class WebDriverImpl implements Driver {
 			try {
 				WebDriverManager.firefoxdriver().setup();
 			} catch (Exception e2) {
-				Log.log("\n Ex: \n" + "lib/webdriver/linux/geckodriver for linux \n or \n"
-						+ "lib/webdriver/geckodriver.exe for windows");
+				Log.log("\n Ex: \n" + "lib/webdriver/linux/chromedriver to linux \n or \n"
+						+ "lib/webdriver/windows/chromedriver.exe to windows or \\n\" "
+						+ "lib/webdriver/mac/chromedriver to mac");
 				Functions.setPropDriver();
 			}
 
@@ -111,8 +114,9 @@ public class WebDriverImpl implements Driver {
 			try {
 				WebDriverManager.chromedriver().setup();
 			} catch (Exception e2) {
-				Log.log("\n Ex: \n" + "lib/webdriver/linux/chromedriver for linux \n or \n"
-						+ "lib/webdriver/chromedriver.exe for windows");
+				Log.log("\n Ex: \n" + "lib/webdriver/linux/chromedriver to linux \n or \n"
+						+ "lib/webdriver/windows/chromedriver.exe to windows or \\n\" "
+						+ "lib/webdriver/mac/chromedriver to mac");
 				Functions.setPropDriver();
 			}
 
@@ -133,8 +137,9 @@ public class WebDriverImpl implements Driver {
 			try {
 				WebDriverManager.chromedriver().setup();
 			} catch (Exception e2) {
-				Log.log("\n Ex: \n" + "lib/webdriver/linux/chromedriver for linux \n or \n"
-						+ "lib/webdriver/chromedriver.exe for windows");
+				Log.log("\n Ex: \n" + "lib/webdriver/linux/chromedriver to linux \n or \n"
+						+ "lib/webdriver/windows/chromedriver.exe to windows or \\n\" "
+						+ "lib/webdriver/mac/chromedriver to mac");
 				Functions.setPropDriver();
 			}
 

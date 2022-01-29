@@ -47,7 +47,9 @@ public class Functions {
 		String OS = null;
 		if (System.getProperty("os.name").toLowerCase().indexOf("windows") > -1) {
 			OS = "WINDOWS";
-		} else {
+		} else if (System.getProperty("os.name").toLowerCase().indexOf("mac") > -1){
+			OS = "MAC";
+		} else if (System.getProperty("os.name").toLowerCase().indexOf("linux") > -1){
 			OS = "LINUX";
 		}
 		assertNotNull(OS);
@@ -120,7 +122,6 @@ public class Functions {
 		Report.cucumberWriteReport("\n " + printOSandFrame());
 
 		if (PropertiesVariables.BROWSER_OR_MOBILE.equals("mobile")) {
-
 			Report.cucumberWriteReport("\n Plataforma : " + Mobile.getPlataforma());
 			Report.cucumberWriteReport("\n Device : " + Mobile.getDeviceName());
 			Report.cucumberWriteReport("\n UDID : " + Mobile.getDeviceUDID());
@@ -188,19 +189,27 @@ public class Functions {
 		ExternalFunctions.processKill();
 
 		String OS = verifyOS();
+		
+		Log.log(OS); 
 
-		if (OS == "LINUX") {
+		if (OS.toUpperCase().contains("LINUX")) {
 			System.setProperty("webdriver.chrome.driver", "lib/webdriver/linux/chromedriver");
 			System.setProperty("webdriver.chrome.verboseLogging", "false");
 			System.setProperty("webdriver.chrome.silentOutput", "true");
 			System.setProperty("webdriver.gecko.driver", "lib/webdriver/linux/geckodriver");
 			System.setProperty("webdriver.firefox.logfile", "/dev/null");
 
-		} else {
-			System.setProperty("webdriver.chrome.driver", ".\\lib\\webdriver\\chromedriver.exe");
+		} else if (OS.toUpperCase().contains("WINDOWS")){
+			System.setProperty("webdriver.chrome.driver", ".\\lib\\webdriver\\windows\\chromedriver.exe");
 			System.setProperty("webdriver.chrome.verboseLogging", "false");
 			System.setProperty("webdriver.chrome.silentOutput", "true");
-			System.setProperty("webdriver.gecko.driver", ".\\lib\\webdriver\\geckodriver.exe");
+			System.setProperty("webdriver.gecko.driver", ".\\lib\\webdriver\\windows\\geckodriver.exe");
+			System.setProperty("webdriver.firefox.logfile", "/dev/null");
+		} else {
+			System.setProperty("webdriver.chrome.driver", "lib/webdriver/mac/chromedriver");
+			System.setProperty("webdriver.chrome.verboseLogging", "false");
+			System.setProperty("webdriver.chrome.silentOutput", "true");
+			System.setProperty("webdriver.gecko.driver", "lib/webdriver/mac/geckodriver");
 			System.setProperty("webdriver.firefox.logfile", "/dev/null");
 		}
 	}

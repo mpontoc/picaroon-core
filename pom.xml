@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>io.github.mpontoc</groupId>
 	<artifactId>picaroon-core</artifactId>
-	<version>4.3.2</version>
+	<version>4.3.3</version>
 	<name>picaroon-core</name>
 	<packaging>jar</packaging>
 	<description>Picaroon is a test framework</description>
