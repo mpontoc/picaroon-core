@@ -1,8 +1,9 @@
 package io.github.mpontoc.picaroon.core.elements;
 
 import static io.github.mpontoc.picaroon.core.drivers.CapabilitiesConstants.MOBILE;
-import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
+//import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.driver;
 import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.executor;
+import static io.github.mpontoc.picaroon.core.drivers.DriverFactory.mobileDriver;
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.CLICK;
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.CLICK_AND_PERFORM;
 import static io.github.mpontoc.picaroon.core.elements.ElementConstants.COMBO_BOX;
@@ -20,7 +21,10 @@ import static io.github.mpontoc.picaroon.core.utils.PropertiesVariables.IOS;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
@@ -41,7 +45,9 @@ public class ElementFunctions {
 
     private static List<WebElement> listElements = null;
     private static WebElement element = null;
+    private static MobileElement mobileElement = null;
     private static String textoObtido = "";
+    private static Object driver;
 
     /*
      * set the device for position of list string ----- position 0 is android -----
@@ -50,12 +56,15 @@ public class ElementFunctions {
     public static void setupElement() {
 
         if (Mobile.getPlataforma() != null) {
-            if (Mobile.getPlataforma().equals(ANDROID))
+            if (Mobile.getPlataforma().equals(ANDROID)) {
                 // android
                 POSITION_ELEMENT = 0;
-            else
+                driver = DriverFactory.androidDriver;
+            } else {
                 // ios
                 POSITION_ELEMENT = 1;
+                driver = DriverFactory.iosDriver;
+            }
         } else {
             // web
             POSITION_ELEMENT = 0;
@@ -86,57 +95,65 @@ public class ElementFunctions {
 
         List<By> byType = new ArrayList<By>();
 
-        if (obj.contains("//")) {
-            byType.add(By.xpath(obj));
-        } else {
-            if (PropertiesVariables.BROWSER_OR_MOBILE.contains("mobile") && Mobile.getPlataforma().contains("ios")) {
-                byType.add(MobileBy.AccessibilityId(obj));
-                byType.add(By.xpath("//*[@label='" + obj + "']"));
-                byType.add(By.xpath("//*[@name='" + obj + "']"));
-                byType.add(By.xpath("//*[contains(@label,'" + obj + "')]"));
-                byType.add(By.xpath("//*[contains(@name,'" + obj + "')]"));
-            } else if (PropertiesVariables.BROWSER_OR_MOBILE.contains("mobile") && Mobile.getPlataforma().contains("android")) {
-                byType.add(By.id(DriverFactory.mobileDriver.getCapabilities().getCapability("appPackage").toString() + ":id/" + obj));
-                byType.add(By.id(obj));
-                byType.add(By.xpath("//*[@text='" + obj + "']"));
-                byType.add(By.xpath("//*[contains(@content-desc,'" + obj + "')]"));
-                byType.add(By.className(obj));
+        if (PropertiesVariables.BROWSER_OR_MOBILE.contains("mobile") && Mobile.getPlataforma().contains("ios")) {
+            if (obj.contains("//")) {
+                byType.add(MobileBy.xpath(obj));
             } else {
+                byType.add(MobileBy.AccessibilityId(obj));
+                byType.add(MobileBy.xpath("//*[@label='" + obj + "']"));
+                byType.add(MobileBy.xpath("//*[@name='" + obj + "']"));
+                byType.add(MobileBy.xpath("//*[contains(@label,'" + obj + "')]"));
+                byType.add(MobileBy.xpath("//*[contains(@name,'" + obj + "')]"));
+                byType.add(MobileBy.xpath("//*[contains(.,'" + obj + "')]"));
+            }
+        } else if (PropertiesVariables.BROWSER_OR_MOBILE.contains("mobile") && Mobile.getPlataforma().contains("android")) {
+            if (obj.contains("//")) {
+                byType.add(MobileBy.xpath(obj));
+            } else {
+                byType.add(MobileBy.id(DriverFactory.mobileDriver.getCapabilities().getCapability("appPackage").toString() + ":id/" + obj));
+                byType.add(MobileBy.id(obj));
+                byType.add(MobileBy.xpath("//*[@text='" + obj + "']"));
+                byType.add(MobileBy.xpath("//*[contains(@content-desc,'" + obj + "')]"));
+                byType.add(MobileBy.className(obj));
+                byType.add(MobileBy.xpath("//*[contains(.,'" + obj + "')]"));
+            }
+        } else {
+            if (obj.contains("//")) {
+                byType.add(By.xpath(obj));
+            } else {
+                byType.add(By.xpath(obj));
                 byType.add(By.xpath("//*[contains(text,'" + obj + "')]"));
                 byType.add(By.xpath("//*[@id='" + obj + "']"));
                 byType.add(By.xpath("//*[@class='" + obj + "']"));
+                byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
+                byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
             }
-            byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
         }
-
         return byType;
     }
 
-    public static WebElement findBy(String obj) {
-
-        WebElement elementFindBy = null;
+    public static void findBy(String obj) {
 
         for (By by : listTypeBy(obj)) {
             try {
-                elementFindBy = driver.findElement(by);
-                if (!PropertiesVariables.BROWSER_OR_MOBILE.contains(MOBILE)) {
-                    if (elementFindBy.isDisplayed() == true) {
-                        borderStyle(elementFindBy);
-                        Log.log("Element located by '" + by.toString());
-                        return elementFindBy;
-                    } else {
-                        return elementFindBy = null;
-                    }
-                } else if (elementFindBy != null) {
-                    Log.log("Element located by '" + by.toString());
-                    return elementFindBy;
+                if (Mobile.getPlataforma() != null) {
+                    setMobileElement(mobileDriver.findElement(by));
                 } else {
-                    return elementFindBy = null;
+                    setElement(DriverFactory.driver.findElement(by));
+                }
+                if (!PropertiesVariables.BROWSER_OR_MOBILE.contains(MOBILE)) {
+                    if (getElement().isDisplayed() == true) {
+                        borderStyle(getElement());
+                        Log.log("Element located by '" + by.toString());
+                        break;
+                    }
+                } else if (getMobileElement() != null) {
+                    Log.log("Element located by '" + by.toString());
+                    break;
                 }
             } catch (Exception e) {
             }
         }
-        return elementFindBy;
     }
 
     private static List<WebElement> findByElements(String obj) {
@@ -145,7 +162,7 @@ public class ElementFunctions {
 
         for (By by : listTypeBy(obj)) {
             try {
-                listElements = driver.findElements(by);
+                listElements = ((By) driver).findElements((SearchContext) by);
                 Log.log("Element located by '" + by.toString());
                 return listElements;
             } catch (Exception e) {
@@ -194,8 +211,8 @@ public class ElementFunctions {
         setElement(null);
 
         for (int i = 1; i <= timeout; i++) {
-            setElement(findBy(obj));
-            if (getElement() != null) {
+            findBy(obj);
+            if (getElement() != null || getMobileElement() != null) {
                 if (!PropertiesVariables.BROWSER_OR_MOBILE.equals(MOBILE)) {
                     executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
                 }
@@ -214,6 +231,10 @@ public class ElementFunctions {
 
         setTextoObtido("");
 
+        if (Mobile.getPlataforma() != null) {
+            setElement(getMobileElement());
+        }
+
         switch (action) {
 
             case CLICK:
@@ -230,7 +251,7 @@ public class ElementFunctions {
                 if (!BROWSER_OR_MOBILE.contains(MOBILE) && COLOR_BACKGROUND.equals("true")) {
                     executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", getElement());
                 }
-                Actions actions = new Actions(driver);
+                Actions actions = new Actions((WebDriver) driver);
                 actions.moveToElement(getElement());
                 actions.click();
                 actions.perform();
@@ -273,7 +294,7 @@ public class ElementFunctions {
 
             case MENU_DROP_DOWN:
 
-                Actions actions2 = new Actions(driver);
+                Actions actions2 = new Actions((WebDriver) driver);
 
                 actions2.moveToElement(getElement());
                 if (PropertiesVariables.BROWSER_OR_MOBILE.contains("chrome-h")) {
@@ -361,4 +382,11 @@ public class ElementFunctions {
         ElementFunctions.textoObtido = textoObtido;
     }
 
+    public static MobileElement getMobileElement() {
+        return mobileElement;
+    }
+
+    public static void setMobileElement(MobileElement mobileElement) {
+        ElementFunctions.mobileElement = mobileElement;
+    }
 }

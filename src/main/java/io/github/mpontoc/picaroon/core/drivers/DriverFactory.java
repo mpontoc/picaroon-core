@@ -69,7 +69,7 @@ public class DriverFactory {
 				driver = null;
 				driver = setupDriver();
 			} else if (PropertiesVariables.RESET_APP.equals("true")) {
-				Log.log("Reseting app '" + Mobile.getApp() + "'");
+				Log.log("Resetting app '" + Mobile.getApp() + "'");
 				mobileDriver.resetApp();
 				Functions.printInfoExec();
 			} else {
