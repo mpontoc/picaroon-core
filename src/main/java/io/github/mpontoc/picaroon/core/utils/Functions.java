@@ -306,9 +306,22 @@ public class Functions {
 	}
 
 	public static String printOSandFrame() {
+		
+        
 
 		String osFrame = null;
-		osFrame = "Running on " + System.getProperty("os.name") + " *** by picaroon framework ***";
+		osFrame = "Running on " + System.getProperty("os.name");
+		System.out.println("\n"
+				+ "        _                                 \n"
+				+ "       (_)                                \n"
+				+ "  _ __  _  ___ __ _ _ __ ___   ___  _ __  \n"
+				+ " | '_ \\| |/ __/ _` | '__/ _ \\ / _ \\| '_ \\ \n"
+				+ " | |_) | | (_| (_| | | | (_) | (_) | | | |\n"
+				+ " | .__/|_|\\___\\__,_|_|  \\___/ \\___/|_| |_|\n"
+				+ " | |                                      \n"
+				+ " |_|                                      \n"
+				+ "");
+		
 		Log.log(osFrame);
 		return osFrame;
 

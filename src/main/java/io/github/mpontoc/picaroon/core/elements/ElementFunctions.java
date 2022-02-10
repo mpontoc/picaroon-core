@@ -196,6 +196,7 @@ public class ElementFunctions {
 			String... textToSetOrNewWindowOrMenuDropDown) {
 
 		setElement(null);
+		setMobileElement(null);
 
 		for (int i = 1; i <= timeout; i++) {
 			findBy(obj);

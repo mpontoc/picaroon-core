@@ -11,10 +11,10 @@
 	</parent>
 	<groupId>io.github.mpontoc</groupId>
 	<artifactId>picaroon-core</artifactId>
-	<version>4.4.0</version>
+	<version>4.4.1</version>
 	<name>picaroon-core</name>
 	<packaging>jar</packaging>
-	<description>Picaroon is a complete test framework</description>
+	<description>Picaroon is a test framework</description>
 	<url>https://github.com/mpontoc/picaroon-core</url>
 	<properties>
 		<java.version>1.8</java.version>
