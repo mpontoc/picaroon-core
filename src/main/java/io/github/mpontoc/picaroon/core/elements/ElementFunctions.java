@@ -90,38 +90,53 @@ public class ElementFunctions {
 
 		List<By> byType = new ArrayList<By>();
 
-		if (Mobile.getApp() != null) {
-			if (obj.contains("//")) {
-				byType.add(MobileBy.xpath(obj));
-			} 
+		if (obj.contains("//")) {
+
+			byType.add(By.xpath(obj));
+
+		} else if (Mobile.getApp() != null && Mobile.getPlataforma().contains("ios")) {
+
 			byType.add(MobileBy.AccessibilityId(obj));
-			byType.add(MobileBy.id(obj));
-			byType.add(MobileBy.name(obj));
-			byType.add(MobileBy.tagName(obj));
-			byType.add(MobileBy.xpath("//*[contains(.,'" + obj + "')]"));
-			byType.add(MobileBy.className(obj));
+			byType.add(By.xpath("//*[@text='" + obj + "']"));
+			byType.add(By.xpath("//*[@label='" + obj + "']"));
+			byType.add(By.xpath("//*[@name='" + obj + "']"));
+			byType.add(By.xpath("//*[contains(@text,'" + obj + "')]"));
+			byType.add(By.xpath("//*[contains(@label,'" + obj + "')]"));
+			byType.add(By.xpath("//*[contains(@name,'" + obj + "')]"));
+
+		} else if (Mobile.getApp() != null && Mobile.getPlataforma().contains("android")) {
+
+			byType.add(By.id(DriverFactory.mobileDriver.getCapabilities().getCapability("appPackage").toString()
+					+ ":id/" + obj));
+			byType.add(MobileBy.AccessibilityId(obj));
+			byType.add(By.xpath("//*[@text='" + obj + "']"));
+			byType.add(By.xpath("//*[contains(@content-desc,'" + obj + "')]"));
+
 		} else {
-			if (obj.contains("//")) {
-				byType.add(By.xpath(obj));
-			} else {
-				byType.add(By.id(obj));
-				byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
-				byType.add(By.linkText(obj));
-				byType.add(By.partialLinkText(obj));
-				byType.add(By.name(obj));
-				byType.add(By.className(obj));
-			}
+
+			byType.add(By.id(obj));
+			byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
+			byType.add(By.linkText(obj));
+			byType.add(By.partialLinkText(obj));
 		}
+
+		byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
+		byType.add(By.name(obj));
+		byType.add(By.className(obj));
+		byType.add(By.tagName(obj));
+		byType.add(By.cssSelector(obj));
+
 		return byType;
+
 	}
 
 	public static void findBy(String obj) {
 
 		for (By by : listTypeBy(obj)) {
 			try {
-				if (Mobile.getPlataforma().equals(ANDROID)) {
+				if (Mobile.getApp() != null && Mobile.getPlataforma().equals(ANDROID)) {
 					setMobileElement(DriverFactory.androidDriver.findElement(by));
-				} else if (Mobile.getPlataforma().equals(IOS)) {
+				} else if (Mobile.getApp() != null && Mobile.getPlataforma().equals(IOS)) {
 					setMobileElement(DriverFactory.iosDriver.findElement(by));
 				} else {
 					setElement(DriverFactory.driver.findElement(by));

@@ -17,7 +17,6 @@ import io.github.mpontoc.picaroon.core.drivers.impl.WebDriverImpl;
 import io.github.mpontoc.picaroon.core.elements.ElementFunctions;
 import io.github.mpontoc.picaroon.core.execution.Execution;
 import io.github.mpontoc.picaroon.core.mobile.Mobile;
-import io.github.mpontoc.picaroon.core.utils.Functions;
 import io.github.mpontoc.picaroon.core.utils.Log;
 import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
 
@@ -71,7 +70,6 @@ public class DriverFactory {
 			} else if (PropertiesVariables.RESET_APP.equals("true")) {
 				Log.log("Resetting app '" + Mobile.getApp() + "'");
 				mobileDriver.resetApp();
-				Functions.printInfoExec();
 			} else {
 				driver.quit();
 				driver = null;

@@ -310,7 +310,7 @@ public class Functions {
         
 
 		String osFrame = null;
-		osFrame = "Running on " + System.getProperty("os.name");
+		osFrame = "Running on " + System.getProperty("os.name") + " by picaroon-core";
 		System.out.println("\n"
 				+ "        _                                 \n"
 				+ "       (_)                                \n"

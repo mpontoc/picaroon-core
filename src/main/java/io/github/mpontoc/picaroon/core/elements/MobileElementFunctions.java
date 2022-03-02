@@ -36,7 +36,7 @@ public class MobileElementFunctions {
 	@SuppressWarnings("rawtypes")
 	public static void scrollDirection(String obj, String direction, int... qtdScroll) {
 
-		HashMap<String, Integer> directionY = getDirection(direction);
+		HashMap<String, Float> directionY = getDirection(direction);
 
 		int qtdTotalScroll = 12;
 
@@ -47,9 +47,9 @@ public class MobileElementFunctions {
 		Dimension size = DriverFactory.driver.manage().window().getSize();
 		Log.log(size.toString());
 
-		int x = size.width / 2;
-		int start_y = (int) (size.height * directionY.get(START_POSITION_Y));
-		int end_y = (int) (size.height * directionY.get(END_POSITION_Y));
+		float x = size.width / 2;
+		float start_y = (float) (size.height * directionY.get(START_POSITION_Y));
+		float end_y = (float) (size.height * directionY.get(END_POSITION_Y));
 
 		Log.log(x + " - " + start_y + " - " + end_y);
 
@@ -67,9 +67,9 @@ public class MobileElementFunctions {
 			}
 
 			TouchAction actions = new TouchAction(DriverFactory.mobileDriver);
-			actions.press(PointOption.point(x, start_y));
+			actions.press(PointOption.point((int) x, (int) start_y));
 			actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
-			actions.moveTo(PointOption.point(x, end_y)).release().perform();
+			actions.moveTo(PointOption.point((int) x, (int) end_y)).release().perform();
 			i++;
 		}
 	}
@@ -77,7 +77,7 @@ public class MobileElementFunctions {
 	@SuppressWarnings("rawtypes")
 	public static void swipeDirection(String obj, double percentScreen, String direction, int... qtdSwipe) {
 
-		HashMap<String, Integer> directionX = getDirection(direction);
+		HashMap<String, Float> directionX = getDirection(direction);
 
 		int qtdTotalSwipe = 6;
 
@@ -88,9 +88,9 @@ public class MobileElementFunctions {
 		Dimension size = DriverFactory.driver.manage().window().getSize();
 		Log.log(size.toString());
 
-		int y = (int) (size.height * percentScreen);
-		int start_x = (int) (size.width * directionX.get(START_POSITION_X));
-		int end_x = (int) (size.width * directionX.get(START_POSITION_Y));
+		float y = (float) (size.height * percentScreen);
+		float start_x = (float) (size.width * directionX.get(START_POSITION_X));
+		float end_x = (float) (size.width * directionX.get(START_POSITION_Y));
 
 		Log.log(y + " - " + start_x + " - " + end_x);
 
@@ -108,42 +108,42 @@ public class MobileElementFunctions {
 			}
 
 			TouchAction actions = new TouchAction(DriverFactory.mobileDriver);
-			actions.press(PointOption.point(start_x, y));
+			actions.press(PointOption.point((int) start_x, (int) y));
 			actions.waitAction(WaitOptions.waitOptions(ofMillis(1000)));
-			actions.moveTo(PointOption.point(end_x, y)).release().perform();
+			actions.moveTo(PointOption.point((int) end_x, (int) y)).release().perform();
 			i++;
 		}
 
 	}
 
-	private static HashMap<String, Integer> getDirection(final String direction) {
+	private static HashMap<String, Float> getDirection(final String direction) {
 
-		HashMap<String, Integer> directionValues = new HashMap<String, Integer>();
+		HashMap<String, Float> directionValues = new HashMap<String, Float>();
 
 		switch (direction) {
 
 		case DOWN:
 
-			directionValues.put(START_POSITION_Y, (int) 0.7);
-			directionValues.put(END_POSITION_Y, (int) 0.4);
+			directionValues.put(START_POSITION_Y, (float) 0.7);
+			directionValues.put(END_POSITION_Y, (float) 0.4);
 			break;
 
 		case UP:
 
-			directionValues.put(START_POSITION_Y, (int) 0.4);
-			directionValues.put(END_POSITION_Y, (int) 0.7);
+			directionValues.put(START_POSITION_Y, (float) 0.4);
+			directionValues.put(END_POSITION_Y, (float) 0.7);
 			break;
 
 		case LEFT:
 			
-			directionValues.put(START_POSITION_X, (int) 0.1);
-			directionValues.put(END_POSITION_X, (int) 0.9);
+			directionValues.put(START_POSITION_X, (float) 0.1);
+			directionValues.put(END_POSITION_X, (float) 0.9);
 			break;
 
 		case RIGHT:
 			
-			directionValues.put(START_POSITION_X, (int) 0.9);
-			directionValues.put(END_POSITION_X, (int) 0.1);
+			directionValues.put(START_POSITION_X, (float) 0.9);
+			directionValues.put(END_POSITION_X, (float) 0.1);
 			break;
 		}
 		
