@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>io.github.mpontoc</groupId>
 	<artifactId>picaroon-core</artifactId>
-	<version>4.4.3</version>
+	<version>4.4.4</version>
 	<name>picaroon-core</name>
 	<packaging>jar</packaging>
 	<description>Picaroon is a test framework</description>
@@ -97,6 +97,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-json</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-model</artifactId>
+			<version>3.3.9</version>
 		</dependency>
 
 		<!-- Cucumber -->

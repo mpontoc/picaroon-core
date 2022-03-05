@@ -8,14 +8,20 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.junit.Test;
 import org.springframework.util.FileSystemUtils;
 import org.zeroturnaround.zip.ZipUtil;
@@ -33,6 +39,7 @@ public class Functions {
 	private static String pathReportComplete = null;
 	private static String descricaoReport = null;
 	public static Execution execution = new Execution();
+	private static Model model;
 
 	public static void setupExecution() {
 		Functions.apagaLog4j();
@@ -307,10 +314,32 @@ public class Functions {
 
 	public static String printOSandFrame() {
 		
-        
-
+		String picaroonVersion = null;
+		
+		try {
+			MavenXpp3Reader reader = new MavenXpp3Reader();
+			model = reader.read(new FileReader("pom.xml"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (XmlPullParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Properties props = model.getProperties();
+		
+		if (props.getProperty("picaroon.version") != null) {
+			picaroonVersion = props.getProperty("picaroon.version");
+		} else {
+			picaroonVersion = model.getVersion();
+		}
+		
 		String osFrame = null;
-		osFrame = "Running on " + System.getProperty("os.name") + " by picaroon-core";
+		osFrame = "Running on " + System.getProperty("os.name") + " by picaroon-core v" + picaroonVersion;
 		System.out.println("\n"
 				+ "        _                                 \n"
 				+ "       (_)                                \n"
@@ -319,7 +348,7 @@ public class Functions {
 				+ " | |_) | | (_| (_| | | | (_) | (_) | | | |\n"
 				+ " | .__/|_|\\___\\__,_|_|  \\___/ \\___/|_| |_|\n"
 				+ " | |                                      \n"
-				+ " |_|                                      \n"
+				+ " |_| :: Picaroon-Core ::          (v" + picaroonVersion + ")            \n"
 				+ "");
 		
 		Log.log(osFrame);

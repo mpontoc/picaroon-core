@@ -39,361 +39,352 @@ import io.github.mpontoc.picaroon.core.utils.PropertiesVariables;
 
 public class ElementFunctions {
 
-	public static Integer POSITION_ELEMENT = null;
+    public static Integer POSITION_ELEMENT = null;
+    private static List<WebElement> listElements = null;
+    private static WebElement element = null;
+    private static MobileElement mobileElement = null;
+    private static String textoObtido = "";
 
-	private static List<WebElement> listElements = null;
-	private static WebElement element = null;
-	private static MobileElement mobileElement = null;
-	private static String textoObtido = "";
+    /*
+     * set the device for position of list string ----- position 0 is android -----
+     * position 1 is ios case not mobile position 0 to web
+     */
+    public static void setupElement() {
 
-	/*
-	 * set the device for position of list string ----- position 0 is android -----
-	 * position 1 is ios case not mobile position 0 to web
-	 */
-	public static void setupElement() {
+        if (Mobile.getPlataforma() != null) {
+            if (Mobile.getPlataforma().equals(ANDROID)) {
+                // android
+                POSITION_ELEMENT = 0;
+            } else {
+                // ios
+                POSITION_ELEMENT = 1;
+            }
+        } else {
+            // web
+            POSITION_ELEMENT = 0;
+        }
+    }
 
-		if (Mobile.getPlataforma() != null) {
-			if (Mobile.getPlataforma().equals(ANDROID)) {
-				// android
-				POSITION_ELEMENT = 0;
-			} else {
-				// ios
-				POSITION_ELEMENT = 1;
-			}
-		} else {
-			// web
-			POSITION_ELEMENT = 0;
-		}
-	}
+    public static String setElementToReportLog(String[] element) {
 
-	public static String setElementToReportLog(String[] elemento) {
+        String objLocated;
 
-		String nomeObjMapeado;
+        if (Mobile.getApp() != null) {
+            if (element.length > 2) {
+                objLocated = element[2];
+            } else {
+                objLocated = element[POSITION_ELEMENT];
+            }
+        } else {
+            if (element.length > 1) {
+                objLocated = element[1];
+            } else {
+                objLocated = element[POSITION_ELEMENT];
+            }
+        }
+        return objLocated;
+    }
 
-		if (Mobile.getApp() != null) {
-			if (elemento.length > 2) {
-				nomeObjMapeado = elemento[2];
-			} else {
-				nomeObjMapeado = elemento[POSITION_ELEMENT];
-			}
-		} else {
-			if (elemento.length > 1) {
-				nomeObjMapeado = elemento[1];
-			} else {
-				nomeObjMapeado = elemento[POSITION_ELEMENT];
-			}
-		}
-		return nomeObjMapeado;
-	}
+    private static List<By> listTypeBy(String obj) {
 
-	private static List<By> listTypeBy(String obj) {
+        List<By> byType = new ArrayList<By>();
 
-		List<By> byType = new ArrayList<By>();
+        if (obj.contains("//")) {
+            byType.add(By.xpath(obj));
+        } else if (Mobile.getApp() != null && Mobile.getPlataforma().contains(IOS)) {
+            byType.add(MobileBy.AccessibilityId(obj));
+            byType.add(By.xpath("//*[@text='" + obj + "']"));
+            byType.add(By.xpath("//*[@label='" + obj + "']"));
+            byType.add(By.xpath("//*[@name='" + obj + "']"));
+            byType.add(By.xpath("//*[contains(@text,'" + obj + "')]"));
+            byType.add(By.xpath("//*[contains(@label,'" + obj + "')]"));
+            byType.add(By.xpath("//*[contains(@name,'" + obj + "')]"));
+        } else if (Mobile.getApp() != null && Mobile.getPlataforma().contains(ANDROID)) {
+            byType.add(By.id(DriverFactory.mobileDriver.getCapabilities().getCapability("appPackage").toString()
+                    + ":id/" + obj));
+            byType.add(MobileBy.AccessibilityId(obj));
+            byType.add(By.xpath("//*[@text='" + obj + "']"));
+            byType.add(By.xpath("//*[contains(@content-desc,'" + obj + "')]"));
+        } else {
+            byType.add(By.id(obj));
+            byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
+            byType.add(By.linkText(obj));
+            byType.add(By.partialLinkText(obj));
+            byType.add(By.tagName(obj));
+            byType.add(By.cssSelector(obj));
+        }
+        byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
+        byType.add(By.name(obj));
+        byType.add(By.className(obj));
 
-		if (obj.contains("//")) {
+        return byType;
 
-			byType.add(By.xpath(obj));
+    }
 
-		} else if (Mobile.getApp() != null && Mobile.getPlataforma().contains("ios")) {
+    public static void findBy(String obj) {
 
-			byType.add(MobileBy.AccessibilityId(obj));
-			byType.add(By.xpath("//*[@text='" + obj + "']"));
-			byType.add(By.xpath("//*[@label='" + obj + "']"));
-			byType.add(By.xpath("//*[@name='" + obj + "']"));
-			byType.add(By.xpath("//*[contains(@text,'" + obj + "')]"));
-			byType.add(By.xpath("//*[contains(@label,'" + obj + "')]"));
-			byType.add(By.xpath("//*[contains(@name,'" + obj + "')]"));
+        for (By by : listTypeBy(obj)) {
+            try {
+                if (Mobile.getApp() != null && Mobile.getPlataforma().equals(ANDROID)) {
+                    setMobileElement(DriverFactory.androidDriver.findElement(by));
+                } else if (Mobile.getApp() != null && Mobile.getPlataforma().equals(IOS)) {
+                    setMobileElement(DriverFactory.iosDriver.findElement(by));
+                } else {
+                    setElement(DriverFactory.driver.findElement(by));
+                }
 
-		} else if (Mobile.getApp() != null && Mobile.getPlataforma().contains("android")) {
+                if (!PropertiesVariables.BROWSER_OR_MOBILE.contains(MOBILE)) {
+                    if (getElement().isDisplayed() == true) {
+                        borderStyle(getElement());
+                        Log.log("Element located by '" + by.toString());
+                        break;
+                    }
+                } else if (getMobileElement() != null) {
+                    Log.log("Element located by '" + by.toString());
+                    break;
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
 
-			byType.add(By.id(DriverFactory.mobileDriver.getCapabilities().getCapability("appPackage").toString()
-					+ ":id/" + obj));
-			byType.add(MobileBy.AccessibilityId(obj));
-			byType.add(By.xpath("//*[@text='" + obj + "']"));
-			byType.add(By.xpath("//*[contains(@content-desc,'" + obj + "')]"));
+    private static List<WebElement> findByElements(String obj) {
 
-		} else {
+        listElements = null;
 
-			byType.add(By.id(obj));
-			byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
-			byType.add(By.linkText(obj));
-			byType.add(By.partialLinkText(obj));
-		}
+        for (By by : listTypeBy(obj)) {
+            try {
+                listElements = ((By) driver).findElements((SearchContext) by);
+                Log.log("Element located by '" + by.toString());
+                return listElements;
+            } catch (Exception e) {
+            }
+        }
+        return listElements;
+    }
 
-		byType.add(By.xpath("//*[contains(.,'" + obj + "')]"));
-		byType.add(By.name(obj));
-		byType.add(By.className(obj));
-		byType.add(By.tagName(obj));
-		byType.add(By.cssSelector(obj));
+    private static void borderStyle(WebElement element) {
+        if (!PropertiesVariables.BROWSER_OR_MOBILE.equals(MOBILE)) {
+            try {
+                executor.executeScript("arguments[0].setAttribute('style','border: solid 1px red');", element);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-		return byType;
+    public static void validateElement(String obj, Boolean[] assertObjReceived, Boolean located) {
 
-	}
+        String action;
+        String error;
+        boolean mustValidate = false;
 
-	public static void findBy(String obj) {
+        if (assertObjReceived != null && assertObjReceived.length >= 1) {
+            mustValidate = assertObjReceived[0];
+        }
 
-		for (By by : listTypeBy(obj)) {
-			try {
-				if (Mobile.getApp() != null && Mobile.getPlataforma().equals(ANDROID)) {
-					setMobileElement(DriverFactory.androidDriver.findElement(by));
-				} else if (Mobile.getApp() != null && Mobile.getPlataforma().equals(IOS)) {
-					setMobileElement(DriverFactory.iosDriver.findElement(by));
-				} else {
-					setElement(DriverFactory.driver.findElement(by));
-				}
+        if (mustValidate) {
+            if (located) {
+                action = "Mandatory action with the element '" + obj + "' successfully";
+                Log.log(action);
+                Report.cucumberWriteReport(action);
+            } else {
+                error = "There was a problem with the element '" + obj + "'";
+                Log.log(error);
+                throw new PicaroonException(error);
+            }
+        } else if (!located) {
+            Log.log("Element '" + obj + "' not located");
+        }
+    }
 
-				if (!PropertiesVariables.BROWSER_OR_MOBILE.contains(MOBILE)) {
-					if (getElement().isDisplayed() == true) {
-						borderStyle(getElement());
-						Log.log("Element located by '" + by.toString());
-						break;
-					}
-				} else if (getMobileElement() != null) {
-					Log.log("Element located by '" + by.toString());
-					break;
-				}
-			} catch (Exception e) {
-			}
-		}
-	}
+    public static Boolean locateElement(String obj, Integer timeout, String action, String[] objList,
+                                        String... textToSetOrNewWindowOrMenuDropDown) {
 
-	private static List<WebElement> findByElements(String obj) {
+        setElement(null);
+        setMobileElement(null);
 
-		listElements = null;
+        for (int i = 1; i <= timeout; i++) {
+            findBy(obj);
+            if (getElement() != null || getMobileElement() != null) {
+                if (!PropertiesVariables.BROWSER_OR_MOBILE.equals(MOBILE)) {
+                    executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
+                }
+                if (!action.equals(WAIT)) {
+                    actionToElement(action, obj, textToSetOrNewWindowOrMenuDropDown);
+                }
+                return true;
+            } else {
+                returnsTry(obj, timeout, objList, i);
+            }
+        }
+        return false;
+    }
 
-		for (By by : listTypeBy(obj)) {
-			try {
-				listElements = ((By) driver).findElements((SearchContext) by);
-				Log.log("Element located by '" + by.toString());
-				return listElements;
-			} catch (Exception e) {
-			}
-		}
-		return listElements;
-	}
+    public static void actionToElement(String action, String obj, String... textToSetOrValueToComboBoxOrMenuDropDown) {
 
-	private static void borderStyle(WebElement element) {
-		if (!PropertiesVariables.BROWSER_OR_MOBILE.equals(MOBILE)) {
-			try {
-				executor.executeScript("arguments[0].setAttribute('style','border: solid 1px red');", element);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+        setTextoObtido("");
 
-	public static void validateElement(String obj, Boolean[] assertObjReceived, Boolean located) {
+        if (Mobile.getPlataforma() != null) {
+            setElement(getMobileElement());
+        }
 
-		String action;
-		String error;
-		boolean mustValidate = false;
+        switch (action) {
 
-		if (assertObjReceived != null && assertObjReceived.length >= 1) {
-			mustValidate = assertObjReceived[0];
-		}
+            case CLICK:
 
-		if (mustValidate) {
-			if (located) {
-				action = "Mandatory action with the element '" + obj + "' successfully";
-				Log.log(action);
-				Report.cucumberWriteReport(action);
-			} else {
-				error = "There was a problem with the element '" + obj + "'";
-				Log.log(error);
-				throw new PicaroonException(error);
-			}
-		} else if (!located) {
-			Log.log("Element '" + obj + "' not located");
-		}
-	}
+                if (!BROWSER_OR_MOBILE.contains(MOBILE) && COLOR_BACKGROUND.equals("true")) {
+                    executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", getElement());
+                }
+                getElement().click();
+                Log.log("Element '" + obj + "' located and clicked");
+                break;
 
-	public static Boolean locateElement(String obj, Integer timeout, String action, String[] objList,
-			String... textToSetOrNewWindowOrMenuDropDown) {
+            case CLICK_AND_PERFORM:
 
-		setElement(null);
-		setMobileElement(null);
+                if (!BROWSER_OR_MOBILE.contains(MOBILE) && COLOR_BACKGROUND.equals("true")) {
+                    executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", getElement());
+                }
+                Actions actions = new Actions(driver);
+                actions.moveToElement(getElement());
+                actions.click();
+                actions.perform();
+                Log.log("Element '" + obj + "' located and clicked by perform");
+                break;
 
-		for (int i = 1; i <= timeout; i++) {
-			findBy(obj);
-			if (getElement() != null || getMobileElement() != null) {
-				if (!PropertiesVariables.BROWSER_OR_MOBILE.equals(MOBILE)) {
-					executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
-				}
-				if (!action.equals(WAIT)) {
-					actionToElement(action, obj, textToSetOrNewWindowOrMenuDropDown);
-				}
-				return true;
-			} else {
-				returnsTry(obj, timeout, objList, i);
-			}
-		}
-		return false;
-	}
+            case SET:
+                getElement().clear();
+                getElement().sendKeys(textToSetOrValueToComboBoxOrMenuDropDown[0]);
+                Log.log("Element '" + obj + "' located and set with content "
+                        + textToSetOrValueToComboBoxOrMenuDropDown[0]);
+                break;
 
-	public static void actionToElement(String action, String obj, String... textToSetOrValueToComboBoxOrMenuDropDown) {
+            case GET_TEXT:
+                if (BROWSER_OR_MOBILE.contains(MOBILE) && Mobile.getPlataforma().equals(IOS)) {
+                    try {
+                        setTextoObtido(getElement().getAttribute("label").toString());
+                    } catch (Exception e) {
+                        setTextoObtido(getElement().getAttribute("name").toString());
+                    }
+                } else {
+                    setTextoObtido(getElement().getText().toString());
+                }
+                if (getTextoObtido().length() > 3) {
+                    Log.log("Element '" + obj + "' located");
+                    if (!BROWSER_OR_MOBILE.contains(MOBILE) && COLOR_BACKGROUND.equals("true")) {
+                        executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", getElement());
+                    }
+                    Log.log("Text caught [ '" + getTextoObtido() + "' ]");
+                    Report.cucumberWriteReport("Text caught [ '" + getTextoObtido() + "' ]");
+                }
+                break;
 
-		setTextoObtido("");
+            case COMBO_BOX:
+                getElement().click();
+                Functions.waitSeconds(2);
+                new Select(getElement()).selectByVisibleText(textToSetOrValueToComboBoxOrMenuDropDown[0]);
+                ActionsCommands.waitExistClick(textToSetOrValueToComboBoxOrMenuDropDown[0], 1);
+                Log.log("Combo Box '" + obj + "' located and select the content "
+                        + textToSetOrValueToComboBoxOrMenuDropDown[0]);
+                break;
 
-		if (Mobile.getPlataforma() != null) {
-			setElement(getMobileElement());
-		}
+            case MENU_DROP_DOWN:
 
-		switch (action) {
+                Actions actions2 = new Actions(driver);
 
-		case CLICK:
+                actions2.moveToElement(getElement());
+                if (PropertiesVariables.BROWSER_OR_MOBILE.contains("chrome-h")) {
+                    actions2.click();
+                }
+                actions2.perform();
+                if (!PropertiesVariables.BROWSER_OR_MOBILE.equals(MOBILE)) {
+                    executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
+                }
+                Functions.waitSeconds(2);
+                ActionsCommands.waitExistClick(textToSetOrValueToComboBoxOrMenuDropDown[0], 2);
+                Log.log("Element '" + textToSetOrValueToComboBoxOrMenuDropDown[0]
+                        + "' located and clicked on menu dropdown");
+                break;
+        }
+    }
 
-			if (!BROWSER_OR_MOBILE.contains(MOBILE) && COLOR_BACKGROUND.equals("true")) {
-				executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", getElement());
-			}
-			getElement().click();
-			Log.log("Element '" + obj + "' located and clicked");
-			break;
+    @SuppressWarnings("unchecked")
+    public static <T> T getElements(String obj, Integer timeout, String[] objListElements, String typeGetElements) {
 
-		case CLICK_AND_PERFORM:
+        listElements = null;
+        String[] listStringElements;
 
-			if (!BROWSER_OR_MOBILE.contains(MOBILE) && COLOR_BACKGROUND.equals("true")) {
-				executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", getElement());
-			}
-			Actions actions = new Actions(driver);
-			actions.moveToElement(getElement());
-			actions.click();
-			actions.perform();
-			Log.log("Element '" + obj + "' located and clicked by perform");
-			break;
+        for (int i = 1; i <= timeout; i++) {
+            listElements = findByElements(obj);
+            listStringElements = new String[listElements.size()];
 
-		case SET:
-			getElement().clear();
-			getElement().sendKeys(textToSetOrValueToComboBoxOrMenuDropDown[0]);
-			Log.log("Element '" + obj + "' located and set with content "
-					+ textToSetOrValueToComboBoxOrMenuDropDown[0]);
-			break;
+            if (listElements != null) {
 
-		case GET_TEXT:
-			if (BROWSER_OR_MOBILE.contains(MOBILE) && Mobile.getPlataforma().equals(IOS)) {
-				try {
-					setTextoObtido(getElement().getAttribute("label").toString());
-				} catch (Exception e) {
-					setTextoObtido(getElement().getAttribute("name").toString());
-				}
-			} else {
-				setTextoObtido(getElement().getText().toString());
-			}
-			if (getTextoObtido().length() > 3) {
-				Log.log("Element '" + obj + "' located");
-				if (!BROWSER_OR_MOBILE.contains(MOBILE) && COLOR_BACKGROUND.equals("true")) {
-					executor.executeScript("arguments[0].style.backgroundColor = 'yellow';", getElement());
-				}
-				Log.log("Text caught [ '" + getTextoObtido() + "' ]");
-				Report.cucumberWriteReport("Text caught [ '" + getTextoObtido() + "' ]");
-			}
-			break;
+                int index = 0;
 
-		case COMBO_BOX:
-			getElement().click();
-			Functions.waitSeconds(2);
-			new Select(getElement()).selectByVisibleText(textToSetOrValueToComboBoxOrMenuDropDown[0]);
-			ActionsCommands.waitExistClick(textToSetOrValueToComboBoxOrMenuDropDown[0], 1);
-			Log.log("Combo Box '" + obj + "' located and select the content "
-					+ textToSetOrValueToComboBoxOrMenuDropDown[0]);
-			break;
+                for (WebElement elemento : listElements) {
+                    Log.log(elemento.getText());
+                    listStringElements[index] = elemento.getText();
+                    index++;
+                }
 
-		case MENU_DROP_DOWN:
+                Log.log("Elements '" + obj + "' located");
 
-			Actions actions2 = new Actions(driver);
+                if (typeGetElements.equals(GET_ELEMENTS)) {
+                    return (T) listElements;
+                } else if (typeGetElements.equals(GET_STRING_ELEMENTS)) {
+                    return (T) listStringElements;
+                }
+            } else
+                returnsTry(obj, timeout, objListElements, i);
+        }
+        return null;
+    }
 
-			actions2.moveToElement(getElement());
-			if (PropertiesVariables.BROWSER_OR_MOBILE.contains("chrome-h")) {
-				actions2.click();
-			}
-			actions2.perform();
-			if (!PropertiesVariables.BROWSER_OR_MOBILE.equals(MOBILE)) {
-				executor.executeScript("arguments[0].setAttribute('style','border: solid 1px blue');", element);
-			}
-			Functions.waitSeconds(2);
-			ActionsCommands.waitExistClick(textToSetOrValueToComboBoxOrMenuDropDown[0], 2);
-			Log.log("Element '" + textToSetOrValueToComboBoxOrMenuDropDown[0]
-					+ "' located and clicked on menu dropdown");
-			break;
-		}
-	}
+    public static void returnsTry(String obj, Integer timeout, String[] objListElements, int i) {
+        if (objListElements != null) {
+            Log.log("Cannot find the Element '" + setElementToReportLog(objListElements) + "' times " + i + " of "
+                    + timeout);
+            Functions.waitSeconds(1);
+        } else {
+            Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
+            Functions.waitSeconds(1);
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	public static <T> T getElements(String obj, Integer timeout, String[] objListElements, String typeGetElements) {
+    /**
+     * @return the element
+     */
+    public static WebElement getElement() {
+        return element;
+    }
 
-		listElements = null;
-		String[] listStringElements;
+    /**
+     * @param element the element to set
+     */
+    public static void setElement(WebElement element) {
+        ElementFunctions.element = element;
+    }
 
-		for (int i = 1; i <= timeout; i++) {
-			listElements = findByElements(obj);
-			listStringElements = new String[listElements.size()];
+    /**
+     * @return the textoObtido
+     */
+    public static String getTextoObtido() {
+        return textoObtido;
+    }
 
-			if (listElements != null) {
+    /**
+     * @param textoObtido the textoObtido to set
+     */
+    public static void setTextoObtido(String textoObtido) {
+        ElementFunctions.textoObtido = textoObtido;
+    }
 
-				int index = 0;
+    public static MobileElement getMobileElement() {
+        return mobileElement;
+    }
 
-				for (WebElement elemento : listElements) {
-					Log.log(elemento.getText());
-					listStringElements[index] = elemento.getText();
-					index++;
-				}
-
-				Log.log("Elements '" + obj + "' located");
-
-				if (typeGetElements.equals(GET_ELEMENTS)) {
-					return (T) listElements;
-				} else if (typeGetElements.equals(GET_STRING_ELEMENTS)) {
-					return (T) listStringElements;
-				}
-			} else
-				returnsTry(obj, timeout, objListElements, i);
-		}
-		return null;
-	}
-
-	public static void returnsTry(String obj, Integer timeout, String[] objListElements, int i) {
-		if (objListElements != null) {
-			Log.log("Cannot find the Element '" + setElementToReportLog(objListElements) + "' times " + i + " of "
-					+ timeout);
-			Functions.waitSeconds(1);
-		} else {
-			Log.log("Cannot find the Element '" + obj + "' times " + i + " of " + timeout);
-			Functions.waitSeconds(1);
-		}
-	}
-
-	/**
-	 * @return the element
-	 */
-	public static WebElement getElement() {
-		return element;
-	}
-
-	/**
-	 * @param element the element to set
-	 */
-	public static void setElement(WebElement element) {
-		ElementFunctions.element = element;
-	}
-
-	/**
-	 * @return the textoObtido
-	 */
-	public static String getTextoObtido() {
-		return textoObtido;
-	}
-
-	/**
-	 * @param textoObtido the textoObtido to set
-	 */
-	public static void setTextoObtido(String textoObtido) {
-		ElementFunctions.textoObtido = textoObtido;
-	}
-
-	public static MobileElement getMobileElement() {
-		return mobileElement;
-	}
-
-	public static void setMobileElement(MobileElement mobileElement) {
-		ElementFunctions.mobileElement = mobileElement;
-	}
+    public static void setMobileElement(MobileElement mobileElement) {
+        ElementFunctions.mobileElement = mobileElement;
+    }
 }
