@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/mpontoc/picaroon-core.svg?branch=main)](https://travis-ci.com/mpontoc/picaroon-core)
 # picaroon-core
-![picaroon image](https://github.com/mpontoc/picaroon-core/blob/main/picaroon.png)
+![picaroon image](https://github.com/mpontoc/picaroon-core/blob/main/picaroon_.png)
 <h1> picaroon is a framework to automate tests in java </h2>
 <h2> #cucumber
 #restassured
